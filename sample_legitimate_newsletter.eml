@@ -1,0 +1,30 @@
+Received: from mail-relay.github.com (mail-relay.github.com [140.82.112.4])
+	by mx1.enterprise-inbox.com (Postfix) with ESMTPS id 3aBcD9012
+	for <developer@acme-corp.com>; Thu, 27 Aug 2026 09:15:20 +0000 (UTC)
+Authentication-Results: mx1.enterprise-inbox.com;
+	spf=pass (sender IP 140.82.112.4 is designated by github.com);
+	dkim=pass header.d=github.com;
+	dmarc=pass (p=reject) header.from=github.com
+From: "GitHub Notifications" <notifications@github.com>
+To: <developer@acme-corp.com>
+Subject: [GitHub] Security advisory: Dependabot alert resolved for MailGuard-AI
+Date: Thu, 27 Aug 2026 09:15:00 +0000
+Message-ID: <github/MailGuard-AI/security/20260827@github.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [140.82.112.4]
+
+Hello Developer,
+
+A Dependabot security vulnerability has been successfully resolved for your repository:
+
+Repository: sakshipatil-779/MailGuard-AI
+Status: All dependency alerts resolved
+Vulnerability count: 0
+
+You can view the full security summary and dependency graph at:
+https://github.com/sakshipatil-779/MailGuard-AI/security
+
+Thank you for keeping your software secure.
+The GitHub Security Team

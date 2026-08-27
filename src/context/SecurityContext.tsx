@@ -4,11 +4,19 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { UserRole } from "@/types/threat";
 import { MockStorage } from "@/lib/storage/mock-store";
 import { ThreatAlert } from "@/lib/data/mock-alerts";
+import { onAuthStateChange, signInWithGoogle as firebaseGoogleLogin, signOutUser } from "@/lib/firebase/auth-service";
+import { User } from "firebase/auth";
+import { toast } from "sonner";
 
 interface SecurityContextType {
   userRole: UserRole;
   userName: string;
   userEmail: string;
+  userAvatar: string;
+  firebaseUser: User | null;
+  isFirebaseLoading: boolean;
+  signInWithGoogle: () => Promise<boolean>;
+  logout: () => Promise<void>;
   setUserRole: (role: UserRole) => void;
   maskPii: boolean;
   setMaskPii: (mask: boolean) => void;
@@ -31,6 +39,10 @@ export function SecurityProvider({ children }: { children: React.ReactNode }) {
   const [userRole, setUserRoleState] = useState<UserRole>("SECURITY_ANALYST");
   const [userName, setUserName] = useState("Alex Mercer");
   const [userEmail, setUserEmail] = useState("alex.mercer@acmeworks.com");
+  const [userAvatar, setUserAvatar] = useState("");
+  const [firebaseUser, setFirebaseUser] = useState<User | null>(null);
+  const [isFirebaseLoading, setIsFirebaseLoading] = useState(true);
+
   const [maskPii, setMaskPii] = useState(false);
   const [maskIps, setMaskIps] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -45,6 +57,18 @@ export function SecurityProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     refreshAlerts();
+
+    // Firebase Auth State Listener
+    const unsubscribe = onAuthStateChange((user) => {
+      setFirebaseUser(user);
+      setIsFirebaseLoading(false);
+      if (user) {
+        setUserName(user.displayName || "Google SOC Analyst");
+        setUserEmail(user.email || "analyst@enterprise.com");
+        setUserAvatar(user.photoURL || "");
+        setUserRoleState("SECURITY_ANALYST");
+      }
+    });
     
     // Keyboard shortcut for Cmd+K / Ctrl+K
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -54,8 +78,35 @@ export function SecurityProvider({ children }: { children: React.ReactNode }) {
       }
     };
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      unsubscribe();
+    };
   }, []);
+
+  const signInWithGoogle = async (): Promise<boolean> => {
+    const res = await firebaseGoogleLogin();
+    if (res.user) {
+      setFirebaseUser(res.user);
+      setUserName(res.user.displayName || "Google SOC Analyst");
+      setUserEmail(res.user.email || "analyst@enterprise.com");
+      setUserAvatar(res.user.photoURL || "");
+      toast.success(`Welcome ${res.user.displayName || "Analyst"}! Authenticated via Google.`);
+      return true;
+    } else {
+      toast.error(res.error || "Google Sign-In was cancelled or failed.");
+      return false;
+    }
+  };
+
+  const logout = async () => {
+    await signOutUser();
+    setFirebaseUser(null);
+    setUserName("Alex Mercer");
+    setUserEmail("alex.mercer@acmeworks.com");
+    setUserAvatar("");
+    toast.info("Signed out from Google SOC session.");
+  };
 
   const setUserRole = (role: UserRole) => {
     setUserRoleState(role);
@@ -92,6 +143,11 @@ export function SecurityProvider({ children }: { children: React.ReactNode }) {
         userRole,
         userName,
         userEmail,
+        userAvatar,
+        firebaseUser,
+        isFirebaseLoading,
+        signInWithGoogle,
+        logout,
         setUserRole,
         maskPii,
         setMaskPii,
@@ -120,3 +176,4 @@ export function useSecurity() {
   }
   return context;
 }
+

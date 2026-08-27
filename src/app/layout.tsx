@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ClientProviders } from "@/components/providers/ClientProviders";
 
 export const metadata: Metadata = {
   title: "MailGuard-AI | Email Threat Detection, Geolocation & Forensic Intelligence Platform",
@@ -14,8 +15,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-[#ffffff] text-[#1a2A2f] antialiased font-sans min-h-screen">
-        {children}
+        <ClientProviders>
+          {children}
+        </ClientProviders>
       </body>
     </html>
   );
 }
+

@@ -3,6 +3,8 @@ import { InvestigationCase, EvidenceItem, CaseTimelineEvent } from "@/types/inve
 import { ThreatAlert } from "../data/mock-alerts";
 import { ForensicReport } from "@/types/report";
 import { generateId } from "../utils";
+import { auth } from "../firebase/config";
+import { saveEmailToCloud, saveAlertToCloud, saveCaseToCloud } from "../firebase/firestore-service";
 
 const STORAGE_KEYS = {
   EMAILS: "mailguard_analyzed_emails",
@@ -57,6 +59,10 @@ export class MockStorage {
     }
     if (this.isClient()) {
       localStorage.setItem(STORAGE_KEYS.EMAILS, JSON.stringify(updated));
+      // Cloud sync if authenticated with Firebase
+      if (auth.currentUser) {
+        saveEmailToCloud(auth.currentUser.uid, email);
+      }
     }
     
     // If critical/high threat, auto-create alert in real time
@@ -128,6 +134,9 @@ export class MockStorage {
     }
     if (this.isClient()) {
       localStorage.setItem(STORAGE_KEYS.CASES, JSON.stringify(updated));
+      if (auth.currentUser) {
+        saveCaseToCloud(auth.currentUser.uid, investigation);
+      }
     }
     this.addAuditLog("SAVE_CASE", "CASE", investigation.id, `Updated case ${investigation.caseNumber}: ${investigation.title}`);
     return investigation;
@@ -192,6 +201,9 @@ export class MockStorage {
     const updated = [alert, ...alerts];
     if (this.isClient()) {
       localStorage.setItem(STORAGE_KEYS.ALERTS, JSON.stringify(updated));
+      if (auth.currentUser) {
+        saveAlertToCloud(auth.currentUser.uid, alert);
+      }
     }
   }
 

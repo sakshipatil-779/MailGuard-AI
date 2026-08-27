@@ -1,0 +1,39 @@
+Received: from mail-outbound.exec-secure-gateway.xyz (mail-outbound.exec-secure-gateway.xyz [185.220.101.5])
+	by mx1.enterprise-defense.com (Postfix) with ESMTPS id 4VqZ9K2Lz1
+	for <cfo@enterprise-finance.com>; Thu, 27 Aug 2026 11:45:12 +0000 (UTC)
+Received: from internal-vpn-relay.net (194.26.29.112)
+	by mail-outbound.exec-secure-gateway.xyz with ESMTP id 89F9A102B
+	for <cfo@enterprise-finance.com>; Thu, 27 Aug 2026 11:45:08 +0000 (UTC)
+Authentication-Results: mx1.enterprise-defense.com;
+	spf=fail (sender IP 185.220.101.5 is not allowed by domain enterprise-ceo-office.com);
+	dkim=fail header.d=enterprise-ceo-office.com header.b=X9bK2;
+	dmarc=fail (p=reject) header.from=enterprise-ceo-office.com
+From: "Robert Vance (CEO)" <ceo@enterprise-ceo-office.com>
+To: "Sarah Jenkins (CFO)" <cfo@enterprise-finance.com>
+Reply-To: "Executive Vault Admin" <exec-vault-admin@secure-private-relay.xyz>
+Subject: URGENT: Confidential Project Titan Acquisition Wire Settlement ($485,000)
+Date: Thu, 27 Aug 2026 11:45:00 +0000
+Message-ID: <20260827114500.89F9A102B@enterprise-ceo-office.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.220.101.5]
+X-Mailer: Microsoft Outlook 16.0
+X-Priority: 1 (Highest)
+
+Sarah,
+
+I am currently in an all-day executive board session and cannot take voice calls. 
+
+We have just finalized the terms for the confidential acquisition of Project Titan. Due to strict NDA and escrow closing deadlines before 3:00 PM EST today, we need to execute an expedited international wire transfer of $485,000 to the designated escrow partner.
+
+Please review the secure wire instructions immediately:
+http://185.220.101.5/banking-escrow/wire-details.php?ref=TITAN-485K
+
+Please confirm once the funds have been dispatched and email me the SWIFT transmission receipt. Do not discuss this with the team until the official press release tomorrow.
+
+Best regards,
+
+Robert Vance
+Chief Executive Officer
+Enterprise Global Holdings
