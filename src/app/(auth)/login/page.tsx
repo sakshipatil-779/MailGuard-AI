@@ -41,7 +41,7 @@ function LoginContent() {
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#88BDF2]/15 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#6A89A7]/15 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="w-full max-w-md bg-[#243240]/90 border border-[#384959] rounded-2xl shadow-2xl p-8 backdrop-blur-xl relative z-10 space-y-6">
+      <div className="w-full max-w-md bg-[#243240]/90 border border-[#384959] rounded-2xl shadow-2xl p-5 sm:p-8 backdrop-blur-xl relative z-10 space-y-5 sm:space-y-6">
         {/* Brand Header */}
         <div className="text-center space-y-2">
           <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#88BDF2] to-[#384959] flex items-center justify-center mx-auto shadow-glow">
@@ -107,7 +107,7 @@ function LoginContent() {
             Or Instant 1-Click Access by Role:
           </div>
 
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <button
               onClick={() => handleQuickRole("SECURITY_ANALYST", "Security Analyst")}
               className="p-2 rounded-lg bg-[#1a242f] hover:bg-[#384959] border border-[#384959] hover:border-[#88BDF2]/40 text-left text-[11px] font-mono text-[#BDDDFC] transition-colors"

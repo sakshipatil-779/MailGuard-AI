@@ -21,7 +21,7 @@ export function AlertDrawer({ alert, onClose, onAcknowledge, onEscalateCase }: A
   return (
     <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
       <div
-        className="w-full max-w-lg bg-[#243240] border-l border-[#384959] h-full shadow-2xl flex flex-col justify-between p-6 overflow-y-auto"
+        className="w-full max-w-full sm:max-w-lg bg-[#243240] border-l border-[#384959] h-full shadow-2xl flex flex-col justify-between p-4 sm:p-6 overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="space-y-6">

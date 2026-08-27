@@ -73,23 +73,23 @@ export function KpiCard({
 
   return (
     <div
-      className={`p-4 rounded-xl bg-white border transition-all duration-300 relative overflow-hidden shadow-sm ${style.border} ${style.glow}`}
+      className={`p-3 sm:p-4 rounded-xl bg-white border transition-all duration-300 relative overflow-hidden shadow-sm ${style.border} ${style.glow}`}
     >
       {/* Background Gradient Splash */}
       <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl ${style.accent} rounded-full blur-2xl pointer-events-none`} />
 
-      <div className="flex items-start justify-between">
-        <div>
-          <div className="text-[11px] font-mono uppercase tracking-wider text-slate-500 font-semibold">
+      <div className="flex items-start justify-between gap-2">
+        <div className="min-w-0">
+          <div className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-slate-500 font-semibold truncate">
             {title}
           </div>
-          <div className="text-2xl font-black text-[#1a2A2f] font-mono mt-1 tracking-tight">
+          <div className="text-xl sm:text-2xl font-black text-[#1a2A2f] font-mono mt-1 tracking-tight truncate">
             {value}
           </div>
         </div>
 
-        <div className={`w-10 h-10 rounded-lg ${style.bg} border ${style.border} flex items-center justify-center`}>
-          <Icon className={`w-5 h-5 ${style.text}`} />
+        <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg ${style.bg} border ${style.border} flex items-center justify-center shrink-0`}>
+          <Icon className={`w-4 h-4 sm:w-5 sm:h-5 ${style.text}`} />
         </div>
       </div>
 

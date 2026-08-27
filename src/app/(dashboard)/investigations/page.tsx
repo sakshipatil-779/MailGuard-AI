@@ -93,20 +93,20 @@ export default function InvestigationsPage() {
   return (
     <div className="space-y-6">
       {/* Top Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 sm:p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
         <div>
           <div className="flex items-center gap-2">
-            <FolderGit2 className="w-5 h-5 text-[#88BDF2]" />
-            <h2 className="text-base font-bold text-[#1a2A2f]">Incident Response & Case Management</h2>
+            <FolderGit2 className="w-5 h-5 text-[#88BDF2] shrink-0" />
+            <h2 className="text-sm sm:text-base font-bold text-[#1a2A2f]">Incident Response & Case Management</h2>
           </div>
           <p className="text-xs text-slate-500 font-mono mt-0.5">
-            Active forensic investigations, evidence preservation, campaign correlation & remediation ({cases.length} total)
+            Active forensic investigations & campaign correlation ({cases.length} total)
           </p>
         </div>
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1a2A2f] hover:bg-[#1a2A2f]/90 text-white font-bold text-xs font-mono transition-all shadow-sm border border-[#1a2A2f]"
+          className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#1a2A2f] hover:bg-[#1a2A2f]/90 text-white font-bold text-xs font-mono transition-all shadow-sm border border-[#1a2A2f] shrink-0 w-full sm:w-auto"
         >
           <PlusCircle className="w-4 h-4 text-white" />
           <span>New Investigation Case</span>
@@ -114,7 +114,7 @@ export default function InvestigationsPage() {
       </div>
 
       {/* Filters Bar */}
-      <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-3 sm:p-4 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         {/* Search */}
         <div className="relative w-full sm:w-80">
           <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5" />
@@ -128,12 +128,12 @@ export default function InvestigationsPage() {
         </div>
 
         {/* Status Filters */}
-        <div className="flex flex-wrap items-center bg-slate-100 border border-slate-200 rounded-lg p-1 text-[11px] font-mono">
+        <div className="flex flex-wrap items-center bg-slate-100 border border-slate-200 rounded-lg p-0.5 sm:p-1 text-[11px] font-mono">
           {["ALL", "OPEN", "IN_PROGRESS", "CONTAINED", "RESOLVED"].map((status) => (
             <button
               key={status}
               onClick={() => setStatusFilter(status)}
-              className={`px-3 py-1 rounded transition-all ${
+              className={`px-2 sm:px-3 py-1 rounded transition-all ${
                 statusFilter === status
                   ? "bg-[#1a2A2f] text-white font-bold shadow-sm"
                   : "text-[#1a2A2f] hover:text-black"

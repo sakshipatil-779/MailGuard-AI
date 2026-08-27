@@ -22,29 +22,29 @@ export function EvidenceChainOfCustody({ email }: EvidenceChainOfCustodyProps) {
   return (
     <div className="space-y-4">
       {/* Cryptographic Seal Banner */}
-      <div className="p-6 rounded-2xl bg-[#1a242f] border border-emerald-500/30 backdrop-blur-md shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-glow-emerald">
-            <ShieldCheck className="w-7 h-7" />
+      <div className="p-4 sm:p-6 rounded-2xl bg-[#1a242f] border border-emerald-500/30 backdrop-blur-md shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="flex items-start sm:items-center gap-3 sm:gap-4">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-glow-emerald shrink-0">
+            <ShieldCheck className="w-6 h-6 sm:w-7 sm:h-7" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-bold text-white font-mono">
-                Cryptographic Chain of Custody & Evidence Seal
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs sm:text-sm font-bold text-white font-mono">
+                Cryptographic Chain of Custody & Seal
               </span>
               <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold border border-emerald-500/30">
-                INTEGRITY VERIFIED
+                VERIFIED
               </span>
             </div>
             <p className="text-xs text-[#6A89A7] font-mono mt-0.5">
-              Unmodified RFC-822 binary artifact stored in tamper-evident forensic vault
+              Unmodified RFC-822 binary artifact in tamper-evident forensic vault
             </p>
           </div>
         </div>
 
         <button
           onClick={copyHash}
-          className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#243240] border border-[#384959] text-xs font-mono text-[#BDDDFC] hover:border-[#88BDF2]/50 transition-all"
+          className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-[#243240] border border-[#384959] text-xs font-mono text-[#BDDDFC] hover:border-[#88BDF2]/50 transition-all shrink-0 w-full sm:w-auto"
         >
           <Lock className="w-3.5 h-3.5 text-[#88BDF2]" />
           <span>Copy SHA-256 Hash</span>

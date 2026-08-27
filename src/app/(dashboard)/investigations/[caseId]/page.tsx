@@ -88,7 +88,7 @@ export default function CaseDetailPage() {
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
       {/* Back Navigation */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
         <Link
           href="/investigations"
           className="inline-flex items-center gap-2 text-xs font-mono text-[#6A89A7] hover:text-[#BDDDFC] transition-colors"
@@ -97,7 +97,7 @@ export default function CaseDetailPage() {
           <span>Back to Investigation Cases</span>
         </Link>
 
-        <div className="flex items-center gap-2 font-mono text-xs">
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 font-mono text-xs">
           <span className="text-[#6A89A7]">Status:</span>
           {(["OPEN", "IN_PROGRESS", "CONTAINED", "RESOLVED"] as const).map((st) => (
             <button
@@ -116,9 +116,9 @@ export default function CaseDetailPage() {
       </div>
 
       {/* Case Header Dossier */}
-      <div className="p-6 rounded-2xl bg-[#243240]/90 border border-[#384959] backdrop-blur-xl shadow-xl space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5">
+      <div className="p-4 sm:p-6 rounded-2xl bg-[#243240]/90 border border-[#384959] backdrop-blur-xl shadow-xl space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-3">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="text-sm font-bold font-mono text-[#BDDDFC]">
               {caseObj.caseNumber}
             </span>
@@ -137,13 +137,13 @@ export default function CaseDetailPage() {
           </div>
         </div>
 
-        <h1 className="text-xl font-black text-white">{caseObj.title}</h1>
+        <h1 className="text-lg sm:text-xl font-black text-white">{caseObj.title}</h1>
         <p className="text-xs text-slate-300 leading-relaxed max-w-3xl font-sans">
           {caseObj.description}
         </p>
 
         {/* Metadata Badges */}
-        <div className="flex flex-wrap items-center gap-4 pt-2 border-t border-[#384959] text-xs font-mono text-[#6A89A7]">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-2 border-t border-[#384959] text-xs font-mono text-[#6A89A7]">
           <div className="flex items-center gap-1.5">
             <UserCheck className="w-3.5 h-3.5 text-[#88BDF2]" />
             <span>Lead: <strong className="text-white">{caseObj.leadAnalyst}</strong></span>
@@ -151,8 +151,8 @@ export default function CaseDetailPage() {
           <div>
             Team: <strong className="text-slate-200">{caseObj.assignedTeam}</strong>
           </div>
-          <div>
-            Target Victims: <strong className="text-slate-200">{caseObj.targetVictims.join(", ")}</strong>
+          <div className="truncate max-w-xs">
+            Victims: <strong className="text-slate-200">{caseObj.targetVictims.join(", ")}</strong>
           </div>
         </div>
       </div>

@@ -150,15 +150,15 @@ export function GeoLocationMap({ email }: GeoLocationMapProps) {
           </svg>
 
           {/* Floating Origin Node Card Overlay */}
-          <div className="absolute bottom-4 left-4 p-3 rounded-xl bg-[#243240]/95 border border-[#88BDF2]/40 shadow-2xl text-xs font-mono backdrop-blur-md max-w-sm">
-            <div className="flex items-center justify-between pb-1.5 border-b border-[#384959]">
-              <span className="flex items-center gap-1.5 text-rose-400 font-bold text-[11px]">
-                <MapPin className="w-3.5 h-3.5" />
-                Originating IP: {displayIp}
+          <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 right-2 sm:right-auto p-3 rounded-xl bg-[#243240]/95 border border-[#88BDF2]/40 shadow-2xl text-xs font-mono backdrop-blur-md max-w-full sm:max-w-sm">
+            <div className="flex flex-wrap items-center justify-between gap-1 pb-1.5 border-b border-[#384959]">
+              <span className="flex items-center gap-1.5 text-rose-400 font-bold text-[10px] sm:text-[11px] truncate">
+                <MapPin className="w-3.5 h-3.5 shrink-0" />
+                IP: {displayIp}
               </span>
               {origin.proxyOrVpn && (
                 <span className="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[9px] font-bold border border-amber-500/30">
-                  VPN / PROXY DETECTED
+                  VPN / PROXY
                 </span>
               )}
             </div>
@@ -166,14 +166,14 @@ export function GeoLocationMap({ email }: GeoLocationMapProps) {
             <div className="grid grid-cols-2 gap-2 mt-2 text-[10px]">
               <div>
                 <span className="text-[#6A89A7]">Country/City:</span>
-                <div className="text-white font-bold">{origin.city}, {origin.country}</div>
+                <div className="text-white font-bold truncate">{origin.city}, {origin.country}</div>
               </div>
               <div>
                 <span className="text-[#6A89A7]">Autonomous System:</span>
-                <div className="text-[#BDDDFC] font-bold">{origin.asn}</div>
+                <div className="text-[#BDDDFC] font-bold truncate">{origin.asn}</div>
               </div>
               <div className="col-span-2">
-                <span className="text-[#6A89A7]">Internet Service Provider:</span>
+                <span className="text-[#6A89A7]">ISP:</span>
                 <div className="text-slate-200 truncate">{origin.isp}</div>
               </div>
             </div>

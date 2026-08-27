@@ -46,7 +46,7 @@ export function EmailUploadDropzone({ onFileLoaded }: EmailUploadDropzoneProps) 
       onDragLeave={() => setIsDragging(false)}
       onDrop={handleDrop}
       onClick={() => fileInputRef.current?.click()}
-      className={`p-10 rounded-2xl border-2 border-dashed cursor-pointer transition-all text-center flex flex-col items-center justify-center ${
+      className={`p-6 sm:p-10 rounded-2xl border-2 border-dashed cursor-pointer transition-all text-center flex flex-col items-center justify-center ${
         isDragging
           ? "border-[#88BDF2] bg-[#88BDF2]/15 shadow-md scale-[1.01]"
           : fileName

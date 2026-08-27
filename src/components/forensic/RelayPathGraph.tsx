@@ -150,12 +150,12 @@ export function RelayPathGraph({ relayPath }: RelayPathGraphProps) {
       {/* Detailed Hop Inspection Drawer */}
       {selectedHop && (
         <div className="p-5 rounded-xl bg-[#243240] border border-[#88BDF2]/40 shadow-xl space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-[#384959]">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#384959]">
+            <div className="flex items-center gap-2 flex-wrap">
               <span className="px-2 py-0.5 rounded bg-[#88BDF2]/20 text-[#BDDDFC] font-mono font-bold text-xs border border-[#88BDF2]/30">
-                HOP #{selectedHop.hopNumber} INSPECTION
+                HOP #{selectedHop.hopNumber}
               </span>
-              <span className="text-sm font-bold text-white font-mono">
+              <span className="text-sm font-bold text-white font-mono truncate max-w-xs">
                 {selectedHop.fromHost || selectedHop.ip}
               </span>
             </div>
@@ -165,10 +165,10 @@ export function RelayPathGraph({ relayPath }: RelayPathGraphProps) {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-mono">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 text-xs font-mono">
             <div className="p-3 rounded-lg bg-[#1a242f] border border-[#384959]">
               <div className="text-[10px] text-[#6A89A7] uppercase">IP Address & PTR</div>
-              <div className="font-bold text-[#BDDDFC] mt-1">
+              <div className="font-bold text-[#BDDDFC] mt-1 break-all">
                 {maskIps ? maskIp(selectedHop.ip) : selectedHop.ip}
               </div>
               <div className="text-[10px] text-[#6A89A7] truncate mt-0.5">

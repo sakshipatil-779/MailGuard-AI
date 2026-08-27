@@ -19,11 +19,11 @@ export default function EmailsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 sm:p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
         <div>
           <div className="flex items-center gap-2">
-            <Mail className="w-5 h-5 text-[#88BDF2]" />
-            <h2 className="text-base font-bold text-[#1a2A2f]">Analyzed Email Threat Repository</h2>
+            <Mail className="w-5 h-5 text-[#88BDF2] shrink-0" />
+            <h2 className="text-sm sm:text-base font-bold text-[#1a2A2f]">Analyzed Email Threat Repository</h2>
           </div>
           <p className="text-xs text-slate-500 font-mono mt-0.5">
             Archived message analyses, AI threat scoring, flagged suspicious links, and cryptographic forensics ({emails.length} total)
@@ -32,10 +32,10 @@ export default function EmailsPage() {
 
         <Link
           href="/analyze"
-          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1a2A2f] hover:bg-[#1a2A2f]/90 text-white font-bold text-xs font-mono transition-all shadow-sm border border-[#1a2A2f]"
+          className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#1a2A2f] hover:bg-[#1a2A2f]/90 text-white font-bold text-xs font-mono transition-all shadow-sm border border-[#1a2A2f] shrink-0 w-full sm:w-auto"
         >
           <PlusCircle className="w-4 h-4 text-white" />
-          <span>Analyze New Email (.eml / .msg)</span>
+          <span>Analyze New Email</span>
         </Link>
       </div>
 

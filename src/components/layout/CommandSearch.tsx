@@ -57,30 +57,30 @@ export function CommandSearch() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 bg-black/75 backdrop-blur-md animate-in fade-in duration-150 p-4">
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-8 sm:pt-20 bg-black/75 backdrop-blur-md animate-in fade-in duration-150 p-2 sm:p-4">
       <div
         className="w-full max-w-2xl bg-[#1a2A2f] border border-[#88BDF2]/40 rounded-2xl shadow-2xl overflow-hidden flex flex-col text-white"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Search Header Input (#1a2A2f) */}
-        <div className="flex items-center px-4 py-3.5 border-b border-slate-800 gap-3 bg-[#131d22]">
-          <Search className="w-5 h-5 text-[#88BDF2]" />
+        <div className="flex items-center px-3 sm:px-4 py-3 sm:py-3.5 border-b border-slate-800 gap-2.5 sm:gap-3 bg-[#131d22]">
+          <Search className="w-4 h-4 sm:w-5 sm:h-5 text-[#88BDF2] shrink-0" />
           <input
             type="text"
             autoFocus
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search email subjects, sender addresses, IOCs, IP addresses, cases..."
-            className="flex-1 bg-transparent text-sm text-white placeholder-slate-400 focus:outline-none font-mono"
+            className="flex-1 bg-transparent text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none font-mono"
           />
           {query && (
-            <button onClick={() => setQuery("")} className="text-slate-400 hover:text-white">
+            <button onClick={() => setQuery("")} className="text-slate-400 hover:text-white shrink-0">
               <X className="w-4 h-4" />
             </button>
           )}
           <button
             onClick={() => setIsSearchOpen(false)}
-            className="px-2 py-0.5 text-xs font-mono bg-[#88BDF2] text-[#1a2A2f] font-bold rounded"
+            className="px-2 py-0.5 text-xs font-mono bg-[#88BDF2] text-[#1a2A2f] font-bold rounded shrink-0"
           >
             ESC
           </button>
@@ -94,7 +94,7 @@ export function CommandSearch() {
               <div className="px-2 pb-1.5 text-[10px] font-mono uppercase text-[#88BDF2] tracking-wider font-bold">
                 Quick Shortcuts
               </div>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <button
                   onClick={() => handleSelect("/analyze")}
                   className="flex items-center gap-2.5 p-2.5 rounded-lg bg-[#131d22] border border-[#88BDF2]/20 hover:border-[#88BDF2] text-left text-xs text-white transition-colors"

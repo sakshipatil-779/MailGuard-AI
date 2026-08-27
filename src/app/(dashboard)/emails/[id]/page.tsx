@@ -139,7 +139,7 @@ export default function EmailDetailPage() {
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
       {/* Back Navigation & Breadcrumb */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <Link
           href="/emails"
           className="inline-flex items-center gap-2 text-xs font-mono text-[#6A89A7] hover:text-[#BDDDFC] transition-colors"
@@ -161,12 +161,12 @@ export default function EmailDetailPage() {
       />
 
       {/* AI Threat Explanation Panel (Why is this email suspicious?) */}
-      <div className="p-5 rounded-xl bg-[#1a242f] border border-[#384959] space-y-3">
-        <div className="flex items-center justify-between pb-2 border-b border-[#384959]">
+      <div className="p-4 sm:p-5 rounded-xl bg-[#1a242f] border border-[#384959] space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 pb-2 border-b border-[#384959]">
           <div className="flex items-center gap-2">
-            <ShieldAlert className="w-4 h-4 text-rose-400" />
-            <h3 className="text-sm font-bold text-white font-mono">
-              AI Threat Explanation & Contributing Risk Factors ({email.findings.length} Indicators)
+            <ShieldAlert className="w-4 h-4 text-rose-400 shrink-0" />
+            <h3 className="text-xs sm:text-sm font-bold text-white font-mono">
+              AI Threat Explanation ({email.findings.length} Indicators)
             </h3>
           </div>
           <span className="text-[10px] font-mono text-[#88BDF2]">
@@ -181,7 +181,7 @@ export default function EmailDetailPage() {
             return (
               <div
                 key={fnd.id}
-                className="p-3.5 rounded-xl bg-[#243240]/80 border border-[#384959] hover:border-[#88BDF2]/40 transition-all space-y-1.5 font-mono text-xs"
+                className="p-3 sm:p-3.5 rounded-xl bg-[#243240]/80 border border-[#384959] hover:border-[#88BDF2]/40 transition-all space-y-1.5 font-mono text-xs"
               >
                 <div className="flex items-center justify-between">
                   <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${sevBadge.bg} ${sevBadge.text} border ${sevBadge.border}`}>
@@ -200,7 +200,7 @@ export default function EmailDetailPage() {
                 </div>
 
                 {fnd.evidenceRefs && fnd.evidenceRefs.length > 0 && (
-                  <div className="text-[10px] text-[#6A89A7] pt-1 flex items-center gap-1">
+                  <div className="text-[10px] text-[#6A89A7] pt-1 flex items-center gap-1 flex-wrap">
                     <span>Evidence:</span>
                     <span className="text-[#BDDDFC] font-semibold">{fnd.evidenceRefs.join(", ")}</span>
                   </div>
@@ -213,7 +213,7 @@ export default function EmailDetailPage() {
 
       {/* Forensic Workstation Tabs Bar */}
       <div className="border-b border-[#384959] overflow-x-auto">
-        <div className="flex items-center gap-1 min-w-[750px]">
+        <div className="flex items-center gap-1 min-w-[700px]">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.key;
@@ -222,7 +222,7 @@ export default function EmailDetailPage() {
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key as TabKey)}
-                className={`flex items-center gap-2 px-4 py-3 text-xs font-mono font-medium border-b-2 transition-all shrink-0 ${
+                className={`flex items-center gap-2 px-3 sm:px-4 py-3 text-xs font-mono font-medium border-b-2 transition-all shrink-0 ${
                   isActive
                     ? "border-[#88BDF2] text-[#BDDDFC] bg-[#88BDF2]/10 font-bold"
                     : "border-transparent text-[#6A89A7] hover:text-[#BDDDFC] hover:bg-[#384959]/20"
@@ -253,22 +253,22 @@ export default function EmailDetailPage() {
         {activeTab === "overview" && (
           <div className="space-y-6">
             {/* Sender / Identity Box */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               <div className="p-4 rounded-xl bg-[#1a242f] border border-[#384959] text-xs font-mono">
                 <span className="text-[10px] text-[#6A89A7] uppercase">From Sender</span>
                 <div className="font-bold text-white mt-1 break-all">{email.headers.from}</div>
-                <div className="text-[10px] text-[#BDDDFC] mt-0.5">{email.headers.fromAddress}</div>
+                <div className="text-[10px] text-[#BDDDFC] mt-0.5 break-all">{email.headers.fromAddress}</div>
               </div>
 
               <div className="p-4 rounded-xl bg-[#1a242f] border border-[#384959] text-xs font-mono">
                 <span className="text-[10px] text-[#6A89A7] uppercase">Recipients (To)</span>
                 <div className="font-bold text-white mt-1 break-all">{email.headers.to.join(", ")}</div>
                 {email.headers.replyTo && (
-                  <div className="text-[10px] text-amber-400 mt-0.5">Reply-To: {email.headers.replyTo}</div>
+                  <div className="text-[10px] text-amber-400 mt-0.5 break-all">Reply-To: {email.headers.replyTo}</div>
                 )}
               </div>
 
-              <div className="p-4 rounded-xl bg-[#1a242f] border border-[#384959] text-xs font-mono">
+              <div className="p-4 rounded-xl bg-[#1a242f] border border-[#384959] text-xs font-mono sm:col-span-2 lg:col-span-1">
                 <span className="text-[10px] text-[#6A89A7] uppercase">Originating Host & Node</span>
                 <div className="font-bold text-[#BDDDFC] mt-1">{email.origin.ip}</div>
                 <div className="text-[10px] text-[#6A89A7] mt-0.5">{email.origin.city}, {email.origin.country} ({email.origin.isp})</div>

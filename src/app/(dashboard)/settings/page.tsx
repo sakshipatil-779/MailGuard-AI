@@ -80,11 +80,11 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
       {/* Header */}
-      <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-between">
+      <div className="p-4 sm:p-5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <div className="flex items-center gap-2">
-            <Settings className="w-5 h-5 text-[#88BDF2]" />
-            <h2 className="text-base font-bold text-[#1a2A2f]">System & AI Engine Architecture</h2>
+            <Settings className="w-5 h-5 text-[#88BDF2] shrink-0" />
+            <h2 className="text-sm sm:text-base font-bold text-[#1a2A2f]">System & AI Engine Architecture</h2>
           </div>
           <p className="text-xs text-slate-500 font-mono mt-0.5">
             Decoupled frontend UI & backend API services (/api/analyze), Hugging Face neural classifier & audit trail
@@ -93,7 +93,7 @@ export default function SettingsPage() {
 
         <button
           onClick={handleClearAllData}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 text-xs font-mono font-bold transition-colors"
+          className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 text-xs font-mono font-bold transition-colors shrink-0"
         >
           <Trash2 className="w-3.5 h-3.5" />
           <span>Reset Real-Time Data</span>
@@ -101,7 +101,7 @@ export default function SettingsPage() {
       </div>
 
       {/* AI Engine & API Key Status */}
-      <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+      <div className="p-4 sm:p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
         <div className="flex items-center justify-between pb-3 border-b border-slate-100">
           <div className="flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-[#88BDF2]" />

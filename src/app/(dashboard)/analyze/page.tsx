@@ -73,10 +73,10 @@ export default function AnalyzePage() {
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
       {/* Top Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 sm:p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
         <div>
-          <h2 className="text-base font-bold text-[#1a2A2f] flex items-center gap-2">
-            <SearchCode className="w-5 h-5 text-[#88BDF2]" />
+          <h2 className="text-sm sm:text-base font-bold text-[#1a2A2f] flex items-center gap-2">
+            <SearchCode className="w-5 h-5 text-[#88BDF2] shrink-0" />
             <span>AI Email Threat & Forensic Ingestion Center</span>
           </h2>
           <p className="text-xs text-slate-500 font-mono mt-0.5">
@@ -85,31 +85,31 @@ export default function AnalyzePage() {
         </div>
 
         {/* Input Mode Selector */}
-        <div className="flex items-center bg-slate-100 border border-slate-200 rounded-lg p-1 text-xs font-mono shrink-0">
+        <div className="flex items-center bg-slate-100 border border-slate-200 rounded-lg p-1 text-xs font-mono shrink-0 w-full sm:w-auto">
           <button
             type="button"
             onClick={() => setInputMode("upload")}
-            className={`px-3 py-1.5 rounded-md transition-all flex items-center gap-1.5 ${
+            className={`flex-1 sm:flex-initial px-3 py-1.5 rounded-md transition-all flex items-center justify-center gap-1.5 ${
               inputMode === "upload"
                 ? "bg-[#1a2A2f] text-white font-bold shadow-sm"
                 : "text-slate-600 hover:text-[#1a2A2f]"
             }`}
           >
             <UploadCloud className="w-3.5 h-3.5" />
-            <span>Upload .EML / .MSG File</span>
+            <span>Upload File</span>
           </button>
 
           <button
             type="button"
             onClick={() => setInputMode("paste")}
-            className={`px-3 py-1.5 rounded-md transition-all flex items-center gap-1.5 ${
+            className={`flex-1 sm:flex-initial px-3 py-1.5 rounded-md transition-all flex items-center justify-center gap-1.5 ${
               inputMode === "paste"
                 ? "bg-[#1a2A2f] text-white font-bold shadow-sm"
                 : "text-slate-600 hover:text-[#1a2A2f]"
             }`}
           >
             <FileCode2 className="w-3.5 h-3.5" />
-            <span>Raw Text Editor</span>
+            <span>Raw Editor</span>
           </button>
         </div>
       </div>
@@ -124,10 +124,10 @@ export default function AnalyzePage() {
               <EmailUploadDropzone onFileLoaded={handleFileLoaded} />
               {rawText && (
                 <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
-                  <div className="text-[11px] font-mono text-slate-500 uppercase tracking-wider mb-2 font-semibold">
+                  <div className="text-[11px] font-mono text-slate-500 uppercase tracking-wider mb-2 font-semibold truncate">
                     Loaded File Content Preview ({uploadedFilename}):
                   </div>
-                  <pre className="text-xs font-mono text-[#1a2A2f] bg-slate-50 p-3 rounded-lg border border-slate-200 max-h-40 overflow-y-auto leading-relaxed">
+                  <pre className="text-xs font-mono text-[#1a2A2f] bg-slate-50 p-3 rounded-lg border border-slate-200 max-h-40 overflow-y-auto overflow-x-auto leading-relaxed break-all whitespace-pre-wrap">
                     {rawText.substring(0, 1000)}...
                   </pre>
                 </div>
@@ -142,8 +142,8 @@ export default function AnalyzePage() {
           )}
 
           {/* Analysis Configuration Bar */}
-          <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-4 text-xs font-mono">
+          <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 text-xs font-mono">
               <div className="flex items-center gap-2">
                 <span className="text-slate-500">Scan Priority:</span>
                 <div className="flex items-center bg-slate-100 border border-slate-200 rounded-lg p-0.5">
@@ -168,15 +168,15 @@ export default function AnalyzePage() {
                 </div>
               </div>
 
-              <div className="text-[11px] text-slate-500 hidden md:flex items-center gap-1.5">
+              <div className="text-[11px] text-slate-500 hidden lg:flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-[#1a2A2f]" />
-                <span>AI Scoring Engine: <strong className="text-[#1a2A2f]">Hugging Face Neural SOC Active</strong></span>
+                <span>AI Engine: <strong className="text-[#1a2A2f]">Hugging Face Neural SOC Active</strong></span>
               </div>
             </div>
 
             <button
               type="submit"
-              className="px-6 py-2.5 rounded-xl bg-[#1a2A2f] hover:bg-[#1a2A2f]/90 text-white font-bold text-xs font-mono shadow-md transition-all flex items-center justify-center gap-2 shrink-0 border border-[#1a2A2f]"
+              className="w-full md:w-auto px-6 py-2.5 rounded-xl bg-[#1a2A2f] hover:bg-[#1a2A2f]/90 text-white font-bold text-xs font-mono shadow-md transition-all flex items-center justify-center gap-2 shrink-0 border border-[#1a2A2f]"
             >
               <Cpu className="w-4 h-4 text-[#88BDF2]" />
               <span>Score Email & Flag Links (AI Scan)</span>

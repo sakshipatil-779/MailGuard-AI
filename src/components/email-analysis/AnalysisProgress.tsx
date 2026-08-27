@@ -48,27 +48,27 @@ export function AnalysisProgress({ onComplete }: AnalysisProgressProps) {
   }, [onComplete]);
 
   return (
-    <div className="p-8 rounded-2xl bg-[#243240]/95 border border-[#88BDF2]/40 shadow-2xl backdrop-blur-xl max-w-3xl mx-auto my-8 relative overflow-hidden">
+    <div className="p-4 sm:p-8 rounded-2xl bg-[#243240]/95 border border-[#88BDF2]/40 shadow-2xl backdrop-blur-xl max-w-3xl mx-auto my-4 sm:my-8 relative overflow-hidden">
       {/* Glow header bar */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#88BDF2] via-[#6A89A7] to-[#BDDDFC] animate-pulse" />
 
       {/* Header */}
-      <div className="flex items-center justify-between pb-6 border-b border-[#384959]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 sm:pb-6 border-b border-[#384959]">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[#88BDF2]/15 border border-[#88BDF2]/30 flex items-center justify-center shadow-glow">
+          <div className="w-10 h-10 rounded-xl bg-[#88BDF2]/15 border border-[#88BDF2]/30 flex items-center justify-center shadow-glow shrink-0">
             <Cpu className="w-5 h-5 text-[#88BDF2] animate-spin" />
           </div>
           <div>
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
-              <span>Deep Forensic Inspection Pipeline Active</span>
+            <h3 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+              <span>Deep Forensic Pipeline</span>
               <span className="w-2 h-2 rounded-full bg-[#88BDF2] animate-ping" />
             </h3>
             <p className="text-xs text-[#6A89A7] font-mono">
-              Running heuristic classifiers, relay path reconstruction & intelligence enrichment
+              Running heuristic classifiers & intelligence enrichment
             </p>
           </div>
         </div>
-        <div className="text-right font-mono">
+        <div className="text-left sm:text-right font-mono flex items-center sm:block gap-2">
           <span className="text-xs font-bold text-[#BDDDFC]">
             {Math.min(Math.round((currentStep / STAGES.length) * 100), 100)}%
           </span>

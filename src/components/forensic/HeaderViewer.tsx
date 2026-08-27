@@ -90,10 +90,10 @@ export function HeaderViewer({ headers }: HeaderViewerProps) {
 
       {/* Full Headers Search & Table */}
       <div className="rounded-xl bg-[#1a242f] border border-[#384959] overflow-hidden">
-        {/* Controls */}
-        <div className="p-3 bg-[#243240] border-b border-[#384959] flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="relative w-full sm:w-72">
-            <Search className="w-3.5 h-3.5 text-[#6A89A7] absolute left-3 top-2.5" />
+        {/* Search & Actions Bar */}
+        <div className="p-3 sm:p-4 bg-[#243240] border-b border-[#384959] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+          <div className="relative flex-1">
+            <Search className="w-4 h-4 text-[#6A89A7] absolute left-3 top-2.5" />
             <input
               type="text"
               value={searchTerm}
@@ -103,9 +103,9 @@ export function HeaderViewer({ headers }: HeaderViewerProps) {
             />
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between sm:justify-end gap-2">
             <span className="text-xs font-mono text-[#6A89A7]">
-              Showing {filtered.length} of {headerEntries.length} headers
+              {filtered.length} / {headerEntries.length} headers
             </span>
             <button
               onClick={copyRawHeaders}
@@ -119,7 +119,7 @@ export function HeaderViewer({ headers }: HeaderViewerProps) {
 
         {/* Table */}
         <div className="overflow-x-auto max-h-96">
-          <table className="w-full text-left text-xs font-mono">
+          <table className="w-full text-left text-xs font-mono min-w-[500px]">
             <thead className="bg-[#1a242f] text-[10px] text-[#6A89A7] uppercase tracking-wider sticky top-0 border-b border-[#384959]">
               <tr>
                 <th className="py-2.5 px-4 w-48">Header Field</th>

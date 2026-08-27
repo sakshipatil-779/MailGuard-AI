@@ -52,13 +52,13 @@ export default function DashboardPage() {
     <div className="space-y-6 bg-white">
       {/* Top Banner Alert Bar */}
       {totalAnalyzed > 0 && criticalThreats > 0 ? (
-        <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3.5">
+        <div className="p-4 sm:p-5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-start sm:items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-600 shrink-0">
               <ShieldAlert className="w-5 h-5 animate-pulse" />
             </div>
-            <div>
-              <div className="text-xs font-bold text-[#1a2A2f] font-mono flex items-center gap-2">
+            <div className="min-w-0">
+              <div className="text-xs font-bold text-[#1a2A2f] font-mono flex flex-wrap items-center gap-1.5 sm:gap-2">
                 <span>ACTIVE THREATS DETECTED IN INGESTED MAIL</span>
                 <span className="px-1.5 py-0.5 rounded bg-rose-600 text-white font-bold text-[9px]">
                   {criticalThreats} CRITICAL
@@ -72,34 +72,34 @@ export default function DashboardPage() {
 
           <Link
             href="/analyze"
-            className="px-4 py-2.5 rounded-lg bg-[#1a2A2f] hover:bg-[#1a2A2f]/90 text-white font-bold text-xs font-mono transition-all shadow-sm flex items-center gap-2 shrink-0 border border-[#1a2A2f]"
+            className="w-full sm:w-auto px-4 py-2.5 rounded-lg bg-[#1a2A2f] hover:bg-[#1a2A2f]/90 text-white font-bold text-xs font-mono transition-all shadow-sm flex items-center justify-center gap-2 shrink-0 border border-[#1a2A2f]"
           >
             <SearchCode className="w-4 h-4 text-white" />
             <span>Analyze Another Email (.eml / .msg)</span>
           </Link>
         </div>
       ) : (
-        <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3.5">
+        <div className="p-4 sm:p-5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-start sm:items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-[#88BDF2]/20 border border-[#88BDF2]/40 flex items-center justify-center text-[#1a2A2f] shrink-0">
               <Sparkles className="w-5 h-5 text-[#1a2A2f]" />
             </div>
-            <div>
-              <div className="text-xs font-bold text-[#1a2A2f] font-mono flex items-center gap-2">
+            <div className="min-w-0">
+              <div className="text-xs font-bold text-[#1a2A2f] font-mono flex flex-wrap items-center gap-1.5 sm:gap-2">
                 <span>REAL-TIME AI THREAT ENGINE ONLINE</span>
                 <span className="px-1.5 py-0.5 rounded bg-[#88BDF2] text-[#1a2A2f] font-bold text-[9px]">
-                  HUGGING FACE NEURAL ENGINE
+                  HUGGING FACE NEURAL
                 </span>
               </div>
               <p className="text-[11px] text-slate-500 font-mono mt-0.5">
-                Ready to ingest raw .eml and .msg files. Threat scores, link reputations, and forensic dossiers are computed strictly in real-time.
+                Ready to ingest raw .eml and .msg files. Threat scores, link reputations, and forensic dossiers computed in real-time.
               </p>
             </div>
           </div>
 
           <Link
             href="/analyze"
-            className="px-4 py-2.5 rounded-lg bg-[#1a2A2f] hover:bg-[#1a2A2f]/90 text-white font-bold text-xs font-mono transition-all shadow-sm flex items-center gap-2 shrink-0 border border-[#1a2A2f]"
+            className="w-full sm:w-auto px-4 py-2.5 rounded-lg bg-[#1a2A2f] hover:bg-[#1a2A2f]/90 text-white font-bold text-xs font-mono transition-all shadow-sm flex items-center justify-center gap-2 shrink-0 border border-[#1a2A2f]"
           >
             <PlusCircle className="w-4 h-4 text-white" />
             <span>Scan Email File (.eml / .msg)</span>
@@ -108,7 +108,7 @@ export default function DashboardPage() {
       )}
 
       {/* 6 KPI Cards Grid (Computed strictly from real-time data) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
         <KpiCard
           title="Emails Inspected"
           value={totalAnalyzed.toString()}

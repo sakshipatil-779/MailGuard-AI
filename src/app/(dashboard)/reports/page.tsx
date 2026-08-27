@@ -44,29 +44,29 @@ export default function ReportsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 sm:p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
         <div>
           <div className="flex items-center gap-2">
-            <FileSpreadsheet className="w-5 h-5 text-[#88BDF2]" />
-            <h2 className="text-base font-bold text-[#1a2A2f]">Forensic Investigation Reports</h2>
+            <FileSpreadsheet className="w-5 h-5 text-[#88BDF2] shrink-0" />
+            <h2 className="text-sm sm:text-base font-bold text-[#1a2A2f]">Forensic Investigation Reports</h2>
           </div>
           <p className="text-xs text-slate-500 font-mono mt-0.5">
-            Executive threat briefs, cryptographic chain of custody certificates, and export-ready artifacts ({reports.length} total)
+            Executive threat briefs, chain of custody certificates, and exports ({reports.length} total)
           </p>
         </div>
 
         {/* Generate Report Form */}
         {emails.length > 0 && (
-          <form onSubmit={handleGenerateReport} className="flex items-center gap-2 font-mono text-xs">
+          <form onSubmit={handleGenerateReport} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 font-mono text-xs w-full sm:w-auto">
             <select
               value={selectedEmailId}
               onChange={(e) => setSelectedEmailId(e.target.value)}
-              className="p-2 rounded-lg bg-slate-50 border border-slate-300 text-[#1a2A2f] focus:outline-none focus:border-[#1a2A2f] max-w-xs truncate"
+              className="p-2 rounded-lg bg-slate-50 border border-slate-300 text-[#1a2A2f] focus:outline-none focus:border-[#1a2A2f] w-full sm:max-w-xs truncate"
             >
-              <option value="">Select analyzed email to generate report...</option>
+              <option value="">Select analyzed email...</option>
               {emails.map((eml) => (
                 <option key={eml.id} value={eml.id}>
-                  {eml.headers.subject.substring(0, 45)}... ({eml.classification})
+                  {eml.headers.subject.substring(0, 40)}... ({eml.classification})
                 </option>
               ))}
             </select>

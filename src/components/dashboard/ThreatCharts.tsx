@@ -83,10 +83,10 @@ export function ThreatCharts({ emails = [] }: ThreatChartsProps) {
   }));
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
       {/* Real-Time Attack Volume & Risk Trend */}
-      <div className="lg:col-span-2 p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
-        <div className="flex items-center justify-between mb-4">
+      <div className="lg:col-span-2 p-4 sm:p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
           <div>
             <h3 className="text-sm font-bold text-[#1a2A2f] flex items-center gap-2">
               <span>Real-Time Ingestion Velocity & Threat Detections</span>
@@ -96,7 +96,7 @@ export function ThreatCharts({ emails = [] }: ThreatChartsProps) {
               Total ingested emails vs AI-flagged high-severity threats ({emails.length} total messages)
             </p>
           </div>
-          <div className="flex items-center gap-4 text-xs font-mono">
+          <div className="flex items-center gap-3 text-xs font-mono">
             <div className="flex items-center gap-1.5 text-[#1a2A2f]">
               <div className="w-2.5 h-2.5 rounded-sm bg-[#88BDF2]"></div>
               <span>Total Ingested</span>
@@ -108,9 +108,9 @@ export function ThreatCharts({ emails = [] }: ThreatChartsProps) {
           </div>
         </div>
 
-        <div className="h-64 w-full">
+        <div className="h-52 sm:h-64 w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={trendData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+            <AreaChart data={trendData} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorTotal" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#88BDF2" stopOpacity={0.4} />
@@ -122,14 +122,14 @@ export function ThreatCharts({ emails = [] }: ThreatChartsProps) {
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-              <XAxis dataKey="date" stroke="#94a3b8" tick={{ fontSize: 11, fill: "#64748b" }} />
-              <YAxis stroke="#94a3b8" tick={{ fontSize: 11, fill: "#64748b" }} allowDecimals={false} />
+              <XAxis dataKey="date" stroke="#94a3b8" tick={{ fontSize: 10, fill: "#64748b" }} />
+              <YAxis stroke="#94a3b8" tick={{ fontSize: 10, fill: "#64748b" }} allowDecimals={false} />
               <Tooltip
                 contentStyle={{
                   backgroundColor: "#1a2A2f",
                   borderColor: "#88BDF2",
                   borderRadius: "8px",
-                  fontSize: "12px",
+                  fontSize: "11px",
                   color: "#ffffff"
                 }}
               />
@@ -157,12 +157,12 @@ export function ThreatCharts({ emails = [] }: ThreatChartsProps) {
       </div>
 
       {/* Threat Classification Breakdown */}
-      <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
+      <div className="p-4 sm:p-5 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
         <div>
           <h3 className="text-sm font-bold text-[#1a2A2f] flex items-center justify-between">
             <span>Threat Taxonomy Breakdown</span>
             <span className="text-[10px] font-mono text-[#1a2A2f] bg-[#88BDF2]/20 font-bold px-2 py-0.5 rounded">
-              Real-Time Feed
+              Real-Time
             </span>
           </h3>
           <p className="text-[11px] text-slate-500 font-mono mt-0.5">
@@ -176,8 +176,8 @@ export function ThreatCharts({ emails = [] }: ThreatChartsProps) {
                   data={finalBreakdownData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={45}
-                  outerRadius={70}
+                  innerRadius={40}
+                  outerRadius={65}
                   paddingAngle={4}
                   dataKey="value"
                 >
@@ -203,11 +203,11 @@ export function ThreatCharts({ emails = [] }: ThreatChartsProps) {
         <div className="space-y-1.5 pt-2 border-t border-slate-100">
           {finalBreakdownData.slice(0, 4).map((item) => (
             <div key={item.name} className="flex items-center justify-between text-xs">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }} />
-                <span className="text-[#1a2A2f] truncate max-w-[170px] font-medium">{item.name}</span>
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
+                <span className="text-[#1a2A2f] truncate font-medium">{item.name}</span>
               </div>
-              <span className="font-mono font-bold text-[#1a2A2f]">{item.value}</span>
+              <span className="font-mono font-bold text-[#1a2A2f] shrink-0 ml-2">{item.value}</span>
             </div>
           ))}
         </div>

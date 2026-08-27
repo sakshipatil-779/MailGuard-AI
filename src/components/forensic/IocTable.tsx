@@ -49,22 +49,22 @@ export function IocTable({ iocs, onAddToCase }: IocTableProps) {
   return (
     <div className="space-y-4">
       {/* Controls Bar */}
-      <div className="p-4 rounded-xl bg-[#1a242f] border border-[#384959] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <div className="p-3 sm:p-4 rounded-xl bg-[#1a242f] border border-[#384959] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <ShieldAlert className="w-4 h-4 text-[#88BDF2]" />
-          <span className="text-xs font-bold text-white font-mono">
-            Extracted Indicators of Compromise ({iocs.length} Observables)
+          <ShieldAlert className="w-4 h-4 text-[#88BDF2] shrink-0" />
+          <span className="text-xs font-bold text-white font-mono truncate">
+            Extracted IOCs ({iocs.length} Observables)
           </span>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
           {/* Type Filter Buttons */}
-          <div className="flex items-center bg-[#243240] border border-[#384959] rounded-lg p-1 text-[10px] font-mono">
+          <div className="flex flex-wrap items-center bg-[#243240] border border-[#384959] rounded-lg p-0.5 sm:p-1 text-[10px] font-mono">
             {["ALL", "IP", "DOMAIN", "URL", "HASH", "EMAIL"].map((t) => (
               <button
                 key={t}
                 onClick={() => setFilterType(t)}
-                className={`px-2 py-0.5 rounded transition-all ${
+                className={`px-1.5 sm:px-2 py-0.5 rounded transition-all ${
                   filterType === t
                     ? "bg-[#88BDF2]/20 text-[#BDDDFC] font-bold border border-[#88BDF2]/30"
                     : "text-[#6A89A7] hover:text-[#BDDDFC]"
@@ -77,7 +77,7 @@ export function IocTable({ iocs, onAddToCase }: IocTableProps) {
 
           <button
             onClick={handleExportCsv}
-            className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#243240] hover:bg-[#384959] text-xs font-mono text-[#BDDDFC] border border-[#384959] transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#243240] hover:bg-[#384959] text-xs font-mono text-[#BDDDFC] border border-[#384959] transition-colors shrink-0"
           >
             <Download className="w-3.5 h-3.5 text-[#88BDF2]" />
             <span>Export CSV</span>
@@ -88,7 +88,7 @@ export function IocTable({ iocs, onAddToCase }: IocTableProps) {
       {/* IOC Table */}
       <div className="rounded-xl bg-[#1a242f] border border-[#384959] overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs font-mono">
+          <table className="w-full text-left text-xs font-mono min-w-[650px]">
             <thead className="bg-[#243240] text-[10px] text-[#6A89A7] uppercase tracking-wider border-b border-[#384959]">
               <tr>
                 <th className="py-3 px-4">Type</th>

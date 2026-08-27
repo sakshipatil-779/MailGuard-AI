@@ -16,6 +16,8 @@ interface SecurityContextType {
   setMaskIps: (mask: boolean) => void;
   isSearchOpen: boolean;
   setIsSearchOpen: (open: boolean) => void;
+  isMobileSidebarOpen: boolean;
+  setIsMobileSidebarOpen: (open: boolean) => void;
   unreadAlertsCount: number;
   alerts: ThreatAlert[];
   refreshAlerts: () => void;
@@ -32,6 +34,7 @@ export function SecurityProvider({ children }: { children: React.ReactNode }) {
   const [maskPii, setMaskPii] = useState(false);
   const [maskIps, setMaskIps] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [alerts, setAlerts] = useState<ThreatAlert[]>([]);
   const [activeTheme, setActiveTheme] = useState<"dark" | "cyber">("cyber");
 
@@ -96,6 +99,8 @@ export function SecurityProvider({ children }: { children: React.ReactNode }) {
         setMaskIps,
         isSearchOpen,
         setIsSearchOpen,
+        isMobileSidebarOpen,
+        setIsMobileSidebarOpen,
         unreadAlertsCount,
         alerts,
         refreshAlerts,

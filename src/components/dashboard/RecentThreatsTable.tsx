@@ -107,9 +107,9 @@ export function RecentThreatsTable({ emails }: RecentThreatsTableProps) {
   };
 
   return (
-    <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
+    <div className="p-4 sm:p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
       {/* Header & Filter Controls */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 pb-4 border-b border-slate-100">
         <div>
           <div className="flex items-center gap-2">
             <h3 className="text-sm font-bold text-[#1a2A2f]">Live Threat Stream & Detections</h3>
@@ -123,26 +123,26 @@ export function RecentThreatsTable({ emails }: RecentThreatsTableProps) {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3">
           {/* Search Input */}
-          <div className="relative">
+          <div className="relative w-full sm:w-48">
             <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" />
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Filter threat feed..."
-              className="pl-8 pr-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs text-[#1a2A2f] placeholder-slate-400 focus:outline-none focus:border-[#1a2A2f] w-44 font-mono"
+              className="pl-8 pr-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs text-[#1a2A2f] placeholder-slate-400 focus:outline-none focus:border-[#1a2A2f] w-full font-mono"
             />
           </div>
 
-          {/* Severity Filter Buttons on background (Dark Color #1a2A2f with white text when active) */}
-          <div className="flex items-center bg-slate-100 border border-slate-200 rounded-lg p-1 text-[11px] font-mono">
+          {/* Severity Filter Buttons */}
+          <div className="flex flex-wrap items-center bg-slate-100 border border-slate-200 rounded-lg p-1 text-[11px] font-mono">
             {["ALL", "CRITICAL", "HIGH", "MEDIUM", "LOW"].map((sev) => (
               <button
                 key={sev}
                 onClick={() => setFilterSeverity(sev)}
-                className={`px-2.5 py-1 rounded transition-all ${
+                className={`px-2 sm:px-2.5 py-1 rounded transition-all ${
                   filterSeverity === sev
                     ? "bg-[#1a2A2f] text-white font-bold shadow-sm"
                     : "text-[#1a2A2f] hover:text-black"
@@ -157,7 +157,7 @@ export function RecentThreatsTable({ emails }: RecentThreatsTableProps) {
 
       {/* Table */}
       <div className="overflow-x-auto mt-4">
-        <table className="w-full text-left text-xs">
+        <table className="w-full text-left text-xs min-w-[700px]">
           <thead>
             <tr className="bg-[#1a2A2f] text-white text-[10px] font-mono uppercase tracking-wider rounded-lg">
               <th className="py-2.5 px-3 rounded-l-lg">Severity & Threat</th>

@@ -89,23 +89,23 @@ export default function AlertsPage() {
   return (
     <div className="space-y-6">
       {/* Top Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 sm:p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
         <div>
-          <div className="flex items-center gap-2">
-            <BellRing className="w-5 h-5 text-rose-600" />
-            <h2 className="text-base font-bold text-[#1a2A2f]">Real-Time Threat Alert Center</h2>
+          <div className="flex flex-wrap items-center gap-2">
+            <BellRing className="w-5 h-5 text-rose-600 shrink-0" />
+            <h2 className="text-sm sm:text-base font-bold text-[#1a2A2f]">Real-Time Threat Alert Center</h2>
             <span className="flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono bg-rose-50 text-rose-600 font-bold border border-rose-200">
               <Radio className="w-3 h-3 animate-pulse" />
-              LIVE TELEMETRY FEED
+              LIVE TELEMETRY
             </span>
           </div>
           <p className="text-xs text-slate-500 font-mono mt-0.5">
-            Automated AI detections, IOC rule matches, and priority triage queue ({alerts.length} total alerts)
+            Automated AI detections & priority triage queue ({alerts.length} total alerts)
           </p>
         </div>
 
-        <div className="flex items-center gap-2 font-mono text-xs text-slate-600">
-          <span>Unresolved Alerts:</span>
+        <div className="flex items-center gap-2 font-mono text-xs text-slate-600 shrink-0">
+          <span>Unresolved:</span>
           <strong className="text-rose-600 font-bold bg-rose-50 px-2 py-0.5 rounded border border-rose-200">
             {alerts.filter((a) => a.status === "NEW").length}
           </strong>
@@ -113,16 +113,16 @@ export default function AlertsPage() {
       </div>
 
       {/* Filter Bar */}
-      <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-3 sm:p-4 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         {/* Severity Filters */}
-        <div className="flex items-center gap-2 text-xs font-mono">
+        <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
           <span className="text-slate-500">Severity:</span>
-          <div className="flex items-center bg-slate-100 border border-slate-200 rounded-lg p-0.5">
+          <div className="flex flex-wrap items-center bg-slate-100 border border-slate-200 rounded-lg p-0.5">
             {["ALL", "CRITICAL", "HIGH", "MEDIUM", "LOW"].map((s) => (
               <button
                 key={s}
                 onClick={() => setSevFilter(s)}
-                className={`px-2.5 py-1 rounded text-[10px] font-bold transition-all ${
+                className={`px-2 sm:px-2.5 py-1 rounded text-[10px] font-bold transition-all ${
                   sevFilter === s
                     ? "bg-[#1a2A2f] text-white shadow-sm"
                     : "text-[#1a2A2f] hover:text-black"
@@ -135,14 +135,14 @@ export default function AlertsPage() {
         </div>
 
         {/* Status Filters */}
-        <div className="flex items-center gap-2 text-xs font-mono">
+        <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
           <span className="text-slate-500">Status:</span>
-          <div className="flex items-center bg-slate-100 border border-slate-200 rounded-lg p-0.5">
+          <div className="flex flex-wrap items-center bg-slate-100 border border-slate-200 rounded-lg p-0.5">
             {["ALL", "NEW", "ACKNOWLEDGED", "INVESTIGATING", "RESOLVED"].map((st) => (
               <button
                 key={st}
                 onClick={() => setStatusFilter(st)}
-                className={`px-2.5 py-1 rounded text-[10px] font-bold transition-all ${
+                className={`px-2 sm:px-2.5 py-1 rounded text-[10px] font-bold transition-all ${
                   statusFilter === st
                     ? "bg-[#1a2A2f] text-white shadow-sm"
                     : "text-[#1a2A2f] hover:text-black"
@@ -159,7 +159,7 @@ export default function AlertsPage() {
       {filtered.length > 0 ? (
         <div className="rounded-xl bg-white border border-slate-200 shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs font-mono">
+            <table className="w-full text-left text-xs font-mono min-w-[700px]">
               <thead className="bg-[#1a2A2f] text-[10px] text-white uppercase tracking-wider">
                 <tr>
                   <th className="py-3 px-4">Alert ID & Severity</th>
