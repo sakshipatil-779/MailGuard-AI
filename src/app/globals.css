@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;   /* #ffffff */
+    --foreground: 197 29% 15%; /* #1a2A2f */
+    --card: 0 0% 100%;          /* #ffffff */
+    --card-foreground: 197 29% 15%;
+    --popover: 197 29% 15%;    /* #1a2A2f */
+    --popover-foreground: 0 0% 100%;
+    --primary: 197 29% 15%;    /* #1a2A2f */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 209 79% 74%;  /* #88BDF2 */
+    --secondary-foreground: 197 29% 15%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 197 15% 45%;
+    --accent: 209 79% 74%;     /* #88BDF2 */
+    --accent-foreground: 197 29% 15%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214 32% 91%;     /* #e2e8f0 */
+    --input: 214 32% 91%;
+    --ring: 197 29% 15%;       /* #1a2A2f */
+    --radius: 0.5rem;
+  }
+}
+
+body {
+  background-color: #ffffff;
+  color: #1a2A2f;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Background grid patterns removed as requested */
+.bg-cyber-grid {
+  background: #ffffff;
+}
+
+.bg-cyber-dots {
+  background: #ffffff;
+}
+
+/* Crisp Clean Professional Card */
+.soc-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(26, 42, 47, 0.05), 0 1px 2px rgba(26, 42, 47, 0.03);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.soc-card:hover {
+  border-color: #88BDF2;
+  box-shadow: 0 4px 12px rgba(26, 42, 47, 0.08);
+}
+
+/* Glowing Telemetry Dots */
+.glow-dot-red {
+  box-shadow: 0 0 8px #f43f5e;
+}
+.glow-dot-cyan, .glow-dot-sky {
+  box-shadow: 0 0 8px #88BDF2;
+}
+.glow-dot-dark {
+  box-shadow: 0 0 8px #1a2A2f;
+}
+.glow-dot-amber {
+  box-shadow: 0 0 8px #f59e0b;
+}
+.glow-dot-emerald {
+  box-shadow: 0 0 8px #10b981;
+}
+
+/* Custom Clean Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+::-webkit-scrollbar-thumb {
+  background: #88BDF2;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #1a2A2f;
+}
+
+/* Monospace Technical Data Styling */
+.font-technical {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  letter-spacing: -0.02em;
+}

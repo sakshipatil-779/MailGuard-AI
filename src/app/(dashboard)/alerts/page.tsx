@@ -1,0 +1,257 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { MockStorage } from "@/lib/storage/mock-store";
+import { ThreatAlert } from "@/lib/data/mock-alerts";
+import { AlertDrawer } from "@/components/alerts/AlertDrawer";
+import {
+  BellRing,
+  Filter,
+  Search,
+  Radio,
+  CheckCircle2,
+  FolderPlus,
+  ArrowUpRight,
+  ShieldAlert,
+  Globe
+} from "lucide-react";
+import { getSeverityBadge, maskEmail, maskIp } from "@/lib/utils";
+import { useSecurity } from "@/context/SecurityContext";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+
+export default function AlertsPage() {
+  const router = useRouter();
+  const { maskPii, maskIps, refreshAlerts } = useSecurity();
+  const [alerts, setAlerts] = useState<ThreatAlert[]>([]);
+  const [selectedAlert, setSelectedAlert] = useState<ThreatAlert | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string>("ALL");
+  const [sevFilter, setSevFilter] = useState<string>("ALL");
+
+  useEffect(() => {
+    setAlerts(MockStorage.getAlerts());
+  }, []);
+
+  const handleAcknowledge = (id: string) => {
+    MockStorage.updateAlertStatus(id, "ACKNOWLEDGED");
+    setAlerts(MockStorage.getAlerts());
+    refreshAlerts();
+    toast.success(`Alert ${id} marked as Acknowledged`);
+  };
+
+  const handleEscalateCase = (alert: ThreatAlert) => {
+    const caseId = `CASE-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+    MockStorage.saveCase({
+      id: caseId,
+      caseNumber: caseId,
+      title: `Escalated Alert: ${alert.subject}`,
+      description: `Incident case spawned from Threat Alert ${alert.id} (${alert.ruleName}).`,
+      status: "OPEN",
+      severity: alert.severity,
+      primaryClassification: alert.threatType,
+      leadAnalyst: "Alex Mercer",
+      assignedTeam: "Tier 2 SOC",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      targetVictims: [alert.recipient],
+      mitreAttckIds: ["T1566"],
+      tags: ["Alert-Escalation", alert.threatType.toUpperCase()],
+      emailIds: [alert.emailId],
+      evidence: [],
+      timeline: [
+        {
+          id: `tl-${Date.now()}`,
+          timestamp: new Date().toISOString(),
+          type: "CASE_CREATED",
+          actor: "Alex Mercer",
+          title: "Alert Escalated to Formal Case",
+          details: `Threat alert ${alert.id} escalated to case ${caseId}.`
+        }
+      ],
+      iocs: [],
+      analystNotes: []
+    });
+
+    MockStorage.updateAlertStatus(alert.id, "INVESTIGATING");
+    setAlerts(MockStorage.getAlerts());
+    refreshAlerts();
+    toast.success(`Escalated to Case ${caseId}`);
+    router.push(`/investigations/${caseId}`);
+  };
+
+  const filtered = alerts.filter((a) => {
+    if (statusFilter !== "ALL" && a.status !== statusFilter) return false;
+    if (sevFilter !== "ALL" && a.severity !== sevFilter.toLowerCase()) return false;
+    return true;
+  });
+
+  return (
+    <div className="space-y-6">
+      {/* Top Banner */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-xl bg-[#1a242f] border border-[#384959]">
+        <div>
+          <div className="flex items-center gap-2">
+            <BellRing className="w-5 h-5 text-rose-400" />
+            <h2 className="text-base font-bold text-white">Real-Time Threat Alert Center</h2>
+            <span className="flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono bg-rose-500/20 text-rose-400 font-bold border border-rose-500/30">
+              <Radio className="w-3 h-3 animate-pulse" />
+              LIVE TELEMETRY STREAM
+            </span>
+          </div>
+          <p className="text-xs text-[#6A89A7] font-mono mt-0.5">
+            Automated heuristic detections, IOC rule matches, and priority triage feed
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2 font-mono text-xs text-[#6A89A7]">
+          <span>Unresolved Alerts:</span>
+          <strong className="text-rose-400 font-bold">
+            {alerts.filter((a) => a.status === "NEW").length}
+          </strong>
+        </div>
+      </div>
+
+      {/* Filter Bar */}
+      <div className="p-4 rounded-xl bg-[#1a242f] border border-[#384959] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        {/* Severity Filters */}
+        <div className="flex items-center gap-2 text-xs font-mono">
+          <span className="text-[#6A89A7]">Severity:</span>
+          <div className="flex items-center bg-[#243240] border border-[#384959] rounded-lg p-0.5">
+            {["ALL", "CRITICAL", "HIGH", "MEDIUM", "LOW"].map((s) => (
+              <button
+                key={s}
+                onClick={() => setSevFilter(s)}
+                className={`px-2.5 py-1 rounded text-[10px] font-bold transition-all ${
+                  sevFilter === s
+                    ? "bg-rose-500/20 text-rose-300 border border-rose-500/30"
+                    : "text-[#6A89A7] hover:text-[#BDDDFC]"
+                }`}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Status Filters */}
+        <div className="flex items-center gap-2 text-xs font-mono">
+          <span className="text-[#6A89A7]">Status:</span>
+          <div className="flex items-center bg-[#243240] border border-[#384959] rounded-lg p-0.5">
+            {["ALL", "NEW", "ACKNOWLEDGED", "INVESTIGATING", "RESOLVED"].map((st) => (
+              <button
+                key={st}
+                onClick={() => setStatusFilter(st)}
+                className={`px-2.5 py-1 rounded text-[10px] font-bold transition-all ${
+                  statusFilter === st
+                    ? "bg-[#88BDF2]/20 text-[#BDDDFC] border border-[#88BDF2]/30"
+                    : "text-[#6A89A7] hover:text-[#BDDDFC]"
+                }`}
+              >
+                {st}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Alerts Table */}
+      <div className="rounded-xl bg-[#243240]/80 border border-[#384959] overflow-hidden backdrop-blur-md">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-xs font-mono">
+            <thead className="bg-[#1a242f] text-[10px] text-[#6A89A7] uppercase tracking-wider border-b border-[#384959]">
+              <tr>
+                <th className="py-3 px-4">Alert ID & Severity</th>
+                <th className="py-3 px-4">Subject & Sender</th>
+                <th className="py-3 px-4">Origin IP & Country</th>
+                <th className="py-3 px-4">Trigger Rule</th>
+                <th className="py-3 px-4">Detected</th>
+                <th className="py-3 px-4">Status</th>
+                <th className="py-3 px-4 text-right">Triage Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#384959]/50">
+              {filtered.map((alert) => {
+                const sevBadge = getSeverityBadge(alert.severity);
+                const displaySender = maskPii ? maskEmail(alert.sender) : alert.sender;
+                const displayIp = maskIps ? maskIp(alert.sourceIp) : alert.sourceIp;
+
+                return (
+                  <tr
+                    key={alert.id}
+                    className="hover:bg-[#384959]/30 transition-colors cursor-pointer"
+                    onClick={() => setSelectedAlert(alert)}
+                  >
+                    <td className="py-3 px-4">
+                      <div className="flex flex-col gap-1">
+                        <span className="font-bold text-white text-xs">{alert.id}</span>
+                        <span className={`px-2 py-0.2 rounded text-[10px] font-bold w-fit ${sevBadge.bg} ${sevBadge.text} border ${sevBadge.border}`}>
+                          {sevBadge.label} ({alert.riskScore})
+                        </span>
+                      </div>
+                    </td>
+
+                    <td className="py-3 px-4 max-w-xs font-sans">
+                      <div className="font-semibold text-white truncate">{alert.subject}</div>
+                      <div className="text-[11px] text-[#6A89A7] font-mono truncate mt-0.5">
+                        From: {displaySender}
+                      </div>
+                    </td>
+
+                    <td className="py-3 px-4">
+                      <div className="flex items-center gap-1.5 text-[#BDDDFC]">
+                        <Globe className="w-3.5 h-3.5 text-[#88BDF2]" />
+                        <span>{displayIp}</span>
+                      </div>
+                      <div className="text-[10px] text-[#6A89A7] mt-0.5">{alert.sourceCountry}</div>
+                    </td>
+
+                    <td className="py-3 px-4 text-slate-300 text-[11px]">
+                      {alert.ruleName}
+                    </td>
+
+                    <td className="py-3 px-4 text-[#6A89A7] text-[10px]">
+                      {new Date(alert.detectedAt).toLocaleTimeString()}
+                    </td>
+
+                    <td className="py-3 px-4">
+                      <span
+                        className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                          alert.status === "NEW"
+                            ? "bg-rose-500/20 text-rose-400 border border-rose-500/30 animate-pulse"
+                            : alert.status === "INVESTIGATING"
+                            ? "bg-[#88BDF2]/20 text-[#BDDDFC] border border-[#88BDF2]/30"
+                            : "bg-[#1a242f] text-slate-300 border border-[#384959]"
+                        }`}
+                      >
+                        {alert.status}
+                      </span>
+                    </td>
+
+                    <td className="py-3 px-4 text-right" onClick={(e) => e.stopPropagation()}>
+                      <div className="flex items-center justify-end gap-1.5">
+                        <button
+                          onClick={() => setSelectedAlert(alert)}
+                          className="px-2.5 py-1 rounded bg-[#88BDF2]/15 hover:bg-[#88BDF2]/25 text-[#BDDDFC] border border-[#88BDF2]/30 text-[11px]"
+                        >
+                          Triage
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Alert Drawer Slideover */}
+      <AlertDrawer
+        alert={selectedAlert}
+        onClose={() => setSelectedAlert(null)}
+        onAcknowledge={handleAcknowledge}
+        onEscalateCase={handleEscalateCase}
+      />
+    </div>
+  );
+}

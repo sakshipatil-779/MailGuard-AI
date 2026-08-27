@@ -1,0 +1,21 @@
+import type { Metadata } from "next";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "Sentinel AI | Email Threat Detection, Geolocation & Forensic Intelligence Platform",
+  description: "SOC-grade AI platform for detecting phishing, BEC, spoofing, reconstructing email relay paths, and preserving forensic evidence.",
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body className="bg-[#ffffff] text-[#1a2A2f] antialiased font-sans min-h-screen">
+        {children}
+      </body>
+    </html>
+  );
+}
