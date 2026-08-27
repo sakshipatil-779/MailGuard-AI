@@ -14,51 +14,92 @@ import {
   Cell,
   Legend
 } from "recharts";
+import { EmailAnalysis } from "@/types/analysis";
 
-const TREND_DATA = [
-  { date: "Aug 13", total: 420, threats: 32, bec: 4 },
-  { date: "Aug 14", total: 510, threats: 45, bec: 7 },
-  { date: "Aug 15", total: 480, threats: 38, bec: 5 },
-  { date: "Aug 16", total: 390, threats: 28, bec: 3 },
-  { date: "Aug 17", total: 610, threats: 54, bec: 9 },
-  { date: "Aug 18", total: 580, threats: 62, bec: 11 },
-  { date: "Aug 19", total: 640, threats: 59, bec: 8 },
-  { date: "Aug 20", total: 720, threats: 71, bec: 14 },
-  { date: "Aug 21", total: 690, threats: 68, bec: 12 },
-  { date: "Aug 22", total: 750, threats: 83, bec: 17 },
-  { date: "Aug 23", total: 810, threats: 91, bec: 21 },
-  { date: "Aug 24", total: 890, threats: 104, bec: 26 },
-  { date: "Aug 25", total: 940, threats: 118, bec: 31 },
-  { date: "Aug 26", total: 1080, threats: 142, bec: 39 },
-];
+interface ThreatChartsProps {
+  emails?: EmailAnalysis[];
+}
 
-const BREAKDOWN_DATA = [
-  { name: "BEC / Executive Impersonation", value: 39, color: "#f43f5e" },
-  { name: "Credential Phishing", value: 58, color: "#1a2A2f" },
-  { name: "Malware & Ransomware", value: 24, color: "#88BDF2" },
-  { name: "Brand Impersonation", value: 21, color: "#64748b" },
-  { name: "Legitimate Verified", value: 938, color: "#10b981" },
-];
+export function ThreatCharts({ emails = [] }: ThreatChartsProps) {
+  // Aggregate classification breakdown from real analyzed emails
+  const classificationCounts: Record<string, number> = {
+    phishing: 0,
+    business_email_compromise: 0,
+    spoofing: 0,
+    malware_carrier: 0,
+    account_takeover: 0,
+    legitimate: 0,
+  };
 
-export function ThreatCharts() {
+  emails.forEach(e => {
+    if (classificationCounts[e.classification] !== undefined) {
+      classificationCounts[e.classification]++;
+    } else {
+      classificationCounts[e.classification] = 1;
+    }
+  });
+
+  const breakdownData = [
+    { name: "Credential Phishing", value: classificationCounts.phishing || 0, color: "#1a2A2f" },
+    { name: "BEC / Impersonation", value: classificationCounts.business_email_compromise || 0, color: "#f43f5e" },
+    { name: "Identity Spoofing", value: classificationCounts.spoofing || 0, color: "#88BDF2" },
+    { name: "Malware Carrier", value: classificationCounts.malware_carrier || 0, color: "#f59e0b" },
+    { name: "Account Takeover", value: classificationCounts.account_takeover || 0, color: "#8b5cf6" },
+    { name: "Legitimate Verified", value: classificationCounts.legitimate || 0, color: "#10b981" },
+  ].filter(item => item.value > 0);
+
+  // Default empty state if no emails
+  const finalBreakdownData = breakdownData.length > 0
+    ? breakdownData
+    : [{ name: "Awaiting Email Telemetry", value: 1, color: "#e2e8f0" }];
+
+  // Real trend data (last 7 days or per analyzed email timestamps)
+  const trendDataMap: Record<string, { total: number; threats: number; bec: number }> = {};
+
+  // Build last 7 days keys
+  const now = new Date();
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
+    const key = d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    trendDataMap[key] = { total: 0, threats: 0, bec: 0 };
+  }
+
+  emails.forEach(e => {
+    const emailDate = new Date(e.createdAt);
+    const key = emailDate.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    if (!trendDataMap[key]) {
+      trendDataMap[key] = { total: 0, threats: 0, bec: 0 };
+    }
+    trendDataMap[key].total++;
+    if (e.riskScore >= 50) trendDataMap[key].threats++;
+    if (e.classification === "business_email_compromise") trendDataMap[key].bec++;
+  });
+
+  const trendData = Object.entries(trendDataMap).map(([date, counts]) => ({
+    date,
+    total: counts.total,
+    threats: counts.threats,
+    bec: counts.bec
+  }));
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      {/* 14-Day Attack Volume & Risk Trend */}
+      {/* Real-Time Attack Volume & Risk Trend */}
       <div className="lg:col-span-2 p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="text-sm font-bold text-[#1a2A2f] flex items-center gap-2">
-              <span>14-Day Threat Ingestion & Attack Velocity</span>
+              <span>Real-Time Ingestion Velocity & Threat Detections</span>
               <span className="w-2 h-2 rounded-full bg-[#88BDF2] animate-pulse"></span>
             </h3>
             <p className="text-[11px] text-slate-500 font-mono">
-              Total emails inspected vs high-risk detections and BEC surge
+              Total ingested emails vs AI-flagged high-severity threats ({emails.length} total messages)
             </p>
           </div>
           <div className="flex items-center gap-4 text-xs font-mono">
             <div className="flex items-center gap-1.5 text-[#1a2A2f]">
               <div className="w-2.5 h-2.5 rounded-sm bg-[#88BDF2]"></div>
-              <span>Total Volume</span>
+              <span>Total Ingested</span>
             </div>
             <div className="flex items-center gap-1.5 text-rose-600 font-semibold">
               <div className="w-2.5 h-2.5 rounded-sm bg-rose-500"></div>
@@ -69,7 +110,7 @@ export function ThreatCharts() {
 
         <div className="h-64 w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={TREND_DATA} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+            <AreaChart data={trendData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorTotal" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#88BDF2" stopOpacity={0.4} />
@@ -82,7 +123,7 @@ export function ThreatCharts() {
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
               <XAxis dataKey="date" stroke="#94a3b8" tick={{ fontSize: 11, fill: "#64748b" }} />
-              <YAxis stroke="#94a3b8" tick={{ fontSize: 11, fill: "#64748b" }} />
+              <YAxis stroke="#94a3b8" tick={{ fontSize: 11, fill: "#64748b" }} allowDecimals={false} />
               <Tooltip
                 contentStyle={{
                   backgroundColor: "#1a2A2f",
@@ -121,7 +162,7 @@ export function ThreatCharts() {
           <h3 className="text-sm font-bold text-[#1a2A2f] flex items-center justify-between">
             <span>Threat Taxonomy Breakdown</span>
             <span className="text-[10px] font-mono text-[#1a2A2f] bg-[#88BDF2]/20 font-bold px-2 py-0.5 rounded">
-              Active Window
+              Real-Time Feed
             </span>
           </h3>
           <p className="text-[11px] text-slate-500 font-mono mt-0.5">
@@ -132,7 +173,7 @@ export function ThreatCharts() {
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
-                  data={BREAKDOWN_DATA}
+                  data={finalBreakdownData}
                   cx="50%"
                   cy="50%"
                   innerRadius={45}
@@ -140,7 +181,7 @@ export function ThreatCharts() {
                   paddingAngle={4}
                   dataKey="value"
                 >
-                  {BREAKDOWN_DATA.map((entry, index) => (
+                  {finalBreakdownData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} stroke="#ffffff" strokeWidth={2} />
                   ))}
                 </Pie>
@@ -160,7 +201,7 @@ export function ThreatCharts() {
 
         {/* Legend List */}
         <div className="space-y-1.5 pt-2 border-t border-slate-100">
-          {BREAKDOWN_DATA.slice(0, 4).map((item) => (
+          {finalBreakdownData.slice(0, 4).map((item) => (
             <div key={item.name} className="flex items-center justify-between text-xs">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }} />

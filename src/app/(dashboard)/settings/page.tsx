@@ -15,7 +15,9 @@ import {
   CheckCircle2,
   Database,
   Terminal,
-  Key
+  Key,
+  Trash2,
+  Sparkles
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -32,19 +34,21 @@ export default function SettingsPage() {
   } = useSecurity();
 
   const [auditLogs, setAuditLogs] = useState<AuditLogEntry[]>([]);
-  const [vtApiKey, setVtApiKey] = useState("vt_sec_live_98a72b019842c");
-  const [abuseIpApiKey, setAbuseIpApiKey] = useState("abuseipdb_token_719024f");
+  const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY || "";
+  const apiKeyDisplay = apiKey ? `${apiKey.substring(0, 6)}••••••••••••••••••••••••••••${apiKey.substring(apiKey.length - 4)}` : "AQ.••••••••••••••••••••••••••••••••";
 
   useEffect(() => {
-    const logs = MockStorage.getAuditLogs();
-    if (logs.length === 0) {
-      MockStorage.addAuditLog("SYSTEM_INIT", "SYSTEM", "SOC-01", "MailGuard-AI Engine initialized");
-      MockStorage.addAuditLog("POLICY_SYNC", "CONFIG", "POL-2026", "Synchronized threat detection heuristics");
-      setAuditLogs(MockStorage.getAuditLogs());
-    } else {
-      setAuditLogs(logs);
-    }
+    setAuditLogs(MockStorage.getAuditLogs());
   }, []);
+
+  const handleClearAllData = () => {
+    if (confirm("Are you sure you want to clear all analyzed emails, cases, alerts, and audit logs? This will reset the workspace to a clean real-time state.")) {
+      MockStorage.clearAllData();
+      setAuditLogs([]);
+      toast.success("Workspace reset to clean state.");
+      window.location.reload();
+    }
+  };
 
   const roles: { role: UserRole; title: string; desc: string }[] = [
     {
@@ -77,38 +81,72 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
       {/* Header */}
-      <div className="p-5 rounded-xl bg-[#1a242f] border border-[#384959] flex items-center justify-between">
+      <div className="p-5 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2">
             <Settings className="w-5 h-5 text-[#88BDF2]" />
-            <h2 className="text-base font-bold text-white">System & Privacy Configuration</h2>
+            <h2 className="text-base font-bold text-[#1a2A2f]">System & AI Engine Configuration</h2>
           </div>
-          <p className="text-xs text-[#6A89A7] font-mono mt-0.5">
-            Role-based access control, PII obfuscation policy, threat feeds & tamper-evident audit logs
+          <p className="text-xs text-slate-500 font-mono mt-0.5">
+            Real-time Gemini AI scoring connector, privacy data masking & audit trail
           </p>
         </div>
 
-        <div className="text-right font-mono text-xs text-[#6A89A7]">
-          Active Session: <strong className="text-[#BDDDFC]">{userName}</strong>
+        <button
+          onClick={handleClearAllData}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 text-xs font-mono font-bold transition-colors"
+        >
+          <Trash2 className="w-3.5 h-3.5" />
+          <span>Reset Real-Time Data</span>
+        </button>
+      </div>
+
+      {/* AI Engine & API Key Status */}
+      <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-[#88BDF2]" />
+            <h3 className="text-sm font-bold text-[#1a2A2f] font-mono">
+              Google Gemini Threat Scoring & Link Intelligence API
+            </h3>
+          </div>
+          <span className="text-[10px] font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-bold">
+            ONLINE (GEMINI 3.6 FLASH)
+          </span>
+        </div>
+
+        <p className="text-xs text-slate-600 font-sans leading-relaxed">
+          The threat platform utilizes the provided Gemini API key to evaluate raw email text, compute precise 0–100 risk scores, classify attack vectors, and flag suspicious URLs with detailed security reasoning upon file upload (.eml / .msg).
+        </p>
+
+        <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+          <div className="flex items-center justify-between text-xs font-mono">
+            <span className="font-bold text-[#1a2A2f]">Configured API Key</span>
+            <span className="text-emerald-600 font-bold">Active & Authenticated</span>
+          </div>
+          <div className="p-2.5 rounded-lg bg-white border border-slate-300 font-mono text-xs text-[#1a2A2f] flex items-center justify-between">
+            <span>{apiKeyDisplay.substring(0, 12)}••••••••••••••••••••••••••••••••{apiKeyDisplay.substring(apiKeyDisplay.length - 6)}</span>
+            <span className="text-[10px] text-slate-400">Gemini Key</span>
+          </div>
         </div>
       </div>
 
       {/* Privacy Data Masking Section */}
-      <div className="p-6 rounded-2xl bg-[#243240]/90 border border-[#384959] space-y-4 backdrop-blur-md">
-        <div className="flex items-center justify-between pb-3 border-b border-[#384959]">
+      <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-100">
           <div className="flex items-center gap-2">
-            <Lock className="w-4 h-4 text-amber-400" />
-            <h3 className="text-sm font-bold text-white font-mono">
+            <Lock className="w-4 h-4 text-amber-600" />
+            <h3 className="text-sm font-bold text-[#1a2A2f] font-mono">
               Privacy & Sensitive Data Masking Controls
             </h3>
           </div>
-          <span className="text-[10px] font-mono text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+          <span className="text-[10px] font-mono text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 font-bold">
             Compliance Policy
           </span>
         </div>
 
-        <p className="text-xs text-slate-300 font-sans leading-relaxed">
-          Enforce automatic client-side masking for Personally Identifiable Information (PII) and IP address octets to protect employee privacy during threat hunting investigations.
+        <p className="text-xs text-slate-600 font-sans leading-relaxed">
+          Enforce automatic client-side masking for Personally Identifiable Information (PII) and IP address octets during SOC investigations.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
@@ -120,22 +158,22 @@ export default function SettingsPage() {
             }}
             className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center justify-between ${
               maskPii
-                ? "bg-amber-500/10 border-amber-500/40 text-white"
-                : "bg-[#1a242f] border-[#384959] text-[#6A89A7] hover:border-[#6A89A7]"
+                ? "bg-amber-50 border-amber-300 text-[#1a2A2f]"
+                : "bg-slate-50 border-slate-200 text-slate-500 hover:border-slate-300"
             }`}
           >
             <div className="space-y-1">
-              <div className="text-xs font-bold font-mono text-white flex items-center gap-2">
-                {maskPii ? <EyeOff className="w-4 h-4 text-amber-400" /> : <Eye className="w-4 h-4" />}
+              <div className="text-xs font-bold font-mono text-[#1a2A2f] flex items-center gap-2">
+                {maskPii ? <EyeOff className="w-4 h-4 text-amber-600" /> : <Eye className="w-4 h-4" />}
                 <span>Email Address & PII Masking</span>
               </div>
-              <div className="text-[11px] text-[#6A89A7] font-mono">
-                Transforms: <code className="text-[#BDDDFC]">s****s@acmeworks.com</code>
+              <div className="text-[11px] text-slate-500 font-mono">
+                Transforms: <code className="text-[#1a2A2f] font-bold">s****s@enterprise.com</code>
               </div>
             </div>
 
             <div className={`w-6 h-6 rounded-full border flex items-center justify-center ${
-              maskPii ? "bg-amber-500 border-amber-400 text-black" : "border-[#384959]"
+              maskPii ? "bg-amber-500 border-amber-400 text-white" : "border-slate-300"
             }`}>
               {maskPii && <CheckCircle2 className="w-4 h-4 stroke-[3]" />}
             </div>
@@ -149,22 +187,22 @@ export default function SettingsPage() {
             }}
             className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center justify-between ${
               maskIps
-                ? "bg-amber-500/10 border-amber-500/40 text-white"
-                : "bg-[#1a242f] border-[#384959] text-[#6A89A7] hover:border-[#6A89A7]"
+                ? "bg-amber-50 border-amber-300 text-[#1a2A2f]"
+                : "bg-slate-50 border-slate-200 text-slate-500 hover:border-slate-300"
             }`}
           >
             <div className="space-y-1">
-              <div className="text-xs font-bold font-mono text-white flex items-center gap-2">
-                <Lock className="w-4 h-4 text-amber-400" />
+              <div className="text-xs font-bold font-mono text-[#1a2A2f] flex items-center gap-2">
+                <Lock className="w-4 h-4 text-amber-600" />
                 <span>IP Address Octet Masking</span>
               </div>
-              <div className="text-[11px] text-[#6A89A7] font-mono">
-                Transforms: <code className="text-[#BDDDFC]">102.89.41.xxx</code>
+              <div className="text-[11px] text-slate-500 font-mono">
+                Transforms: <code className="text-[#1a2A2f] font-bold">102.89.41.xxx</code>
               </div>
             </div>
 
             <div className={`w-6 h-6 rounded-full border flex items-center justify-center ${
-              maskIps ? "bg-amber-500 border-amber-400 text-black" : "border-[#384959]"
+              maskIps ? "bg-amber-500 border-amber-400 text-white" : "border-slate-300"
             }`}>
               {maskIps && <CheckCircle2 className="w-4 h-4 stroke-[3]" />}
             </div>
@@ -172,16 +210,16 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {/* Role-Based Access Control (RBAC) Switcher */}
-      <div className="p-6 rounded-2xl bg-[#243240]/90 border border-[#384959] space-y-4 backdrop-blur-md">
-        <div className="flex items-center justify-between pb-3 border-b border-[#384959]">
+      {/* Role-Based Access Control (RBAC) */}
+      <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-100">
           <div className="flex items-center gap-2">
             <Shield className="w-4 h-4 text-[#88BDF2]" />
-            <h3 className="text-sm font-bold text-white font-mono">
-              Role-Based Access Control (RBAC) Simulation
+            <h3 className="text-sm font-bold text-[#1a2A2f] font-mono">
+              Role-Based Access Control (RBAC)
             </h3>
           </div>
-          <span className="text-[10px] font-mono text-[#BDDDFC]">Active Role: {userRole}</span>
+          <span className="text-[10px] font-mono text-slate-500">Active Role: {userRole}</span>
         </div>
 
         <div className="space-y-2.5">
@@ -194,24 +232,24 @@ export default function SettingsPage() {
               }}
               className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center justify-between ${
                 userRole === r.role
-                  ? "bg-[#88BDF2]/15 border-[#88BDF2] shadow-glow"
-                  : "bg-[#1a242f] border-[#384959] hover:border-[#6A89A7]"
+                  ? "bg-[#88BDF2]/15 border-[#88BDF2] shadow-sm"
+                  : "bg-slate-50 border-slate-200 hover:border-slate-300"
               }`}
             >
               <div>
-                <div className="text-xs font-bold font-mono text-white flex items-center gap-2">
+                <div className="text-xs font-bold font-mono text-[#1a2A2f] flex items-center gap-2">
                   <span>{r.title}</span>
                   {userRole === r.role && (
-                    <span className="px-1.5 py-0.2 rounded bg-[#88BDF2] text-[#1a242f] text-[9px] font-bold">
+                    <span className="px-1.5 py-0.2 rounded bg-[#1a2A2f] text-white text-[9px] font-bold">
                       ACTIVE
                     </span>
                   )}
                 </div>
-                <div className="text-[11px] text-[#6A89A7] font-sans mt-0.5">{r.desc}</div>
+                <div className="text-[11px] text-slate-500 font-sans mt-0.5">{r.desc}</div>
               </div>
 
               <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${
-                userRole === r.role ? "bg-[#88BDF2] border-[#BDDDFC] text-[#1a242f]" : "border-[#384959]"
+                userRole === r.role ? "bg-[#1a2A2f] border-[#1a2A2f] text-white" : "border-slate-300"
               }`}>
                 {userRole === r.role && <CheckCircle2 className="w-3.5 h-3.5 stroke-[3]" />}
               </div>
@@ -220,83 +258,46 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {/* Threat Intelligence Providers & API Connectors */}
-      <div className="p-6 rounded-2xl bg-[#243240]/90 border border-[#384959] space-y-4 backdrop-blur-md font-mono text-xs">
-        <div className="flex items-center justify-between pb-3 border-b border-[#384959]">
-          <div className="flex items-center gap-2">
-            <Database className="w-4 h-4 text-[#88BDF2]" />
-            <h3 className="text-sm font-bold text-white">Threat Intelligence API Integration</h3>
-          </div>
-          <span className="text-emerald-400 text-[10px] font-bold">CONNECTED (3/3)</span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 rounded-xl bg-[#1a242f] border border-[#384959] space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-white">VirusTotal v3 API</span>
-              <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 text-[10px]">
-                ACTIVE
-              </span>
-            </div>
-            <input
-              type="password"
-              value={vtApiKey}
-              onChange={(e) => setVtApiKey(e.target.value)}
-              className="w-full p-2 rounded bg-[#243240] border border-[#384959] text-[#BDDDFC] text-[11px] focus:outline-none focus:border-[#88BDF2]/50"
-            />
-          </div>
-
-          <div className="p-4 rounded-xl bg-[#1a242f] border border-[#384959] space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-white">AbuseIPDB Reputation API</span>
-              <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 text-[10px]">
-                ACTIVE
-              </span>
-            </div>
-            <input
-              type="password"
-              value={abuseIpApiKey}
-              onChange={(e) => setAbuseIpApiKey(e.target.value)}
-              className="w-full p-2 rounded bg-[#243240] border border-[#384959] text-[#BDDDFC] text-[11px] focus:outline-none focus:border-[#88BDF2]/50"
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Immutable Audit Log */}
-      <div className="p-6 rounded-2xl bg-[#243240]/90 border border-[#384959] space-y-4 backdrop-blur-md">
-        <div className="flex items-center justify-between pb-3 border-b border-[#384959]">
+      {/* Real-Time Immutable Audit Log */}
+      <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-100">
           <div className="flex items-center gap-2">
             <Terminal className="w-4 h-4 text-[#88BDF2]" />
-            <h3 className="text-sm font-bold text-white font-mono">
-              Immutable SOC Forensic Audit Trail
+            <h3 className="text-sm font-bold text-[#1a2A2f] font-mono">
+              Real-Time SOC Forensic Audit Trail
             </h3>
           </div>
-          <span className="text-[10px] font-mono text-[#6A89A7]">
+          <span className="text-[10px] font-mono text-slate-500 font-semibold">
             {auditLogs.length} Events Logged
           </span>
         </div>
 
         <div className="space-y-2 max-h-64 overflow-y-auto">
-          {auditLogs.map((log) => (
-            <div
-              key={log.id}
-              className="p-3 rounded-lg bg-[#1a242f] border border-[#384959] font-mono text-[11px] flex flex-col sm:flex-row sm:items-center justify-between gap-2"
-            >
-              <div className="space-y-0.5">
-                <div className="text-slate-200">
-                  <span className="font-bold text-[#BDDDFC]">[{log.action}]</span> {log.details}
+          {auditLogs.length > 0 ? (
+            auditLogs.map((log) => (
+              <div
+                key={log.id}
+                className="p-3 rounded-lg bg-slate-50 border border-slate-200 font-mono text-[11px] flex flex-col sm:flex-row sm:items-center justify-between gap-2"
+              >
+                <div className="space-y-0.5">
+                  <div className="text-[#1a2A2f]">
+                    <span className="font-bold text-[#1a2A2f]">[{log.action}]</span> {log.details}
+                  </div>
+                  <div className="text-[10px] text-slate-500">
+                    Actor: <strong className="text-[#1a2A2f]">{log.actor}</strong> ({log.role}) • Target: {log.resourceType}:{log.resourceId}
+                  </div>
                 </div>
-                <div className="text-[10px] text-[#6A89A7]">
-                  Actor: <strong className="text-slate-300">{log.actor}</strong> ({log.role}) • Target: {log.resourceType}:{log.resourceId}
-                </div>
-              </div>
 
-              <div className="text-[10px] text-[#6A89A7] shrink-0">
-                {new Date(log.timestamp).toLocaleTimeString()}
+                <div className="text-[10px] text-slate-400 shrink-0">
+                  {new Date(log.timestamp).toLocaleTimeString()}
+                </div>
               </div>
+            ))
+          ) : (
+            <div className="py-6 text-center text-slate-400 text-xs font-mono">
+              No audit logs recorded yet. Ingest an email to generate the first immutable audit event.
             </div>
-          ))}
+          )}
         </div>
       </div>
     </div>

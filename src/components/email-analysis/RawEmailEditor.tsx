@@ -14,7 +14,7 @@ export const SAMPLE_EMAILS: Record<string, { label: string; tag: string; color: 
   bec_wire: {
     label: "BEC Wire Fraud (CEO Spoofing)",
     tag: "CRITICAL",
-    color: "text-rose-400 border-rose-500/30 bg-rose-500/10",
+    color: "text-rose-700 border-rose-300 bg-rose-50",
     content: `Received: from mail-relay-04.acme-corp-holdings.co (102.89.41.118) by mx1.acmeworks.com with ESMTP id q99104; Wed, 26 Aug 2026 14:31:55 +0000
 Authentication-Results: mx1.acmeworks.com; dkim=neutral header.i=@acme-corp-holdings.co; spf=softfail (102.89.41.118 not authorized) smtp.mailfrom=bounces-jvance@acme-corp-holdings.co; dmarc=fail header.from=acme-corp-holdings.co
 From: "Jonathan Vance (CEO)" <jvance@acme-corp-holdings.co>
@@ -50,7 +50,7 @@ Chief Executive Officer | Acme Works Corp`
   m365_phish: {
     label: "Microsoft 365 AiTM Phishing",
     tag: "CRITICAL",
-    color: "text-rose-400 border-rose-500/30 bg-rose-500/10",
+    color: "text-rose-700 border-rose-300 bg-rose-50",
     content: `Received: from relay-outbound.micros0ft-security-portal.com (194.26.29.84) by mx1.acmeworks.com with ESMTP id m365_sec_99; Wed, 26 Aug 2026 11:14:30 +0000
 Authentication-Results: mx1.acmeworks.com; spf=pass (194.26.29.84 matches spf); dkim=fail (body hash mismatch); dmarc=fail
 From: "Microsoft 365 Security Team" <no-reply@micros0ft-security-portal.com>
@@ -77,7 +77,7 @@ Microsoft Corporation, One Microsoft Way, Redmond, WA 98052`
   ransomware_inv: {
     label: "LockBit Ransomware Invoice",
     tag: "CRITICAL",
-    color: "text-[#88BDF2] border-[#88BDF2]/30 bg-[#88BDF2]/10",
+    color: "text-amber-800 border-amber-300 bg-amber-50",
     content: `Received: from relay.bulletproof-host.is (185.220.101.5) by mx1.acmeworks.com; Tue, 25 Aug 2026 18:39:45 +0000
 From: "Global Logistics Billing" <billing@freight-invoicing-system.top>
 To: Accounts Payable <ap@acmeworks.com>
@@ -100,7 +100,7 @@ Global Logistics Invoicing Department`
   google_legit: {
     label: "Google Cloud Advisory (Legitimate)",
     tag: "VERIFIED",
-    color: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10",
+    color: "text-emerald-700 border-emerald-300 bg-emerald-50",
     content: `Received: from mail-qk4-f182.google.com (209.85.222.182) by mx1.acmeworks.com with ESMTPS id gcp_legit_01; Wed, 26 Aug 2026 09:59:20 +0000
 Authentication-Results: mx1.acmeworks.com; dkim=pass header.i=@google.com header.s=20230601; spf=pass (209.85.222.182 is designated IP) smtp.mailfrom=3g89@gaia.bounces.google.com; dmarc=pass (p=reject dis=none) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20230601; h=mime-version:date:message-id:subject:from:to; bh=s8f...; b=Q8x...
@@ -131,21 +131,22 @@ Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043`
 export function RawEmailEditor({ value, onChange, onSelectSample }: RawEmailEditorProps) {
   return (
     <div className="space-y-3">
-      {/* Sample Scenario Selector Bar */}
+      {/* Preset Test Scenarios */}
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-[11px] font-mono text-[#6A89A7] uppercase tracking-wider flex items-center gap-1">
-          <Sparkles className="w-3.5 h-3.5 text-[#88BDF2]" />
-          Load Attack Vector Preset:
+        <span className="text-[11px] font-mono text-slate-500 uppercase tracking-wider flex items-center gap-1">
+          <Sparkles className="w-3.5 h-3.5 text-[#1a2A2f]" />
+          Optional Sample Previews:
         </span>
 
         {Object.entries(SAMPLE_EMAILS).map(([key, sample]) => (
           <button
             key={key}
+            type="button"
             onClick={() => {
               onSelectSample(key);
-              toast.info(`Loaded scenario: ${sample.label}`);
+              toast.info(`Loaded test scenario: ${sample.label}`);
             }}
-            className={`px-2.5 py-1 rounded-lg text-xs font-mono font-medium border transition-all flex items-center gap-1.5 ${sample.color} hover:brightness-125`}
+            className={`px-2.5 py-1 rounded-lg text-xs font-mono font-medium border transition-all flex items-center gap-1.5 ${sample.color} hover:shadow-sm`}
           >
             <span>{sample.label}</span>
           </button>
@@ -153,31 +154,33 @@ export function RawEmailEditor({ value, onChange, onSelectSample }: RawEmailEdit
       </div>
 
       {/* Code Editor Box */}
-      <div className="rounded-xl bg-[#1a242f] border border-[#384959] overflow-hidden focus-within:border-[#88BDF2]/60 focus-within:shadow-glow transition-all">
+      <div className="rounded-xl bg-white border border-slate-200 shadow-sm overflow-hidden focus-within:border-[#88BDF2] focus-within:ring-1 focus-within:ring-[#88BDF2] transition-all">
         {/* Editor Toolbar */}
-        <div className="px-4 py-2 bg-[#243240] border-b border-[#384959] flex items-center justify-between text-xs text-[#6A89A7] font-mono">
+        <div className="px-4 py-2 bg-[#1a2A2f] text-xs text-white font-mono flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Code2 className="w-4 h-4 text-[#88BDF2]" />
-            <span>Raw RFC-822 / MIME Email Stream</span>
+            <span>Raw RFC-822 / Outlook MSG Stream Input</span>
           </div>
 
           <div className="flex items-center gap-3">
-            <span>{value ? `${value.split("\n").length} lines` : "Empty"}</span>
+            <span className="text-slate-300">{value ? `${value.split("\n").length} lines` : "Empty"}</span>
             {value && (
               <>
                 <button
+                  type="button"
                   onClick={() => {
                     navigator.clipboard.writeText(value);
                     toast.success("Raw email copied to clipboard.");
                   }}
-                  className="hover:text-[#BDDDFC] flex items-center gap-1 transition-colors"
+                  className="hover:text-[#88BDF2] flex items-center gap-1 transition-colors"
                 >
                   <Copy className="w-3.5 h-3.5" />
                   <span>Copy</span>
                 </button>
                 <button
+                  type="button"
                   onClick={() => onChange("")}
-                  className="hover:text-rose-400 flex items-center gap-1 transition-colors"
+                  className="hover:text-rose-300 flex items-center gap-1 transition-colors"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                   <span>Clear</span>
@@ -192,8 +195,8 @@ export function RawEmailEditor({ value, onChange, onSelectSample }: RawEmailEdit
           value={value}
           onChange={(e) => onChange(e.target.value)}
           rows={14}
-          placeholder="Paste full raw email payload including Received, Authentication-Results, From, To, Subject headers and MIME body..."
-          className="w-full bg-transparent p-4 text-xs font-mono text-[#BDDDFC] placeholder-[#6A89A7] focus:outline-none resize-y leading-relaxed font-technical"
+          placeholder="Paste full raw email payload including Received, Authentication-Results, From, To, Subject headers, links, and body text..."
+          className="w-full bg-white p-4 text-xs font-mono text-[#1a2A2f] placeholder-slate-400 focus:outline-none resize-y leading-relaxed"
         />
       </div>
     </div>

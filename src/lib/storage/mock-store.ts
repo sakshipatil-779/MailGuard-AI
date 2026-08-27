@@ -1,17 +1,15 @@
 import { EmailAnalysis } from "@/types/analysis";
 import { InvestigationCase, EvidenceItem, CaseTimelineEvent } from "@/types/investigation";
-import { ThreatAlert, MOCK_ALERTS } from "../data/mock-alerts";
-import { MOCK_EMAILS } from "../data/mock-threats";
-import { MOCK_CASES } from "../data/mock-cases";
+import { ThreatAlert } from "../data/mock-alerts";
 import { ForensicReport } from "@/types/report";
 import { generateId } from "../utils";
 
 const STORAGE_KEYS = {
-  EMAILS: "soc_analyzed_emails",
-  CASES: "soc_cases",
-  ALERTS: "soc_alerts",
-  REPORTS: "soc_reports",
-  AUDIT: "soc_audit_logs"
+  EMAILS: "mailguard_analyzed_emails",
+  CASES: "mailguard_cases",
+  ALERTS: "mailguard_alerts",
+  REPORTS: "mailguard_reports",
+  AUDIT: "mailguard_audit_logs"
 };
 
 export interface AuditLogEntry {
@@ -30,18 +28,15 @@ export class MockStorage {
     return typeof window !== "undefined";
   }
 
-  // EMAILS
+  // EMAILS - Real time data only (empty by default until user uploads/analyzes)
   static getEmails(): EmailAnalysis[] {
-    if (!this.isClient()) return MOCK_EMAILS;
+    if (!this.isClient()) return [];
     const stored = localStorage.getItem(STORAGE_KEYS.EMAILS);
-    if (!stored) {
-      localStorage.setItem(STORAGE_KEYS.EMAILS, JSON.stringify(MOCK_EMAILS));
-      return MOCK_EMAILS;
-    }
+    if (!stored) return [];
     try {
       return JSON.parse(stored);
     } catch {
-      return MOCK_EMAILS;
+      return [];
     }
   }
 
@@ -64,7 +59,7 @@ export class MockStorage {
       localStorage.setItem(STORAGE_KEYS.EMAILS, JSON.stringify(updated));
     }
     
-    // If critical/high threat, auto-create alert
+    // If critical/high threat, auto-create alert in real time
     if (email.riskScore >= 50 && existingIndex < 0) {
       this.createAlert({
         id: `ALT-${Date.now().toString().slice(-4)}`,
@@ -81,26 +76,29 @@ export class MockStorage {
         detectedAt: email.createdAt,
         status: "NEW",
         assignedCaseId: email.caseId,
-        ruleName: `AUTO-HEURISTIC-${email.classification.toUpperCase()}`
+        ruleName: `AI-DETECTION-${email.classification.toUpperCase()}`
       });
     }
 
-    this.addAuditLog("ANALYZE_EMAIL", "EMAIL", email.id, `Analyzed message '${email.headers.subject}' with Risk Score ${email.riskScore}`);
+    this.addAuditLog("ANALYZE_EMAIL", "EMAIL", email.id, `Analyzed message '${email.headers.subject}' (Threat Score: ${email.riskScore}/100)`);
     return email;
   }
 
-  // CASES
+  static deleteEmail(id: string) {
+    if (!this.isClient()) return;
+    const emails = this.getEmails().filter(e => e.id !== id);
+    localStorage.setItem(STORAGE_KEYS.EMAILS, JSON.stringify(emails));
+  }
+
+  // CASES - Real time cases only
   static getCases(): InvestigationCase[] {
-    if (!this.isClient()) return MOCK_CASES;
+    if (!this.isClient()) return [];
     const stored = localStorage.getItem(STORAGE_KEYS.CASES);
-    if (!stored) {
-      localStorage.setItem(STORAGE_KEYS.CASES, JSON.stringify(MOCK_CASES));
-      return MOCK_CASES;
-    }
+    if (!stored) return [];
     try {
       return JSON.parse(stored);
     } catch {
-      return MOCK_CASES;
+      return [];
     }
   }
 
@@ -177,18 +175,15 @@ export class MockStorage {
     }
   }
 
-  // ALERTS
+  // ALERTS - Real time alerts only
   static getAlerts(): ThreatAlert[] {
-    if (!this.isClient()) return MOCK_ALERTS;
+    if (!this.isClient()) return [];
     const stored = localStorage.getItem(STORAGE_KEYS.ALERTS);
-    if (!stored) {
-      localStorage.setItem(STORAGE_KEYS.ALERTS, JSON.stringify(MOCK_ALERTS));
-      return MOCK_ALERTS;
-    }
+    if (!stored) return [];
     try {
       return JSON.parse(stored);
     } catch {
-      return MOCK_ALERTS;
+      return [];
     }
   }
 
@@ -208,7 +203,7 @@ export class MockStorage {
     }
   }
 
-  // REPORTS
+  // REPORTS - Real time reports only
   static getReports(): ForensicReport[] {
     if (!this.isClient()) return [];
     const stored = localStorage.getItem(STORAGE_KEYS.REPORTS);
@@ -280,7 +275,7 @@ export class MockStorage {
     return report;
   }
 
-  // AUDIT
+  // AUDIT - Real time logs
   static getAuditLogs(): AuditLogEntry[] {
     if (!this.isClient()) return [];
     const stored = localStorage.getItem(STORAGE_KEYS.AUDIT);
@@ -298,7 +293,7 @@ export class MockStorage {
     const entry: AuditLogEntry = {
       id: generateId("aud"),
       timestamp: new Date().toISOString(),
-      actor: "alex.mercer@acmeworks.com",
+      actor: "Security Analyst (Tier 2)",
       role: "SECURITY_ANALYST",
       action,
       resourceType,
@@ -307,5 +302,15 @@ export class MockStorage {
     };
     const updated = [entry, ...current.slice(0, 99)];
     localStorage.setItem(STORAGE_KEYS.AUDIT, JSON.stringify(updated));
+  }
+
+  // Reset/Clear all data
+  static clearAllData() {
+    if (!this.isClient()) return;
+    localStorage.removeItem(STORAGE_KEYS.EMAILS);
+    localStorage.removeItem(STORAGE_KEYS.CASES);
+    localStorage.removeItem(STORAGE_KEYS.ALERTS);
+    localStorage.removeItem(STORAGE_KEYS.REPORTS);
+    localStorage.removeItem(STORAGE_KEYS.AUDIT);
   }
 }

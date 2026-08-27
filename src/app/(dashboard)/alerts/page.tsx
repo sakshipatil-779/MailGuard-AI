@@ -13,7 +13,8 @@ import {
   FolderPlus,
   ArrowUpRight,
   ShieldAlert,
-  Globe
+  Globe,
+  Inbox
 } from "lucide-react";
 import { getSeverityBadge, maskEmail, maskIp } from "@/lib/utils";
 import { useSecurity } from "@/context/SecurityContext";
@@ -49,7 +50,7 @@ export default function AlertsPage() {
       status: "OPEN",
       severity: alert.severity,
       primaryClassification: alert.threatType,
-      leadAnalyst: "Alex Mercer",
+      leadAnalyst: "Security Analyst",
       assignedTeam: "Tier 2 SOC",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -63,7 +64,7 @@ export default function AlertsPage() {
           id: `tl-${Date.now()}`,
           timestamp: new Date().toISOString(),
           type: "CASE_CREATED",
-          actor: "Alex Mercer",
+          actor: "Security Analyst",
           title: "Alert Escalated to Formal Case",
           details: `Threat alert ${alert.id} escalated to case ${caseId}.`
         }
@@ -88,43 +89,43 @@ export default function AlertsPage() {
   return (
     <div className="space-y-6">
       {/* Top Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-xl bg-[#1a242f] border border-[#384959]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
         <div>
           <div className="flex items-center gap-2">
-            <BellRing className="w-5 h-5 text-rose-400" />
-            <h2 className="text-base font-bold text-white">Real-Time Threat Alert Center</h2>
-            <span className="flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono bg-rose-500/20 text-rose-400 font-bold border border-rose-500/30">
+            <BellRing className="w-5 h-5 text-rose-600" />
+            <h2 className="text-base font-bold text-[#1a2A2f]">Real-Time Threat Alert Center</h2>
+            <span className="flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono bg-rose-50 text-rose-600 font-bold border border-rose-200">
               <Radio className="w-3 h-3 animate-pulse" />
-              LIVE TELEMETRY STREAM
+              LIVE TELEMETRY FEED
             </span>
           </div>
-          <p className="text-xs text-[#6A89A7] font-mono mt-0.5">
-            Automated heuristic detections, IOC rule matches, and priority triage feed
+          <p className="text-xs text-slate-500 font-mono mt-0.5">
+            Automated AI detections, IOC rule matches, and priority triage queue ({alerts.length} total alerts)
           </p>
         </div>
 
-        <div className="flex items-center gap-2 font-mono text-xs text-[#6A89A7]">
+        <div className="flex items-center gap-2 font-mono text-xs text-slate-600">
           <span>Unresolved Alerts:</span>
-          <strong className="text-rose-400 font-bold">
+          <strong className="text-rose-600 font-bold bg-rose-50 px-2 py-0.5 rounded border border-rose-200">
             {alerts.filter((a) => a.status === "NEW").length}
           </strong>
         </div>
       </div>
 
       {/* Filter Bar */}
-      <div className="p-4 rounded-xl bg-[#1a242f] border border-[#384959] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         {/* Severity Filters */}
         <div className="flex items-center gap-2 text-xs font-mono">
-          <span className="text-[#6A89A7]">Severity:</span>
-          <div className="flex items-center bg-[#243240] border border-[#384959] rounded-lg p-0.5">
+          <span className="text-slate-500">Severity:</span>
+          <div className="flex items-center bg-slate-100 border border-slate-200 rounded-lg p-0.5">
             {["ALL", "CRITICAL", "HIGH", "MEDIUM", "LOW"].map((s) => (
               <button
                 key={s}
                 onClick={() => setSevFilter(s)}
                 className={`px-2.5 py-1 rounded text-[10px] font-bold transition-all ${
                   sevFilter === s
-                    ? "bg-rose-500/20 text-rose-300 border border-rose-500/30"
-                    : "text-[#6A89A7] hover:text-[#BDDDFC]"
+                    ? "bg-[#1a2A2f] text-white shadow-sm"
+                    : "text-[#1a2A2f] hover:text-black"
                 }`}
               >
                 {s}
@@ -135,16 +136,16 @@ export default function AlertsPage() {
 
         {/* Status Filters */}
         <div className="flex items-center gap-2 text-xs font-mono">
-          <span className="text-[#6A89A7]">Status:</span>
-          <div className="flex items-center bg-[#243240] border border-[#384959] rounded-lg p-0.5">
+          <span className="text-slate-500">Status:</span>
+          <div className="flex items-center bg-slate-100 border border-slate-200 rounded-lg p-0.5">
             {["ALL", "NEW", "ACKNOWLEDGED", "INVESTIGATING", "RESOLVED"].map((st) => (
               <button
                 key={st}
                 onClick={() => setStatusFilter(st)}
                 className={`px-2.5 py-1 rounded text-[10px] font-bold transition-all ${
                   statusFilter === st
-                    ? "bg-[#88BDF2]/20 text-[#BDDDFC] border border-[#88BDF2]/30"
-                    : "text-[#6A89A7] hover:text-[#BDDDFC]"
+                    ? "bg-[#1a2A2f] text-white shadow-sm"
+                    : "text-[#1a2A2f] hover:text-black"
                 }`}
               >
                 {st}
@@ -154,96 +155,110 @@ export default function AlertsPage() {
         </div>
       </div>
 
-      {/* Alerts Table */}
-      <div className="rounded-xl bg-[#243240]/80 border border-[#384959] overflow-hidden backdrop-blur-md">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs font-mono">
-            <thead className="bg-[#1a242f] text-[10px] text-[#6A89A7] uppercase tracking-wider border-b border-[#384959]">
-              <tr>
-                <th className="py-3 px-4">Alert ID & Severity</th>
-                <th className="py-3 px-4">Subject & Sender</th>
-                <th className="py-3 px-4">Origin IP & Country</th>
-                <th className="py-3 px-4">Trigger Rule</th>
-                <th className="py-3 px-4">Detected</th>
-                <th className="py-3 px-4">Status</th>
-                <th className="py-3 px-4 text-right">Triage Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#384959]/50">
-              {filtered.map((alert) => {
-                const sevBadge = getSeverityBadge(alert.severity);
-                const displaySender = maskPii ? maskEmail(alert.sender) : alert.sender;
-                const displayIp = maskIps ? maskIp(alert.sourceIp) : alert.sourceIp;
+      {/* Alerts Table or Empty State */}
+      {filtered.length > 0 ? (
+        <div className="rounded-xl bg-white border border-slate-200 shadow-sm overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs font-mono">
+              <thead className="bg-[#1a2A2f] text-[10px] text-white uppercase tracking-wider">
+                <tr>
+                  <th className="py-3 px-4">Alert ID & Severity</th>
+                  <th className="py-3 px-4">Subject & Sender</th>
+                  <th className="py-3 px-4">Origin IP & Country</th>
+                  <th className="py-3 px-4">Trigger Rule</th>
+                  <th className="py-3 px-4">Detected</th>
+                  <th className="py-3 px-4">Status</th>
+                  <th className="py-3 px-4 text-right">Triage Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {filtered.map((alert) => {
+                  const sevBadge = getSeverityBadge(alert.severity);
+                  const displaySender = maskPii ? maskEmail(alert.sender) : alert.sender;
+                  const displayIp = maskIps ? maskIp(alert.sourceIp) : alert.sourceIp;
 
-                return (
-                  <tr
-                    key={alert.id}
-                    className="hover:bg-[#384959]/30 transition-colors cursor-pointer"
-                    onClick={() => setSelectedAlert(alert)}
-                  >
-                    <td className="py-3 px-4">
-                      <div className="flex flex-col gap-1">
-                        <span className="font-bold text-white text-xs">{alert.id}</span>
-                        <span className={`px-2 py-0.2 rounded text-[10px] font-bold w-fit ${sevBadge.bg} ${sevBadge.text} border ${sevBadge.border}`}>
-                          {sevBadge.label} ({alert.riskScore})
-                        </span>
-                      </div>
-                    </td>
+                  return (
+                    <tr
+                      key={alert.id}
+                      className="hover:bg-slate-50 transition-colors cursor-pointer"
+                      onClick={() => setSelectedAlert(alert)}
+                    >
+                      <td className="py-3 px-4">
+                        <div className="flex flex-col gap-1">
+                          <span className="font-bold text-[#1a2A2f] text-xs">{alert.id}</span>
+                          <span className={`px-2 py-0.2 rounded text-[10px] font-bold w-fit ${sevBadge.bg} ${sevBadge.text} border ${sevBadge.border}`}>
+                            {sevBadge.label} ({alert.riskScore})
+                          </span>
+                        </div>
+                      </td>
 
-                    <td className="py-3 px-4 max-w-xs font-sans">
-                      <div className="font-semibold text-white truncate">{alert.subject}</div>
-                      <div className="text-[11px] text-[#6A89A7] font-mono truncate mt-0.5">
-                        From: {displaySender}
-                      </div>
-                    </td>
+                      <td className="py-3 px-4 max-w-xs font-sans">
+                        <div className="font-semibold text-[#1a2A2f] truncate">{alert.subject}</div>
+                        <div className="text-[11px] text-slate-500 font-mono truncate mt-0.5">
+                          From: {displaySender}
+                        </div>
+                      </td>
 
-                    <td className="py-3 px-4">
-                      <div className="flex items-center gap-1.5 text-[#BDDDFC]">
-                        <Globe className="w-3.5 h-3.5 text-[#88BDF2]" />
-                        <span>{displayIp}</span>
-                      </div>
-                      <div className="text-[10px] text-[#6A89A7] mt-0.5">{alert.sourceCountry}</div>
-                    </td>
+                      <td className="py-3 px-4">
+                        <div className="flex items-center gap-1.5 text-[#1a2A2f]">
+                          <Globe className="w-3.5 h-3.5 text-[#88BDF2]" />
+                          <span>{displayIp}</span>
+                        </div>
+                        <div className="text-[10px] text-slate-500 mt-0.5">{alert.sourceCountry}</div>
+                      </td>
 
-                    <td className="py-3 px-4 text-slate-300 text-[11px]">
-                      {alert.ruleName}
-                    </td>
+                      <td className="py-3 px-4 text-slate-600 text-[11px]">
+                        {alert.ruleName}
+                      </td>
 
-                    <td className="py-3 px-4 text-[#6A89A7] text-[10px]">
-                      {new Date(alert.detectedAt).toLocaleTimeString()}
-                    </td>
+                      <td className="py-3 px-4 text-slate-500 text-[10px]">
+                        {new Date(alert.detectedAt).toLocaleTimeString()}
+                      </td>
 
-                    <td className="py-3 px-4">
-                      <span
-                        className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                          alert.status === "NEW"
-                            ? "bg-rose-500/20 text-rose-400 border border-rose-500/30 animate-pulse"
-                            : alert.status === "INVESTIGATING"
-                            ? "bg-[#88BDF2]/20 text-[#BDDDFC] border border-[#88BDF2]/30"
-                            : "bg-[#1a242f] text-slate-300 border border-[#384959]"
-                        }`}
-                      >
-                        {alert.status}
-                      </span>
-                    </td>
-
-                    <td className="py-3 px-4 text-right" onClick={(e) => e.stopPropagation()}>
-                      <div className="flex items-center justify-end gap-1.5">
-                        <button
-                          onClick={() => setSelectedAlert(alert)}
-                          className="px-2.5 py-1 rounded bg-[#88BDF2]/15 hover:bg-[#88BDF2]/25 text-[#BDDDFC] border border-[#88BDF2]/30 text-[11px]"
+                      <td className="py-3 px-4">
+                        <span
+                          className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                            alert.status === "NEW"
+                              ? "bg-rose-50 text-rose-600 border border-rose-200"
+                              : alert.status === "INVESTIGATING"
+                              ? "bg-[#88BDF2]/20 text-[#1a2A2f] border border-[#88BDF2]"
+                              : "bg-slate-100 text-slate-600 border border-slate-200"
+                          }`}
                         >
-                          Triage
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                          {alert.status}
+                        </span>
+                      </td>
+
+                      <td className="py-3 px-4 text-right" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex items-center justify-end gap-1.5">
+                          <button
+                            onClick={() => setSelectedAlert(alert)}
+                            className="px-2.5 py-1 rounded bg-[#1a2A2f] hover:bg-[#1a2A2f]/90 text-white text-[11px] font-bold shadow-sm"
+                          >
+                            Triage
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="p-12 rounded-2xl bg-white border border-slate-200 shadow-sm text-center max-w-lg mx-auto space-y-4">
+          <div className="w-14 h-14 rounded-2xl bg-[#88BDF2]/20 border border-[#88BDF2]/40 flex items-center justify-center mx-auto text-[#1a2A2f]">
+            <Inbox className="w-7 h-7 text-[#1a2A2f]" />
+          </div>
+          <div>
+            <h3 className="text-base font-bold text-[#1a2A2f]">No Alerts Triggered</h3>
+            <p className="text-xs text-slate-500 font-mono mt-1">
+              When ingested emails score &ge; 50/100, real-time threat alerts are automatically generated here.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Alert Drawer Slideover */}
       <AlertDrawer

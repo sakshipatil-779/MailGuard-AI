@@ -46,12 +46,12 @@ export function EmailUploadDropzone({ onFileLoaded }: EmailUploadDropzoneProps) 
       onDragLeave={() => setIsDragging(false)}
       onDrop={handleDrop}
       onClick={() => fileInputRef.current?.click()}
-      className={`p-8 rounded-xl border-2 border-dashed cursor-pointer transition-all text-center flex flex-col items-center justify-center ${
+      className={`p-10 rounded-2xl border-2 border-dashed cursor-pointer transition-all text-center flex flex-col items-center justify-center ${
         isDragging
-          ? "border-[#88BDF2] bg-[#88BDF2]/15 shadow-glow"
+          ? "border-[#88BDF2] bg-[#88BDF2]/15 shadow-md scale-[1.01]"
           : fileName
-          ? "border-emerald-500/40 bg-emerald-500/5"
-          : "border-[#384959] hover:border-[#88BDF2]/40 bg-[#1a242f]/70 hover:bg-[#243240]/80"
+          ? "border-emerald-500 bg-emerald-50/50 shadow-sm"
+          : "border-slate-300 hover:border-[#88BDF2] bg-white hover:bg-slate-50/80 shadow-sm"
       }`}
     >
       <input
@@ -66,39 +66,39 @@ export function EmailUploadDropzone({ onFileLoaded }: EmailUploadDropzoneProps) 
         className="hidden"
       />
 
-      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#88BDF2]/20 to-[#6A89A7]/20 border border-[#88BDF2]/30 flex items-center justify-center mb-4 shadow-glow">
+      <div className="w-16 h-16 rounded-2xl bg-[#88BDF2]/20 border border-[#88BDF2]/40 flex items-center justify-center mb-4">
         {fileName ? (
-          <CheckCircle2 className="w-7 h-7 text-emerald-400" />
+          <CheckCircle2 className="w-8 h-8 text-emerald-600" />
         ) : (
-          <UploadCloud className="w-7 h-7 text-[#88BDF2] animate-bounce" />
+          <UploadCloud className="w-8 h-8 text-[#1a2A2f] animate-bounce" />
         )}
       </div>
 
       {fileName ? (
         <div>
-          <div className="text-sm font-bold text-white font-mono flex items-center justify-center gap-2">
+          <div className="text-sm font-bold text-[#1a2A2f] font-mono flex items-center justify-center gap-2">
             <FileText className="w-4 h-4 text-[#88BDF2]" />
-            {fileName}
+            <span>{fileName}</span>
           </div>
-          <div className="text-xs text-emerald-400 font-mono mt-1">
-            File loaded ({fileSize ? formatBytes(fileSize) : ""}) • Ready for deep forensic ingestion
+          <div className="text-xs text-emerald-600 font-mono mt-1 font-semibold">
+            File loaded ({fileSize ? formatBytes(fileSize) : ""}) • Ready for real-time Gemini AI scoring
           </div>
-          <p className="text-[11px] text-[#6A89A7] font-mono mt-2">
+          <p className="text-[11px] text-slate-400 font-mono mt-2">
             Click or drag another file to replace
           </p>
         </div>
       ) : (
         <div>
-          <div className="text-sm font-bold text-white">
-            Drag & drop raw <span className="text-[#88BDF2] font-mono">.eml</span> or{" "}
-            <span className="text-[#88BDF2] font-mono">.msg</span> file here
+          <div className="text-sm font-bold text-[#1a2A2f]">
+            Drag & drop raw <span className="text-[#1a2A2f] bg-[#88BDF2]/30 px-1.5 py-0.5 rounded font-mono">.eml</span> or{" "}
+            <span className="text-[#1a2A2f] bg-[#88BDF2]/30 px-1.5 py-0.5 rounded font-mono">.msg</span> file here
           </div>
-          <p className="text-xs text-[#6A89A7] font-mono mt-1">
-            Accepts RFC-822 formatted email files, raw MIME payloads & RFC-5322 exports
+          <p className="text-xs text-slate-500 font-mono mt-1.5 max-w-md">
+            Accepts RFC-822 formatted messages, Outlook .MSG payloads, MIME headers, and text exports
           </p>
-          <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#243240] border border-[#384959] text-xs font-mono text-[#BDDDFC] hover:bg-[#384959] transition-colors">
-            <FileCode2 className="w-3.5 h-3.5 text-[#88BDF2]" />
-            <span>Browse local disk</span>
+          <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1a2A2f] text-xs font-mono text-white hover:bg-[#1a2A2f]/90 transition-colors shadow-sm">
+            <FileCode2 className="w-4 h-4 text-white" />
+            <span>Browse Local File (.eml / .msg)</span>
           </div>
         </div>
       )}

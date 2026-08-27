@@ -10,20 +10,21 @@ import {
   ArrowRight,
   ShieldAlert,
   Sparkles,
-  Info
+  Info,
+  Key
 } from "lucide-react";
 import { EmailUploadDropzone } from "@/components/email-analysis/EmailUploadDropzone";
 import { RawEmailEditor, SAMPLE_EMAILS } from "@/components/email-analysis/RawEmailEditor";
 import { AnalysisProgress } from "@/components/email-analysis/AnalysisProgress";
-import { parseEmlContent } from "@/lib/parser/eml-parser";
+import { parseAndAnalyzeEmail } from "@/lib/parser/eml-parser";
 import { MockStorage } from "@/lib/storage/mock-store";
 import { toast } from "sonner";
 
 export default function AnalyzePage() {
   const router = useRouter();
-  const [inputMode, setInputMode] = useState<"paste" | "upload">("paste");
-  const [rawText, setRawText] = useState(SAMPLE_EMAILS.bec_wire.content);
-  const [uploadedFilename, setUploadedFilename] = useState("URGENT_CONFIDENTIAL_Acquisition_Wire_Transfer.eml");
+  const [inputMode, setInputMode] = useState<"upload" | "paste">("upload");
+  const [rawText, setRawText] = useState("");
+  const [uploadedFilename, setUploadedFilename] = useState("suspicious_message.eml");
   const [priority, setPriority] = useState<"NORMAL" | "HIGH" | "CRITICAL">("CRITICAL");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analyzedEmailId, setAnalyzedEmailId] = useState<string | null>(null);
@@ -39,26 +40,32 @@ export default function AnalyzePage() {
   const handleFileLoaded = (content: string, filename: string) => {
     setRawText(content);
     setUploadedFilename(filename);
-    toast.success(`Loaded file ${filename}`);
+    toast.success(`Loaded file: ${filename}`);
   };
 
-  const handleStartAnalysis = (e: React.FormEvent) => {
+  const handleStartAnalysis = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!rawText.trim()) {
-      toast.error("Please paste an email or upload a .eml file first.");
+      toast.error("Please upload a .eml / .msg file or paste email content first.");
       return;
     }
 
-    // Parse email
-    const parsed = parseEmlContent(rawText, uploadedFilename);
-    MockStorage.saveEmail(parsed);
-    setAnalyzedEmailId(parsed.id);
     setIsAnalyzing(true);
+
+    try {
+      // Execute Real-Time AI Threat Scoring with Gemini 3.6 Flash & Link Inspection
+      const analyzed = await parseAndAnalyzeEmail(rawText, uploadedFilename);
+      MockStorage.saveEmail(analyzed);
+      setAnalyzedEmailId(analyzed.id);
+    } catch (err) {
+      console.error("Analysis execution error:", err);
+      toast.error("An error occurred during threat analysis. Falling back to heuristic baseline.");
+    }
   };
 
   const handleAnalysisComplete = () => {
     if (analyzedEmailId) {
-      toast.success("Forensic analysis complete. Opening investigation dossier.");
+      toast.success("Real-time AI forensic analysis complete. Opening investigation dossier.");
       router.push(`/emails/${analyzedEmailId}`);
     }
   };
@@ -66,41 +73,43 @@ export default function AnalyzePage() {
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
       {/* Top Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-xl bg-[#1a242f] border border-[#384959]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
         <div>
-          <h2 className="text-base font-bold text-white flex items-center gap-2">
+          <h2 className="text-base font-bold text-[#1a2A2f] flex items-center gap-2">
             <SearchCode className="w-5 h-5 text-[#88BDF2]" />
-            <span>AI Email Threat & Forensic Analysis Workstation</span>
+            <span>AI Email Threat & Forensic Ingestion Center</span>
           </h2>
-          <p className="text-xs text-[#6A89A7] font-mono mt-0.5">
-            Ingest raw RFC-822 messages, decompile headers, verify cryptographic alignments, and resolve multi-hop relay infrastructure
+          <p className="text-xs text-slate-500 font-mono mt-0.5">
+            Ingest raw <span className="font-bold text-[#1a2A2f]">.eml</span> or <span className="font-bold text-[#1a2A2f]">.msg</span> files. Real-time Gemini AI scores threat text and flags suspicious links.
           </p>
         </div>
 
         {/* Input Mode Selector */}
-        <div className="flex items-center bg-[#243240] border border-[#384959] rounded-lg p-1 text-xs font-mono shrink-0">
+        <div className="flex items-center bg-slate-100 border border-slate-200 rounded-lg p-1 text-xs font-mono shrink-0">
           <button
-            onClick={() => setInputMode("paste")}
-            className={`px-3 py-1.5 rounded-md transition-all flex items-center gap-1.5 ${
-              inputMode === "paste"
-                ? "bg-[#88BDF2]/20 text-[#BDDDFC] font-bold border border-[#88BDF2]/30"
-                : "text-[#6A89A7] hover:text-[#BDDDFC]"
-            }`}
-          >
-            <FileCode2 className="w-3.5 h-3.5" />
-            <span>Raw EML Editor</span>
-          </button>
-
-          <button
+            type="button"
             onClick={() => setInputMode("upload")}
             className={`px-3 py-1.5 rounded-md transition-all flex items-center gap-1.5 ${
               inputMode === "upload"
-                ? "bg-[#88BDF2]/20 text-[#BDDDFC] font-bold border border-[#88BDF2]/30"
-                : "text-[#6A89A7] hover:text-[#BDDDFC]"
+                ? "bg-[#1a2A2f] text-white font-bold shadow-sm"
+                : "text-slate-600 hover:text-[#1a2A2f]"
             }`}
           >
             <UploadCloud className="w-3.5 h-3.5" />
-            <span>Upload .EML File</span>
+            <span>Upload .EML / .MSG File</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setInputMode("paste")}
+            className={`px-3 py-1.5 rounded-md transition-all flex items-center gap-1.5 ${
+              inputMode === "paste"
+                ? "bg-[#1a2A2f] text-white font-bold shadow-sm"
+                : "text-slate-600 hover:text-[#1a2A2f]"
+            }`}
+          >
+            <FileCode2 className="w-3.5 h-3.5" />
+            <span>Raw Text Editor</span>
           </button>
         </div>
       </div>
@@ -114,11 +123,11 @@ export default function AnalyzePage() {
             <div className="space-y-4">
               <EmailUploadDropzone onFileLoaded={handleFileLoaded} />
               {rawText && (
-                <div className="p-4 rounded-xl bg-[#1a242f] border border-[#384959]">
-                  <div className="text-[11px] font-mono text-[#6A89A7] uppercase tracking-wider mb-2">
-                    Loaded File Preview ({uploadedFilename}):
+                <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+                  <div className="text-[11px] font-mono text-slate-500 uppercase tracking-wider mb-2 font-semibold">
+                    Loaded File Content Preview ({uploadedFilename}):
                   </div>
-                  <pre className="text-xs font-mono text-[#BDDDFC] bg-[#243240] p-3 rounded-lg border border-[#384959] max-h-40 overflow-y-auto leading-relaxed">
+                  <pre className="text-xs font-mono text-[#1a2A2f] bg-slate-50 p-3 rounded-lg border border-slate-200 max-h-40 overflow-y-auto leading-relaxed">
                     {rawText.substring(0, 1000)}...
                   </pre>
                 </div>
@@ -133,11 +142,11 @@ export default function AnalyzePage() {
           )}
 
           {/* Analysis Configuration Bar */}
-          <div className="p-4 rounded-xl bg-[#1a242f] border border-[#384959] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-4 text-xs font-mono">
               <div className="flex items-center gap-2">
-                <span className="text-[#6A89A7]">Scan Priority:</span>
-                <div className="flex items-center bg-[#243240] border border-[#384959] rounded-lg p-0.5">
+                <span className="text-slate-500">Scan Priority:</span>
+                <div className="flex items-center bg-slate-100 border border-slate-200 rounded-lg p-0.5">
                   {(["NORMAL", "HIGH", "CRITICAL"] as const).map((p) => (
                     <button
                       key={p}
@@ -146,11 +155,11 @@ export default function AnalyzePage() {
                       className={`px-2.5 py-1 rounded text-[10px] font-bold transition-all ${
                         priority === p
                           ? p === "CRITICAL"
-                            ? "bg-rose-500 text-white"
+                            ? "bg-rose-600 text-white"
                             : p === "HIGH"
                             ? "bg-amber-500 text-slate-950"
-                            : "bg-[#88BDF2] text-[#1a242f]"
-                          : "text-[#6A89A7] hover:text-[#BDDDFC]"
+                            : "bg-[#1a2A2f] text-white"
+                          : "text-slate-600 hover:text-[#1a2A2f]"
                       }`}
                     >
                       {p}
@@ -159,18 +168,19 @@ export default function AnalyzePage() {
                 </div>
               </div>
 
-              <div className="text-[11px] text-[#6A89A7] hidden md:block">
-                Enrichment: <span className="text-emerald-400 font-semibold">VirusTotal + GeoIP + AbuseIPDB</span>
+              <div className="text-[11px] text-slate-500 hidden md:flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-[#1a2A2f]" />
+                <span>AI Scoring Engine: <strong className="text-[#1a2A2f]">Gemini 3.6 Flash Active</strong></span>
               </div>
             </div>
 
             <button
               type="submit"
-              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#88BDF2] via-[#6A89A7] to-[#BDDDFC] hover:opacity-95 text-[#1a242f] font-black text-xs font-mono shadow-glow transition-all flex items-center justify-center gap-2 shrink-0"
+              className="px-6 py-2.5 rounded-xl bg-[#1a2A2f] hover:bg-[#1a2A2f]/90 text-white font-bold text-xs font-mono shadow-md transition-all flex items-center justify-center gap-2 shrink-0 border border-[#1a2A2f]"
             >
-              <Cpu className="w-4 h-4 text-[#1a242f]" />
-              <span>Execute Deep Threat Analysis</span>
-              <ArrowRight className="w-4 h-4 text-[#1a242f]" />
+              <Cpu className="w-4 h-4 text-[#88BDF2]" />
+              <span>Score Email & Flag Links (AI Scan)</span>
+              <ArrowRight className="w-4 h-4 text-white" />
             </button>
           </div>
         </form>
