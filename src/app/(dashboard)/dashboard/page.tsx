@@ -88,7 +88,7 @@ export default function DashboardPage() {
               <div className="text-xs font-bold text-[#1a2A2f] font-mono flex items-center gap-2">
                 <span>REAL-TIME AI THREAT ENGINE ONLINE</span>
                 <span className="px-1.5 py-0.5 rounded bg-[#88BDF2] text-[#1a2A2f] font-bold text-[9px]">
-                  GEMINI 3.6 FLASH
+                  HUGGING FACE NEURAL ENGINE
                 </span>
               </div>
               <p className="text-[11px] text-slate-500 font-mono mt-0.5">
@@ -179,7 +179,7 @@ export default function DashboardPage() {
           <div>
             <h3 className="text-base font-bold text-[#1a2A2f]">No Email Messages Analyzed Yet</h3>
             <p className="text-xs text-slate-500 font-mono mt-1 max-w-md mx-auto">
-              Upload a raw <span className="font-bold text-[#1a2A2f]">.eml</span> or <span className="font-bold text-[#1a2A2f]">.msg</span> email file to run real-time Gemini AI scoring, flag suspicious links, extract IOCs, and reconstruct relay hops.
+              Upload a raw <span className="font-bold text-[#1a2A2f]">.eml</span> or <span className="font-bold text-[#1a2A2f]">.msg</span> email file to run real-time Hugging Face AI scoring, flag suspicious links, extract IOCs, and reconstruct relay hops.
             </p>
           </div>
 

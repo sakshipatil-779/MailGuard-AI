@@ -34,8 +34,7 @@ export default function SettingsPage() {
   } = useSecurity();
 
   const [auditLogs, setAuditLogs] = useState<AuditLogEntry[]>([]);
-  const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY || "";
-  const apiKeyDisplay = apiKey ? `${apiKey.substring(0, 6)}••••••••••••••••••••••••••••${apiKey.substring(apiKey.length - 4)}` : "AQ.••••••••••••••••••••••••••••••••";
+  const apiKeyDisplay = "hf_••••••••••••••••••••••••••••••••";
 
   useEffect(() => {
     setAuditLogs(MockStorage.getAuditLogs());
@@ -85,10 +84,10 @@ export default function SettingsPage() {
         <div>
           <div className="flex items-center gap-2">
             <Settings className="w-5 h-5 text-[#88BDF2]" />
-            <h2 className="text-base font-bold text-[#1a2A2f]">System & AI Engine Configuration</h2>
+            <h2 className="text-base font-bold text-[#1a2A2f]">System & AI Engine Architecture</h2>
           </div>
           <p className="text-xs text-slate-500 font-mono mt-0.5">
-            Real-time Gemini AI scoring connector, privacy data masking & audit trail
+            Decoupled frontend UI & backend API services (/api/analyze), Hugging Face neural classifier & audit trail
           </p>
         </div>
 
@@ -107,26 +106,38 @@ export default function SettingsPage() {
           <div className="flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-[#88BDF2]" />
             <h3 className="text-sm font-bold text-[#1a2A2f] font-mono">
-              Google Gemini Threat Scoring & Link Intelligence API
+              Hugging Face Neural Threat Scoring & Link Inspection API
             </h3>
           </div>
           <span className="text-[10px] font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-bold">
-            ONLINE (GEMINI 3.6 FLASH)
+            ONLINE (HUGGING FACE INFERENCE)
           </span>
         </div>
 
         <p className="text-xs text-slate-600 font-sans leading-relaxed">
-          The threat platform utilizes the provided Gemini API key to evaluate raw email text, compute precise 0–100 risk scores, classify attack vectors, and flag suspicious URLs with detailed security reasoning upon file upload (.eml / .msg).
+          The threat platform utilizes the configured Hugging Face API key to evaluate raw email text, compute precise 0–100 risk scores, classify attack vectors, and flag suspicious URLs with detailed security reasoning upon file upload (.eml / .msg).
         </p>
 
-        <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
-          <div className="flex items-center justify-between text-xs font-mono">
-            <span className="font-bold text-[#1a2A2f]">Configured API Key</span>
-            <span className="text-emerald-600 font-bold">Active & Authenticated</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+            <div className="flex items-center justify-between text-xs font-mono">
+              <span className="font-bold text-[#1a2A2f]">Hugging Face API Token</span>
+              <span className="text-emerald-600 font-bold">Active & Authenticated</span>
+            </div>
+            <div className="p-2 rounded-lg bg-white border border-slate-300 font-mono text-xs text-[#1a2A2f] flex items-center justify-between">
+              <span>{apiKeyDisplay}</span>
+              <span className="text-[10px] text-slate-400">Server Key (.env.local)</span>
+            </div>
           </div>
-          <div className="p-2.5 rounded-lg bg-white border border-slate-300 font-mono text-xs text-[#1a2A2f] flex items-center justify-between">
-            <span>{apiKeyDisplay.substring(0, 12)}••••••••••••••••••••••••••••••••{apiKeyDisplay.substring(apiKeyDisplay.length - 6)}</span>
-            <span className="text-[10px] text-slate-400">Gemini Key</span>
+
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+            <div className="flex items-center justify-between text-xs font-mono">
+              <span className="font-bold text-[#1a2A2f]">Architecture Decoupling</span>
+              <span className="text-indigo-600 font-bold">REST API Linked</span>
+            </div>
+            <div className="p-2 rounded-lg bg-white border border-slate-300 font-mono text-[11px] text-[#1a2A2f]">
+              <code>POST /api/analyze</code> &bull; <code>POST /api/score-text</code>
+            </div>
           </div>
         </div>
       </div>

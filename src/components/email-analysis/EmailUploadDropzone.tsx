@@ -81,7 +81,7 @@ export function EmailUploadDropzone({ onFileLoaded }: EmailUploadDropzoneProps) 
             <span>{fileName}</span>
           </div>
           <div className="text-xs text-emerald-600 font-mono mt-1 font-semibold">
-            File loaded ({fileSize ? formatBytes(fileSize) : ""}) • Ready for real-time Gemini AI scoring
+            File loaded ({fileSize ? formatBytes(fileSize) : ""}) • Ready for real-time Hugging Face AI scoring
           </div>
           <p className="text-[11px] text-slate-400 font-mono mt-2">
             Click or drag another file to replace

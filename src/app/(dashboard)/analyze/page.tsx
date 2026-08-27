@@ -53,7 +53,7 @@ export default function AnalyzePage() {
     setIsAnalyzing(true);
 
     try {
-      // Execute Real-Time AI Threat Scoring with Gemini 3.6 Flash & Link Inspection
+      // Execute Real-Time Backend Threat Scoring with Hugging Face & Link Inspection
       const analyzed = await parseAndAnalyzeEmail(rawText, uploadedFilename);
       MockStorage.saveEmail(analyzed);
       setAnalyzedEmailId(analyzed.id);
@@ -80,7 +80,7 @@ export default function AnalyzePage() {
             <span>AI Email Threat & Forensic Ingestion Center</span>
           </h2>
           <p className="text-xs text-slate-500 font-mono mt-0.5">
-            Ingest raw <span className="font-bold text-[#1a2A2f]">.eml</span> or <span className="font-bold text-[#1a2A2f]">.msg</span> files. Real-time Gemini AI scores threat text and flags suspicious links.
+            Ingest raw <span className="font-bold text-[#1a2A2f]">.eml</span> or <span className="font-bold text-[#1a2A2f]">.msg</span> files. Real-time Hugging Face AI scores threat text and flags suspicious links via backend API.
           </p>
         </div>
 
@@ -170,7 +170,7 @@ export default function AnalyzePage() {
 
               <div className="text-[11px] text-slate-500 hidden md:flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-[#1a2A2f]" />
-                <span>AI Scoring Engine: <strong className="text-[#1a2A2f]">Gemini 3.6 Flash Active</strong></span>
+                <span>AI Scoring Engine: <strong className="text-[#1a2A2f]">Hugging Face Neural SOC Active</strong></span>
               </div>
             </div>
 
