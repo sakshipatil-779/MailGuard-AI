@@ -73,7 +73,7 @@ export function ReportPreview({ report }: ReportPreviewProps) {
           <div>
             <div className="flex items-center gap-2">
               <span className="text-xl font-black tracking-wider text-white print:text-black">
-                SENTINEL AI SOC
+                MailGuard-AI
               </span>
               <span className="px-2 py-0.5 rounded bg-[#88BDF2]/20 text-[#BDDDFC] print:text-black text-xs font-mono font-bold">
                 INCIDENT RESPONSE

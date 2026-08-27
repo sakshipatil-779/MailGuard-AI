@@ -201,7 +201,7 @@ export function CommandSearch() {
             <kbd className="px-1 bg-[#1a2A2f] text-[#88BDF2] rounded border border-slate-700">↓</kbd>
             <kbd className="px-1 bg-[#1a2A2f] text-[#88BDF2] rounded border border-slate-700">Enter</kbd>
           </div>
-          <span className="text-[#88BDF2]">Sentinel Threat Graph v2.4</span>
+          <span className="text-[#88BDF2]">MailGuard-AI Threat Graph v2.4</span>
         </div>
       </div>
     </div>

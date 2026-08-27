@@ -78,9 +78,9 @@ export function Sidebar() {
         </div>
         <div>
           <div className="flex items-center gap-1.5">
-            <span className="font-bold text-base tracking-wide text-white">SENTINEL</span>
+            <span className="font-bold text-base tracking-wide text-white">MailGuard</span>
             <span className="text-xs px-1.5 py-0.5 rounded bg-[#88BDF2] text-[#1a2A2f] font-mono font-bold">
-              AI SOC
+              AI
             </span>
           </div>
           <p className="text-[11px] text-[#88BDF2] font-mono tracking-tight font-medium">Threat Intelligence Platform</p>

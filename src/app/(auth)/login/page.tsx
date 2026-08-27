@@ -48,9 +48,9 @@ function LoginContent() {
             <ShieldAlert className="w-6 h-6 text-[#1a242f] stroke-[2.5]" />
           </div>
           <div className="flex items-center justify-center gap-1.5 pt-2">
-            <span className="text-xl font-black tracking-wider text-white">SENTINEL</span>
-            <span className="px-2 py-0.5 rounded bg-[#88BDF2]/20 text-[#BDDDFC] font-mono text-xs font-bold border border-[#6A89A7]/40">
-              AI SOC
+            <span className="text-xl font-black tracking-wider text-white">MailGuard</span>
+            <span className="px-2 py-0.5 rounded bg-[#88BDF2] text-[#1a2A2f] font-mono text-xs font-bold">
+              AI
             </span>
           </div>
           <p className="text-xs text-[#6A89A7] font-mono">

@@ -38,7 +38,7 @@ export default function SettingsPage() {
   useEffect(() => {
     const logs = MockStorage.getAuditLogs();
     if (logs.length === 0) {
-      MockStorage.addAuditLog("SYSTEM_INIT", "SYSTEM", "SOC-01", "Sentinel AI SOC Engine initialized");
+      MockStorage.addAuditLog("SYSTEM_INIT", "SYSTEM", "SOC-01", "MailGuard-AI Engine initialized");
       MockStorage.addAuditLog("POLICY_SYNC", "CONFIG", "POL-2026", "Synchronized threat detection heuristics");
       setAuditLogs(MockStorage.getAuditLogs());
     } else {

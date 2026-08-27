@@ -47,7 +47,7 @@ export function Topbar() {
     if (pathname === "/alerts") return { title: "Security Alert Center", sub: "Real-time threat feed, heuristic detection triggers & triage" };
     if (pathname.startsWith("/reports")) return { title: "Forensic Threat Reports", sub: "Executive summaries, chain of custody certificates & PDF exports" };
     if (pathname === "/settings") return { title: "System & Privacy Settings", sub: "Data masking, role-based access control & threat intel feeds" };
-    return { title: "Sentinel AI SOC", sub: "Email Threat Intelligence" };
+    return { title: "MailGuard-AI", sub: "Email Threat Intelligence & Forensic Platform" };
   };
 
   const { title, sub } = getPageTitle();
