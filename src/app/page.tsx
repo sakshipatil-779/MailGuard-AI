@@ -153,10 +153,7 @@ export default function LandingPage() {
         {/* Headline */}
         <div className="space-y-4 max-w-4xl mx-auto">
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[#1a2A2f] leading-[1.15]">
-            AI Email Threat Detection,{" "}
-            <span className="text-[#384959] underline decoration-[#88BDF2] decoration-4 underline-offset-8">
-              GeoLocation Origin &amp; Forensics
-            </span>
+            AI Email Threat Detection, GeoLocation Origin &amp; Forensics
           </h1>
           <p className="text-sm sm:text-base lg:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed font-sans">
             Protect enterprise mailboxes against Business Email Compromise (BEC), credential harvesting, and spoofed sender identities with deep RFC-822 header forensics, neural classification, and Leaflet origin mapping.
