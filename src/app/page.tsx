@@ -200,55 +200,55 @@ export default function LandingPage() {
           </Link>
         </div>
 
-        {/* Live Metrics Row */}
+        {/* Live Metrics Row (Dark Box Theme) */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-4xl mx-auto pt-6 text-left">
-          <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
-            <div className="text-[11px] font-mono text-slate-500 uppercase font-bold">Zero-Day Accuracy</div>
-            <div className="text-xl sm:text-2xl font-black text-emerald-600 mt-1">99.8%</div>
+          <div className="p-4 rounded-xl bg-[#1a2A2f] border border-[#384959] shadow-md text-white">
+            <div className="text-[11px] font-mono text-[#88BDF2] uppercase font-bold">Zero-Day Accuracy</div>
+            <div className="text-xl sm:text-2xl font-black text-emerald-400 mt-1">99.8%</div>
             <div className="text-[10px] text-slate-400 font-mono mt-0.5">Transformer Model Tested</div>
           </div>
-          <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
-            <div className="text-[11px] font-mono text-slate-500 uppercase font-bold">Average Latency</div>
-            <div className="text-xl sm:text-2xl font-black text-[#1a2A2f] mt-1">&lt; 1.4s</div>
+          <div className="p-4 rounded-xl bg-[#1a2A2f] border border-[#384959] shadow-md text-white">
+            <div className="text-[11px] font-mono text-[#88BDF2] uppercase font-bold">Average Latency</div>
+            <div className="text-xl sm:text-2xl font-black text-[#88BDF2] mt-1">&lt; 1.4s</div>
             <div className="text-[10px] text-slate-400 font-mono mt-0.5">Header &amp; Link Sandboxing</div>
           </div>
-          <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
-            <div className="text-[11px] font-mono text-slate-500 uppercase font-bold">Protocols Inspected</div>
-            <div className="text-xl sm:text-2xl font-black text-[#1a2A2f] mt-1">SPF / DKIM / DMARC</div>
+          <div className="p-4 rounded-xl bg-[#1a2A2f] border border-[#384959] shadow-md text-white">
+            <div className="text-[11px] font-mono text-[#88BDF2] uppercase font-bold">Protocols Inspected</div>
+            <div className="text-xl sm:text-2xl font-black text-white mt-1">SPF / DKIM / DMARC</div>
             <div className="text-[10px] text-slate-400 font-mono mt-0.5">RFC-822 Cryptographic Checks</div>
           </div>
-          <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
-            <div className="text-[11px] font-mono text-slate-500 uppercase font-bold">Chain of Custody</div>
-            <div className="text-xl sm:text-2xl font-black text-[#384959] mt-1">SHA-256</div>
+          <div className="p-4 rounded-xl bg-[#1a2A2f] border border-[#384959] shadow-md text-white">
+            <div className="text-[11px] font-mono text-[#88BDF2] uppercase font-bold">Chain of Custody</div>
+            <div className="text-xl sm:text-2xl font-black text-[#BDDDFC] mt-1">SHA-256</div>
             <div className="text-[10px] text-slate-400 font-mono mt-0.5">Tamper-Evident Storage</div>
           </div>
         </div>
       </section>
 
-      {/* Interactive Threat Sandbox Preview */}
+      {/* Interactive Threat Sandbox Preview (Dark Box Theme matching 2nd picture) */}
       <section id="sandbox" className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="p-6 sm:p-8 rounded-2xl bg-slate-50 border border-slate-200 shadow-md space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+        <div className="p-6 sm:p-8 rounded-3xl bg-[#1a2A2f] text-white border border-[#384959] shadow-2xl relative overflow-hidden space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#243240]">
             <div>
               <div className="flex items-center gap-2">
-                <Radio className="w-5 h-5 text-[#1a2A2f] animate-pulse" />
-                <h2 className="text-base sm:text-lg font-bold text-[#1a2A2f] font-mono">
+                <Radio className="w-5 h-5 text-[#88BDF2] animate-pulse" />
+                <h2 className="text-base sm:text-lg font-bold text-white font-mono">
                   Interactive Threat Sandbox &amp; Neural Vector Inspector
                 </h2>
               </div>
-              <p className="text-xs text-slate-500 font-mono mt-1">
+              <p className="text-xs text-slate-300 font-mono mt-1">
                 Select a simulated attack vector to test live neural classification, link inspection, and origin tracing:
               </p>
             </div>
 
             {/* Selector Tabs */}
-            <div className="flex items-center bg-white p-1 rounded-xl border border-slate-200 text-xs font-mono shadow-sm">
+            <div className="flex items-center bg-[#131d22] p-1 rounded-xl border border-[#243240] text-xs font-mono shadow-sm">
               <button
                 onClick={() => setSelectedDemo("bec")}
                 className={`px-3 py-1.5 rounded-lg transition-all ${
                   selectedDemo === "bec"
-                    ? "bg-rose-50 text-rose-700 font-bold border border-rose-200"
-                    : "text-slate-600 hover:text-[#1a2A2f]"
+                    ? "bg-rose-500/20 text-rose-300 font-bold border border-rose-500/40"
+                    : "text-slate-400 hover:text-white"
                 }`}
               >
                 BEC Wire Fraud
@@ -257,8 +257,8 @@ export default function LandingPage() {
                 onClick={() => setSelectedDemo("phish")}
                 className={`px-3 py-1.5 rounded-lg transition-all ${
                   selectedDemo === "phish"
-                    ? "bg-amber-50 text-amber-800 font-bold border border-amber-200"
-                    : "text-slate-600 hover:text-[#1a2A2f]"
+                    ? "bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40"
+                    : "text-slate-400 hover:text-white"
                 }`}
               >
                 M365 Phishing
@@ -267,8 +267,8 @@ export default function LandingPage() {
                 onClick={() => setSelectedDemo("safe")}
                 className={`px-3 py-1.5 rounded-lg transition-all ${
                   selectedDemo === "safe"
-                    ? "bg-emerald-50 text-emerald-700 font-bold border border-emerald-200"
-                    : "text-slate-600 hover:text-[#1a2A2f]"
+                    ? "bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40"
+                    : "text-slate-400 hover:text-white"
                 }`}
               >
                 Clean Baseline
@@ -279,43 +279,43 @@ export default function LandingPage() {
           {/* Sandbox Live Dossier View */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Left: Email Details & Trigger */}
-            <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm space-y-3 font-mono text-xs text-[#1a2A2f]">
-              <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-                <span className="text-slate-500 font-bold">Simulated Ingestion</span>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-bold">RFC-822 Stream</span>
+            <div className="p-4 rounded-xl bg-[#131d22] border border-[#243240] space-y-3 font-mono text-xs text-slate-200">
+              <div className="flex items-center justify-between pb-2 border-b border-[#243240]">
+                <span className="text-[#88BDF2] font-bold">Simulated Ingestion</span>
+                <span className="text-[10px] px-2 py-0.5 rounded bg-[#243240] text-[#88BDF2] font-bold">RFC-822 Stream</span>
               </div>
 
               {selectedDemo === "bec" && (
                 <>
-                  <div><strong className="text-slate-500">From:</strong> &quot;Robert Vance (CEO)&quot; &lt;ceo@enterprise-ceo-office.com&gt;</div>
-                  <div><strong className="text-slate-500">Subject:</strong> URGENT: Project Titan Acquisition Wire ($485,000)</div>
-                  <div><strong className="text-slate-500">Payload:</strong> Direct IP link detected: <code>http://185.220.101.5/escrow/wire.php</code></div>
-                  <div><strong className="text-slate-500">SPF/DMARC:</strong> <span className="text-rose-600 font-bold">FAILED (Unauthenticated Server)</span></div>
+                  <div><strong className="text-slate-400">From:</strong> &quot;Robert Vance (CEO)&quot; &lt;ceo@enterprise-ceo-office.com&gt;</div>
+                  <div><strong className="text-slate-400">Subject:</strong> URGENT: Project Titan Acquisition Wire ($485,000)</div>
+                  <div><strong className="text-slate-400">Payload:</strong> Direct IP link detected: <code className="text-[#88BDF2]">http://185.220.101.5/escrow/wire.php</code></div>
+                  <div><strong className="text-slate-400">SPF/DMARC:</strong> <span className="text-rose-400 font-bold">FAILED (Unauthenticated Server)</span></div>
                 </>
               )}
 
               {selectedDemo === "phish" && (
                 <>
-                  <div><strong className="text-slate-500">From:</strong> &quot;M365 Security Team&quot; &lt;no-reply@microsoft-security-notice.top&gt;</div>
-                  <div><strong className="text-slate-500">Subject:</strong> Critical Alert: Password Expires in 2 Hours - Verify SSO</div>
-                  <div><strong className="text-slate-500">Payload:</strong> Lookalike domain: <code>http://m365-login.azure-security.top</code></div>
-                  <div><strong className="text-slate-500">SPF/DMARC:</strong> <span className="text-rose-600 font-bold">FAILED (Deceptive Sender TLD)</span></div>
+                  <div><strong className="text-slate-400">From:</strong> &quot;M365 Security Team&quot; &lt;no-reply@microsoft-security-notice.top&gt;</div>
+                  <div><strong className="text-slate-400">Subject:</strong> Critical Alert: Password Expires in 2 Hours - Verify SSO</div>
+                  <div><strong className="text-slate-400">Payload:</strong> Lookalike domain: <code className="text-[#88BDF2]">http://m365-login.azure-security.top</code></div>
+                  <div><strong className="text-slate-400">SPF/DMARC:</strong> <span className="text-rose-400 font-bold">FAILED (Deceptive Sender TLD)</span></div>
                 </>
               )}
 
               {selectedDemo === "safe" && (
                 <>
-                  <div><strong className="text-slate-500">From:</strong> &quot;GitHub Security&quot; &lt;notifications@github.com&gt;</div>
-                  <div><strong className="text-slate-500">Subject:</strong> [GitHub] Security advisory: Dependabot alert resolved</div>
-                  <div><strong className="text-slate-500">Payload:</strong> Trusted link: <code>https://github.com/sakshipatil-779/EmailGuard-AI</code></div>
-                  <div><strong className="text-slate-500">SPF/DMARC:</strong> <span className="text-emerald-600 font-bold">PASSED (Cryptographic Alignment Valid)</span></div>
+                  <div><strong className="text-slate-400">From:</strong> &quot;GitHub Security&quot; &lt;notifications@github.com&gt;</div>
+                  <div><strong className="text-slate-400">Subject:</strong> [GitHub] Security advisory: Dependabot alert resolved</div>
+                  <div><strong className="text-slate-400">Payload:</strong> Trusted link: <code className="text-[#88BDF2]">https://github.com/sakshipatil-779/EmailGuard-AI</code></div>
+                  <div><strong className="text-slate-400">SPF/DMARC:</strong> <span className="text-emerald-400 font-bold">PASSED (Cryptographic Alignment Valid)</span></div>
                 </>
               )}
 
               <div className="pt-2">
                 <Link
                   href="/analyze"
-                  className="w-full py-2 rounded-lg bg-[#1a2A2f] hover:bg-[#1a2A2f]/90 text-white font-bold text-xs text-center block transition-all"
+                  className="w-full py-2.5 rounded-lg bg-[#243240] hover:bg-[#88BDF2] hover:text-[#1a2A2f] text-white font-bold text-xs text-center block transition-all border border-[#384959]"
                 >
                   Upload Your Own .eml File →
                 </Link>
@@ -323,26 +323,26 @@ export default function LandingPage() {
             </div>
 
             {/* Center: Live Neural Risk Score */}
-            <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col items-center justify-center text-center space-y-3 font-mono">
-              <div className="text-xs text-slate-500 font-bold">Neural AI Threat Score</div>
+            <div className="p-4 rounded-xl bg-[#131d22] border border-[#243240] flex flex-col items-center justify-center text-center space-y-3 font-mono">
+              <div className="text-xs text-[#88BDF2] font-bold">Neural AI Threat Score</div>
               <div
                 className={`text-5xl font-black ${
                   selectedDemo === "bec"
-                    ? "text-rose-600"
+                    ? "text-rose-400"
                     : selectedDemo === "phish"
-                    ? "text-amber-600"
-                    : "text-emerald-600"
+                    ? "text-amber-400"
+                    : "text-emerald-400"
                 }`}
               >
-                {selectedDemo === "bec" ? "98" : selectedDemo === "phish" ? "88" : "05"}<span className="text-lg text-slate-400 font-normal">/100</span>
+                {selectedDemo === "bec" ? "98" : selectedDemo === "phish" ? "88" : "05"}<span className="text-lg text-slate-500 font-normal">/100</span>
               </div>
               <div
                 className={`px-3 py-1 rounded-full text-xs font-bold ${
                   selectedDemo === "bec"
-                    ? "bg-rose-50 text-rose-700 border border-rose-200"
+                    ? "bg-rose-500/20 text-rose-300 border border-rose-500/40"
                     : selectedDemo === "phish"
-                    ? "bg-amber-50 text-amber-800 border border-amber-200"
-                    : "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                    ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
+                    : "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
                 }`}
               >
                 {selectedDemo === "bec"
@@ -351,7 +351,7 @@ export default function LandingPage() {
                   ? "HIGH • CREDENTIAL HARVESTING PHISHING"
                   : "SAFE • LEGITIMATE ENTERPRISE NOTICE"}
               </div>
-              <p className="text-[11px] text-slate-600 font-sans max-w-xs leading-relaxed">
+              <p className="text-[11px] text-slate-300 font-sans max-w-xs leading-relaxed">
                 {selectedDemo === "bec"
                   ? "Executive impersonation with wire urgency tactics and unauthenticated direct IP mail sender."
                   : selectedDemo === "phish"
@@ -361,34 +361,34 @@ export default function LandingPage() {
             </div>
 
             {/* Right: Geolocation & IOC Summary */}
-            <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm space-y-2.5 font-mono text-xs">
-              <div className="flex items-center gap-1.5 text-[#1a2A2f]">
+            <div className="p-4 rounded-xl bg-[#131d22] border border-[#243240] space-y-2.5 font-mono text-xs">
+              <div className="flex items-center gap-1.5 text-[#88BDF2]">
                 <Globe className="w-4 h-4 text-[#88BDF2]" />
                 <span className="font-bold">Origin Trace &amp; IOCs</span>
               </div>
 
               <div className="space-y-1.5 text-[11px]">
-                <div className="flex justify-between pb-1 border-b border-slate-100">
-                  <span className="text-slate-500">Origin IP:</span>
-                  <span className="text-[#1a2A2f] font-bold">{selectedDemo === "safe" ? "140.82.112.4" : "185.220.101.5"}</span>
+                <div className="flex justify-between pb-1 border-b border-[#243240]">
+                  <span className="text-slate-400">Origin IP:</span>
+                  <span className="text-white font-bold">{selectedDemo === "safe" ? "140.82.112.4" : "185.220.101.5"}</span>
                 </div>
-                <div className="flex justify-between pb-1 border-b border-slate-100">
-                  <span className="text-slate-500">Location:</span>
-                  <span className="text-[#1a2A2f]">{selectedDemo === "safe" ? "San Francisco, US" : "Frankfurt, Germany"}</span>
+                <div className="flex justify-between pb-1 border-b border-[#243240]">
+                  <span className="text-slate-400">Location:</span>
+                  <span className="text-slate-200">{selectedDemo === "safe" ? "San Francisco, US" : "Frankfurt, Germany"}</span>
                 </div>
-                <div className="flex justify-between pb-1 border-b border-slate-100">
-                  <span className="text-slate-500">ISP / Host:</span>
-                  <span className="text-[#1a2A2f]">{selectedDemo === "safe" ? "GitHub Inc (AS36459)" : "Hetzner VPS (AS24940)"}</span>
+                <div className="flex justify-between pb-1 border-b border-[#243240]">
+                  <span className="text-slate-400">ISP / Host:</span>
+                  <span className="text-[#88BDF2]">{selectedDemo === "safe" ? "GitHub Inc (AS36459)" : "Hetzner VPS (AS24940)"}</span>
                 </div>
-                <div className="flex justify-between pb-1 border-b border-slate-100">
-                  <span className="text-slate-500">Flagged Links:</span>
-                  <span className={selectedDemo === "safe" ? "text-emerald-600 font-bold" : "text-rose-600 font-bold"}>
+                <div className="flex justify-between pb-1 border-b border-[#243240]">
+                  <span className="text-slate-400">Flagged Links:</span>
+                  <span className={selectedDemo === "safe" ? "text-emerald-400 font-bold" : "text-rose-400 font-bold"}>
                     {selectedDemo === "safe" ? "0 Flagged" : "1 Critical Malicious URL"}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-500">Custody Seal:</span>
-                  <span className="text-emerald-600 font-bold">SHA-256 Sealed</span>
+                  <span className="text-slate-400">Custody Seal:</span>
+                  <span className="text-emerald-400 font-bold">SHA-256 Sealed</span>
                 </div>
               </div>
             </div>
