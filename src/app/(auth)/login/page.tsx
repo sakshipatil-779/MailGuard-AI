@@ -46,25 +46,21 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#1a242f] bg-cyber-grid flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Glow Orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#88BDF2]/15 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#6A89A7]/15 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="w-full max-w-md bg-[#243240]/90 border border-[#384959] rounded-2xl shadow-2xl p-5 sm:p-8 backdrop-blur-xl relative z-10 space-y-5 sm:space-y-6">
+    <div className="min-h-screen bg-[#FFFFFF] flex items-center justify-center p-4 relative overflow-hidden font-sans">
+      <div className="w-full max-w-md bg-white border border-slate-200 rounded-2xl shadow-xl p-6 sm:p-8 relative z-10 space-y-5 sm:space-y-6">
         {/* Brand Header */}
         <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#88BDF2] to-[#384959] flex items-center justify-center mx-auto shadow-glow">
-            <ShieldAlert className="w-6 h-6 text-[#1a242f] stroke-[2.5]" />
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#88BDF2] to-[#1a2A2f] flex items-center justify-center mx-auto shadow-md">
+            <ShieldAlert className="w-6 h-6 text-white stroke-[2.5]" />
           </div>
           <div className="flex items-center justify-center gap-1.5 pt-2">
-            <span className="text-xl font-black tracking-wider text-white">MailGuard</span>
+            <span className="text-xl font-black tracking-wider text-[#1a2A2f]">EmailGuard</span>
             <span className="px-2 py-0.5 rounded bg-[#88BDF2] text-[#1a2A2f] font-mono text-xs font-bold">
               AI
             </span>
           </div>
-          <p className="text-xs text-[#6A89A7] font-mono">
-            Email Threat Intelligence & Forensic Investigation Portal
+          <p className="text-xs text-slate-500 font-mono">
+            Email Threat Intelligence &amp; Forensic Investigation Portal
           </p>
         </div>
 
@@ -72,7 +68,7 @@ export default function LoginPage() {
         <button
           onClick={handleGoogleSignIn}
           disabled={isGoogleLoading}
-          className="w-full py-3 rounded-xl bg-white hover:bg-slate-100 text-[#1a242f] font-bold text-xs font-mono shadow-md transition-all flex items-center justify-center gap-2.5 border border-slate-200"
+          className="w-full py-3 rounded-xl bg-white hover:bg-slate-50 text-[#1a2A2f] font-bold text-xs font-mono shadow-sm transition-all flex items-center justify-center gap-2.5 border border-slate-300"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24">
             <path
@@ -97,91 +93,91 @@ export default function LoginPage() {
 
         {/* Divider */}
         <div className="flex items-center gap-3">
-          <div className="h-px bg-[#384959] flex-1" />
-          <span className="text-[10px] font-mono text-[#6A89A7] uppercase tracking-wider">Or Standard Credentials</span>
-          <div className="h-px bg-[#384959] flex-1" />
+          <div className="h-px bg-slate-200 flex-1" />
+          <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider font-semibold">Or Standard Credentials</span>
+          <div className="h-px bg-slate-200 flex-1" />
         </div>
 
         {/* Credentials Form */}
         <form onSubmit={handleLogin} className="space-y-4">
           <div className="space-y-1.5">
-            <label className="text-[11px] font-mono text-[#BDDDFC] uppercase tracking-wider">
+            <label className="text-[11px] font-mono text-slate-600 uppercase tracking-wider font-bold">
               Analyst Email Address
             </label>
             <div className="relative">
-              <Mail className="w-4 h-4 text-[#6A89A7] absolute left-3 top-3" />
+              <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full pl-9 pr-3 py-2 rounded-lg bg-[#1a242f] border border-[#384959] text-xs text-[#BDDDFC] placeholder-[#6A89A7] focus:outline-none focus:border-[#88BDF2]/60 font-mono"
+                className="w-full pl-9 pr-3 py-2 rounded-lg bg-slate-50 border border-slate-300 text-xs text-[#1a2A2f] placeholder-slate-400 focus:outline-none focus:border-[#1a2A2f] font-mono"
               />
             </div>
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[11px] font-mono text-[#BDDDFC] uppercase tracking-wider">
+            <label className="text-[11px] font-mono text-slate-600 uppercase tracking-wider font-bold">
               Security Token / Password
             </label>
             <div className="relative">
-              <Lock className="w-4 h-4 text-[#6A89A7] absolute left-3 top-3" />
+              <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full pl-9 pr-3 py-2 rounded-lg bg-[#1a242f] border border-[#384959] text-xs text-[#BDDDFC] placeholder-[#6A89A7] focus:outline-none focus:border-[#88BDF2]/60 font-mono"
+                className="w-full pl-9 pr-3 py-2 rounded-lg bg-slate-50 border border-slate-300 text-xs text-[#1a2A2f] placeholder-slate-400 focus:outline-none focus:border-[#1a2A2f] font-mono"
               />
             </div>
           </div>
 
           <button
             type="submit"
-            className="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#88BDF2] to-[#6A89A7] hover:from-[#BDDDFC] hover:to-[#88BDF2] text-[#1a242f] font-bold text-xs font-mono shadow-glow transition-all flex items-center justify-center gap-2"
+            className="w-full py-2.5 rounded-xl bg-[#1a2A2f] hover:bg-[#1a2A2f]/90 text-white font-bold text-xs font-mono shadow-md transition-all flex items-center justify-center gap-2 border border-[#1a2A2f]"
           >
             <span>Authenticate SOC Session</span>
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4 text-white" />
           </button>
         </form>
 
         {/* 1-Click Demo Roles Section */}
-        <div className="pt-4 border-t border-[#384959] space-y-2.5">
-          <div className="text-[10px] font-mono text-[#6A89A7] uppercase tracking-wider text-center">
+        <div className="pt-4 border-t border-slate-200 space-y-2.5">
+          <div className="text-[10px] font-mono text-slate-500 uppercase tracking-wider text-center font-bold">
             Or Instant 1-Click Access by Role:
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <button
               onClick={() => handleQuickRole("SECURITY_ANALYST", "Security Analyst")}
-              className="p-2 rounded-lg bg-[#1a242f] hover:bg-[#384959] border border-[#384959] hover:border-[#88BDF2]/40 text-left text-[11px] font-mono text-[#BDDDFC] transition-colors"
+              className="p-2 rounded-lg bg-slate-50 hover:bg-[#88BDF2]/20 border border-slate-200 hover:border-[#88BDF2] text-left text-[11px] font-mono text-[#1a2A2f] transition-colors"
             >
               <div className="font-bold">Security Analyst</div>
-              <div className="text-[9px] text-[#6A89A7]">Full Triage & Forensics</div>
+              <div className="text-[9px] text-slate-500">Full Triage &amp; Forensics</div>
             </button>
 
             <button
               onClick={() => handleQuickRole("INVESTIGATOR", "Lead Investigator")}
-              className="p-2 rounded-lg bg-[#1a242f] hover:bg-[#384959] border border-[#384959] hover:border-[#88BDF2]/40 text-left text-[11px] font-mono text-[#BDDDFC] transition-colors"
+              className="p-2 rounded-lg bg-slate-50 hover:bg-[#88BDF2]/20 border border-slate-200 hover:border-[#88BDF2] text-left text-[11px] font-mono text-[#1a2A2f] transition-colors"
             >
               <div className="font-bold">Lead Investigator</div>
-              <div className="text-[9px] text-[#6A89A7]">Cases & Campaign Graph</div>
+              <div className="text-[9px] text-slate-500">Cases &amp; Campaign Graph</div>
             </button>
 
             <button
               onClick={() => handleQuickRole("ADMIN", "SOC Admin / CISO")}
-              className="p-2 rounded-lg bg-[#1a242f] hover:bg-[#384959] border border-[#384959] hover:border-[#88BDF2]/40 text-left text-[11px] font-mono text-[#BDDDFC] transition-colors"
+              className="p-2 rounded-lg bg-slate-50 hover:bg-[#88BDF2]/20 border border-slate-200 hover:border-[#88BDF2] text-left text-[11px] font-mono text-[#1a2A2f] transition-colors"
             >
               <div className="font-bold">SOC Admin / CISO</div>
-              <div className="text-[9px] text-[#6A89A7]">Global System Admin</div>
+              <div className="text-[9px] text-slate-500">Global System Admin</div>
             </button>
 
             <button
               onClick={() => handleQuickRole("AUDITOR", "Compliance Auditor")}
-              className="p-2 rounded-lg bg-[#1a242f] hover:bg-[#384959] border border-[#384959] hover:border-[#88BDF2]/40 text-left text-[11px] font-mono text-[#BDDDFC] transition-colors"
+              className="p-2 rounded-lg bg-slate-50 hover:bg-[#88BDF2]/20 border border-slate-200 hover:border-[#88BDF2] text-left text-[11px] font-mono text-[#1a2A2f] transition-colors"
             >
               <div className="font-bold">Compliance Auditor</div>
-              <div className="text-[9px] text-[#6A89A7]">Chain of Custody</div>
+              <div className="text-[9px] text-slate-500">Chain of Custody</div>
             </button>
           </div>
         </div>
@@ -189,4 +185,3 @@ export default function LoginPage() {
     </div>
   );
 }
-

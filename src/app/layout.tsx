@@ -3,7 +3,7 @@ import "./globals.css";
 import { ClientProviders } from "@/components/providers/ClientProviders";
 
 export const metadata: Metadata = {
-  title: "MailGuard-AI | Email Threat Detection, Geolocation & Forensic Intelligence Platform",
+  title: "EmailGuard-AI | Email Threat Detection, Geolocation & Forensic Intelligence Platform",
   description: "SOC-grade AI platform for detecting phishing, BEC, spoofing, reconstructing email relay paths, and preserving forensic evidence.",
 };
 

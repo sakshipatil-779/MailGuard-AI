@@ -1,8 +1,8 @@
-import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, Auth } from "firebase/auth";
-import { getFirestore, Firestore } from "firebase/firestore";
+import { initializeApp, getApps, getApp } from "firebase/app";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
-const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyDummyKeyForMockInitialization984";
+const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyDfuK1LZzqUUdOTTMFuFgvcq5dv8IuAaSI";
 
 const firebaseConfig = {
   apiKey: apiKey,
@@ -13,20 +13,11 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:704011563894:web:fdabfa1e18b57816900057"
 };
 
-let app: FirebaseApp | undefined;
-let auth: Auth | undefined;
-let db: Firestore | undefined;
-let googleProvider: GoogleAuthProvider | undefined;
-
-try {
-  app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
-  auth = getAuth(app);
-  googleProvider = new GoogleAuthProvider();
-  googleProvider.setCustomParameters({ prompt: "select_account" });
-  db = getFirestore(app);
-} catch (err) {
-  console.warn("Firebase initialization warning (running in safe mode):", err);
-}
+const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: "select_account" });
+const db = getFirestore(app);
 
 export { app, auth, db, googleProvider };
 export default app;

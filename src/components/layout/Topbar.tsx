@@ -52,7 +52,7 @@ export function Topbar() {
     if (pathname === "/alerts") return { title: "Alert Center", sub: "Real-time threat feed & automated triage" };
     if (pathname.startsWith("/reports")) return { title: "Threat Reports", sub: "Executive briefs & chain of custody" };
     if (pathname === "/settings") return { title: "Settings & Privacy", sub: "Data masking & access control" };
-    return { title: "MailGuard-AI", sub: "Threat Intelligence & Forensics" };
+    return { title: "EmailGuard-AI", sub: "Threat Intelligence & Forensics" };
   };
 
   const { title, sub } = getPageTitle();

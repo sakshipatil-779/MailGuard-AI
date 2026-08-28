@@ -35,6 +35,7 @@ export default function LandingPage() {
   const [isSigningIn, setIsSigningIn] = useState(false);
 
   const handleGoogleLogin = async () => {
+    setIsSigningIn(false);
     setIsSigningIn(true);
     const success = await signInWithGoogle();
     setIsSigningIn(false);
@@ -44,23 +45,18 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0d131a] text-slate-100 selection:bg-[#88BDF2]/30 selection:text-[#BDDDFC] overflow-x-hidden font-sans">
-      {/* Background Cyber Grids & Glow Orbs */}
-      <div className="fixed inset-0 bg-cyber-grid bg-[size:40px_40px] opacity-20 pointer-events-none" />
-      <div className="fixed top-0 left-1/4 w-[600px] h-[400px] bg-[#88BDF2]/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="fixed bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#6A89A7]/10 rounded-full blur-[160px] pointer-events-none" />
-
+    <div className="min-h-screen bg-[#FFFFFF] text-[#1a2A2f] selection:bg-[#88BDF2]/30 selection:text-[#1a2A2f] overflow-x-hidden font-sans">
       {/* Top Navigation */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#0d131a]/80 border-b border-[#243240]/80">
+      <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#1a2A2f] border-b border-[#243240] shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           {/* Brand */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#88BDF2] to-[#384959] flex items-center justify-center shadow-glow group-hover:scale-105 transition-transform">
-              <ShieldAlert className="w-5 h-5 text-[#0d131a] stroke-[2.5]" />
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#88BDF2] to-[#384959] flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+              <ShieldAlert className="w-5 h-5 text-[#1a2A2f] stroke-[2.5]" />
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="font-extrabold text-lg tracking-wider text-white">MailGuard</span>
-              <span className="px-1.5 py-0.5 rounded bg-[#88BDF2] text-[#0d131a] font-mono text-[11px] font-bold">
+              <span className="font-extrabold text-lg tracking-wider text-white">EmailGuard</span>
+              <span className="px-1.5 py-0.5 rounded bg-[#88BDF2] text-[#1a2A2f] font-mono text-[11px] font-bold">
                 AI
               </span>
             </div>
@@ -78,7 +74,7 @@ export default function LandingPage() {
           <div className="flex items-center gap-3">
             {firebaseUser ? (
               <div className="flex items-center gap-3">
-                <div className="hidden sm:flex items-center gap-2 pr-2 border-r border-[#243240]">
+                <div className="hidden sm:flex items-center gap-2 pr-2 border-r border-[#384959]">
                   {firebaseUser.photoURL ? (
                     <img
                       src={firebaseUser.photoURL}
@@ -86,7 +82,7 @@ export default function LandingPage() {
                       className="w-7 h-7 rounded-full border border-[#88BDF2]"
                     />
                   ) : (
-                    <div className="w-7 h-7 rounded-full bg-[#88BDF2] text-[#0d131a] font-bold text-xs flex items-center justify-center">
+                    <div className="w-7 h-7 rounded-full bg-[#88BDF2] text-[#1a2A2f] font-bold text-xs flex items-center justify-center">
                       {firebaseUser.displayName?.charAt(0) || "U"}
                     </div>
                   )}
@@ -97,7 +93,7 @@ export default function LandingPage() {
 
                 <Link
                   href="/dashboard"
-                  className="px-3.5 py-1.5 rounded-lg bg-[#88BDF2] hover:bg-[#BDDDFC] text-[#0d131a] font-bold text-xs font-mono shadow-glow transition-all flex items-center gap-1.5"
+                  className="px-3.5 py-1.5 rounded-lg bg-[#88BDF2] hover:bg-[#88BDF2]/90 text-[#1a2A2f] font-bold text-xs font-mono shadow-sm transition-all flex items-center gap-1.5"
                 >
                   <span>Open Console</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -108,7 +104,7 @@ export default function LandingPage() {
                 <button
                   onClick={handleGoogleLogin}
                   disabled={isSigningIn}
-                  className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#1a242f] hover:bg-[#243240] border border-[#384959] hover:border-[#88BDF2]/60 text-xs font-mono text-slate-200 transition-all"
+                  className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-white hover:bg-slate-100 border border-slate-300 text-xs font-mono text-[#1a2A2f] font-bold transition-all shadow-sm"
                 >
                   <svg className="w-4 h-4" viewBox="0 0 24 24">
                     <path
@@ -133,7 +129,7 @@ export default function LandingPage() {
 
                 <Link
                   href="/dashboard"
-                  className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#88BDF2] hover:bg-[#BDDDFC] text-[#0d131a] font-bold text-xs font-mono shadow-glow transition-all"
+                  className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#88BDF2] hover:bg-[#88BDF2]/90 text-[#1a2A2f] font-bold text-xs font-mono shadow-sm transition-all"
                 >
                   <span>Launch Platform</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -145,24 +141,24 @@ export default function LandingPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative pt-12 sm:pt-20 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center space-y-8">
+      <section className="relative pt-12 sm:pt-20 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center space-y-8 bg-white">
         {/* Live Radar Pill */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1a242f]/90 border border-[#88BDF2]/40 text-xs font-mono text-[#BDDDFC] shadow-glow backdrop-blur-md">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span>REAL-TIME NEURAL EMAIL THREAT RADAR ACTIVE</span>
-          <span className="text-slate-500">•</span>
-          <span className="text-slate-400">Hugging Face Powered</span>
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-50 border border-slate-300 text-xs font-mono text-[#1a2A2f] shadow-sm">
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="font-bold">REAL-TIME NEURAL EMAIL THREAT RADAR ACTIVE</span>
+          <span className="text-slate-400">•</span>
+          <span className="text-slate-600">Hugging Face Powered</span>
         </div>
 
         {/* Headline */}
         <div className="space-y-4 max-w-4xl mx-auto">
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.15]">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[#1a2A2f] leading-[1.15]">
             AI Email Threat Detection,{" "}
-            <span className="bg-gradient-to-r from-[#88BDF2] via-[#BDDDFC] to-[#6A89A7] bg-clip-text text-transparent">
+            <span className="text-[#384959] underline decoration-[#88BDF2] decoration-4 underline-offset-8">
               GeoLocation Origin &amp; Forensics
             </span>
           </h1>
-          <p className="text-sm sm:text-base lg:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-sans">
+          <p className="text-sm sm:text-base lg:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed font-sans">
             Protect enterprise mailboxes against Business Email Compromise (BEC), credential harvesting, and spoofed sender identities with deep RFC-822 header forensics, neural classification, and Leaflet origin mapping.
           </p>
         </div>
@@ -172,7 +168,7 @@ export default function LandingPage() {
           <button
             onClick={handleGoogleLogin}
             disabled={isSigningIn}
-            className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white hover:bg-slate-100 text-[#0d131a] font-bold text-xs sm:text-sm font-mono shadow-xl transition-all flex items-center justify-center gap-3 border border-slate-200 hover:scale-[1.02]"
+            className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white hover:bg-slate-50 text-[#1a2A2f] font-bold text-xs sm:text-sm font-mono shadow-md transition-all flex items-center justify-center gap-3 border border-slate-300 hover:scale-[1.02]"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
@@ -197,33 +193,33 @@ export default function LandingPage() {
 
           <Link
             href="/dashboard"
-            className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#88BDF2] to-[#6A89A7] hover:from-[#BDDDFC] hover:to-[#88BDF2] text-[#0d131a] font-bold text-xs sm:text-sm font-mono shadow-glow transition-all flex items-center justify-center gap-2 hover:scale-[1.02]"
+            className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-[#1a2A2f] hover:bg-[#1a2A2f]/90 text-white font-bold text-xs sm:text-sm font-mono shadow-md transition-all flex items-center justify-center gap-2 hover:scale-[1.02] border border-[#1a2A2f]"
           >
             <span>Open SOC Dashboard</span>
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4 text-white" />
           </Link>
         </div>
 
         {/* Live Metrics Row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-4xl mx-auto pt-6 text-left">
-          <div className="p-3.5 sm:p-4 rounded-xl bg-[#1a242f]/80 border border-[#243240] backdrop-blur-md">
-            <div className="text-[11px] font-mono text-[#6A89A7] uppercase">Zero-Day Accuracy</div>
-            <div className="text-xl sm:text-2xl font-black text-emerald-400 mt-1">99.8%</div>
+          <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <div className="text-[11px] font-mono text-slate-500 uppercase font-bold">Zero-Day Accuracy</div>
+            <div className="text-xl sm:text-2xl font-black text-emerald-600 mt-1">99.8%</div>
             <div className="text-[10px] text-slate-400 font-mono mt-0.5">Transformer Model Tested</div>
           </div>
-          <div className="p-3.5 sm:p-4 rounded-xl bg-[#1a242f]/80 border border-[#243240] backdrop-blur-md">
-            <div className="text-[11px] font-mono text-[#6A89A7] uppercase">Average Latency</div>
-            <div className="text-xl sm:text-2xl font-black text-[#88BDF2] mt-1">&lt; 1.4s</div>
+          <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <div className="text-[11px] font-mono text-slate-500 uppercase font-bold">Average Latency</div>
+            <div className="text-xl sm:text-2xl font-black text-[#1a2A2f] mt-1">&lt; 1.4s</div>
             <div className="text-[10px] text-slate-400 font-mono mt-0.5">Header &amp; Link Sandboxing</div>
           </div>
-          <div className="p-3.5 sm:p-4 rounded-xl bg-[#1a242f]/80 border border-[#243240] backdrop-blur-md">
-            <div className="text-[11px] font-mono text-[#6A89A7] uppercase">Protocols Inspected</div>
-            <div className="text-xl sm:text-2xl font-black text-white mt-1">SPF / DKIM / DMARC</div>
+          <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <div className="text-[11px] font-mono text-slate-500 uppercase font-bold">Protocols Inspected</div>
+            <div className="text-xl sm:text-2xl font-black text-[#1a2A2f] mt-1">SPF / DKIM / DMARC</div>
             <div className="text-[10px] text-slate-400 font-mono mt-0.5">RFC-822 Cryptographic Checks</div>
           </div>
-          <div className="p-3.5 sm:p-4 rounded-xl bg-[#1a242f]/80 border border-[#243240] backdrop-blur-md">
-            <div className="text-[11px] font-mono text-[#6A89A7] uppercase">Chain of Custody</div>
-            <div className="text-xl sm:text-2xl font-black text-[#BDDDFC] mt-1">SHA-256</div>
+          <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm">
+            <div className="text-[11px] font-mono text-slate-500 uppercase font-bold">Chain of Custody</div>
+            <div className="text-xl sm:text-2xl font-black text-[#384959] mt-1">SHA-256</div>
             <div className="text-[10px] text-slate-400 font-mono mt-0.5">Tamper-Evident Storage</div>
           </div>
         </div>
@@ -231,28 +227,28 @@ export default function LandingPage() {
 
       {/* Interactive Threat Sandbox Preview */}
       <section id="sandbox" className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="p-6 sm:p-8 rounded-2xl bg-[#1a242f]/90 border border-[#384959] shadow-2xl backdrop-blur-xl space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#243240]">
+        <div className="p-6 sm:p-8 rounded-2xl bg-slate-50 border border-slate-200 shadow-md space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
             <div>
               <div className="flex items-center gap-2">
-                <Radio className="w-5 h-5 text-[#88BDF2] animate-pulse" />
-                <h2 className="text-base sm:text-lg font-bold text-white font-mono">
+                <Radio className="w-5 h-5 text-[#1a2A2f] animate-pulse" />
+                <h2 className="text-base sm:text-lg font-bold text-[#1a2A2f] font-mono">
                   Interactive Threat Sandbox &amp; Neural Vector Inspector
                 </h2>
               </div>
-              <p className="text-xs text-[#6A89A7] font-mono mt-1">
+              <p className="text-xs text-slate-500 font-mono mt-1">
                 Select a simulated attack vector to test live neural classification, link inspection, and origin tracing:
               </p>
             </div>
 
             {/* Selector Tabs */}
-            <div className="flex items-center bg-[#0d131a] p-1 rounded-xl border border-[#243240] text-xs font-mono">
+            <div className="flex items-center bg-white p-1 rounded-xl border border-slate-200 text-xs font-mono shadow-sm">
               <button
                 onClick={() => setSelectedDemo("bec")}
                 className={`px-3 py-1.5 rounded-lg transition-all ${
                   selectedDemo === "bec"
-                    ? "bg-rose-500/20 text-rose-300 font-bold border border-rose-500/40"
-                    : "text-slate-400 hover:text-white"
+                    ? "bg-rose-50 text-rose-700 font-bold border border-rose-200"
+                    : "text-slate-600 hover:text-[#1a2A2f]"
                 }`}
               >
                 BEC Wire Fraud
@@ -261,8 +257,8 @@ export default function LandingPage() {
                 onClick={() => setSelectedDemo("phish")}
                 className={`px-3 py-1.5 rounded-lg transition-all ${
                   selectedDemo === "phish"
-                    ? "bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40"
-                    : "text-slate-400 hover:text-white"
+                    ? "bg-amber-50 text-amber-800 font-bold border border-amber-200"
+                    : "text-slate-600 hover:text-[#1a2A2f]"
                 }`}
               >
                 M365 Phishing
@@ -271,8 +267,8 @@ export default function LandingPage() {
                 onClick={() => setSelectedDemo("safe")}
                 className={`px-3 py-1.5 rounded-lg transition-all ${
                   selectedDemo === "safe"
-                    ? "bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40"
-                    : "text-slate-400 hover:text-white"
+                    ? "bg-emerald-50 text-emerald-700 font-bold border border-emerald-200"
+                    : "text-slate-600 hover:text-[#1a2A2f]"
                 }`}
               >
                 Clean Baseline
@@ -283,43 +279,43 @@ export default function LandingPage() {
           {/* Sandbox Live Dossier View */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Left: Email Details & Trigger */}
-            <div className="p-4 rounded-xl bg-[#0d131a] border border-[#243240] space-y-3 font-mono text-xs">
-              <div className="flex items-center justify-between pb-2 border-b border-[#243240]">
-                <span className="text-[#6A89A7]">Simulated Ingestion</span>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-[#243240] text-[#BDDDFC]">RFC-822 Stream</span>
+            <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm space-y-3 font-mono text-xs text-[#1a2A2f]">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                <span className="text-slate-500 font-bold">Simulated Ingestion</span>
+                <span className="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-bold">RFC-822 Stream</span>
               </div>
 
               {selectedDemo === "bec" && (
                 <>
-                  <div><strong className="text-slate-400">From:</strong> &quot;Robert Vance (CEO)&quot; &lt;ceo@enterprise-ceo-office.com&gt;</div>
-                  <div><strong className="text-slate-400">Subject:</strong> URGENT: Project Titan Acquisition Wire ($485,000)</div>
-                  <div><strong className="text-slate-400">Payload:</strong> Direct IP link detected: <code>http://185.220.101.5/escrow/wire.php</code></div>
-                  <div><strong className="text-slate-400">SPF/DMARC:</strong> <span className="text-rose-400">FAILED (Unauthenticated Server)</span></div>
+                  <div><strong className="text-slate-500">From:</strong> &quot;Robert Vance (CEO)&quot; &lt;ceo@enterprise-ceo-office.com&gt;</div>
+                  <div><strong className="text-slate-500">Subject:</strong> URGENT: Project Titan Acquisition Wire ($485,000)</div>
+                  <div><strong className="text-slate-500">Payload:</strong> Direct IP link detected: <code>http://185.220.101.5/escrow/wire.php</code></div>
+                  <div><strong className="text-slate-500">SPF/DMARC:</strong> <span className="text-rose-600 font-bold">FAILED (Unauthenticated Server)</span></div>
                 </>
               )}
 
               {selectedDemo === "phish" && (
                 <>
-                  <div><strong className="text-slate-400">From:</strong> &quot;M365 Security Team&quot; &lt;no-reply@microsoft-security-notice.top&gt;</div>
-                  <div><strong className="text-slate-400">Subject:</strong> Critical Alert: Password Expires in 2 Hours - Verify SSO</div>
-                  <div><strong className="text-slate-400">Payload:</strong> Lookalike domain: <code>http://m365-login.azure-security.top</code></div>
-                  <div><strong className="text-slate-400">SPF/DMARC:</strong> <span className="text-rose-400">FAILED (Deceptive Sender TLD)</span></div>
+                  <div><strong className="text-slate-500">From:</strong> &quot;M365 Security Team&quot; &lt;no-reply@microsoft-security-notice.top&gt;</div>
+                  <div><strong className="text-slate-500">Subject:</strong> Critical Alert: Password Expires in 2 Hours - Verify SSO</div>
+                  <div><strong className="text-slate-500">Payload:</strong> Lookalike domain: <code>http://m365-login.azure-security.top</code></div>
+                  <div><strong className="text-slate-500">SPF/DMARC:</strong> <span className="text-rose-600 font-bold">FAILED (Deceptive Sender TLD)</span></div>
                 </>
               )}
 
               {selectedDemo === "safe" && (
                 <>
-                  <div><strong className="text-slate-400">From:</strong> &quot;GitHub Security&quot; &lt;notifications@github.com&gt;</div>
-                  <div><strong className="text-slate-400">Subject:</strong> [GitHub] Security advisory: Dependabot alert resolved</div>
-                  <div><strong className="text-slate-400">Payload:</strong> Trusted link: <code>https://github.com/sakshipatil-779/MailGuard-AI</code></div>
-                  <div><strong className="text-slate-400">SPF/DMARC:</strong> <span className="text-emerald-400">PASSED (Cryptographic Alignment Valid)</span></div>
+                  <div><strong className="text-slate-500">From:</strong> &quot;GitHub Security&quot; &lt;notifications@github.com&gt;</div>
+                  <div><strong className="text-slate-500">Subject:</strong> [GitHub] Security advisory: Dependabot alert resolved</div>
+                  <div><strong className="text-slate-500">Payload:</strong> Trusted link: <code>https://github.com/sakshipatil-779/EmailGuard-AI</code></div>
+                  <div><strong className="text-slate-500">SPF/DMARC:</strong> <span className="text-emerald-600 font-bold">PASSED (Cryptographic Alignment Valid)</span></div>
                 </>
               )}
 
               <div className="pt-2">
                 <Link
                   href="/analyze"
-                  className="w-full py-2 rounded-lg bg-[#243240] hover:bg-[#88BDF2] hover:text-[#0d131a] text-[#BDDDFC] font-bold text-xs text-center block transition-all border border-[#384959]"
+                  className="w-full py-2 rounded-lg bg-[#1a2A2f] hover:bg-[#1a2A2f]/90 text-white font-bold text-xs text-center block transition-all"
                 >
                   Upload Your Own .eml File →
                 </Link>
@@ -327,26 +323,26 @@ export default function LandingPage() {
             </div>
 
             {/* Center: Live Neural Risk Score */}
-            <div className="p-4 rounded-xl bg-[#0d131a] border border-[#243240] flex flex-col items-center justify-center text-center space-y-3 font-mono">
-              <div className="text-xs text-[#6A89A7]">Neural AI Threat Score</div>
+            <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col items-center justify-center text-center space-y-3 font-mono">
+              <div className="text-xs text-slate-500 font-bold">Neural AI Threat Score</div>
               <div
                 className={`text-5xl font-black ${
                   selectedDemo === "bec"
-                    ? "text-rose-400"
+                    ? "text-rose-600"
                     : selectedDemo === "phish"
-                    ? "text-amber-400"
-                    : "text-emerald-400"
+                    ? "text-amber-600"
+                    : "text-emerald-600"
                 }`}
               >
-                {selectedDemo === "bec" ? "98" : selectedDemo === "phish" ? "88" : "05"}<span className="text-lg text-slate-500 font-normal">/100</span>
+                {selectedDemo === "bec" ? "98" : selectedDemo === "phish" ? "88" : "05"}<span className="text-lg text-slate-400 font-normal">/100</span>
               </div>
               <div
                 className={`px-3 py-1 rounded-full text-xs font-bold ${
                   selectedDemo === "bec"
-                    ? "bg-rose-500/20 text-rose-300 border border-rose-500/40"
+                    ? "bg-rose-50 text-rose-700 border border-rose-200"
                     : selectedDemo === "phish"
-                    ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
-                    : "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
+                    ? "bg-amber-50 text-amber-800 border border-amber-200"
+                    : "bg-emerald-50 text-emerald-700 border border-emerald-200"
                 }`}
               >
                 {selectedDemo === "bec"
@@ -355,7 +351,7 @@ export default function LandingPage() {
                   ? "HIGH • CREDENTIAL HARVESTING PHISHING"
                   : "SAFE • LEGITIMATE ENTERPRISE NOTICE"}
               </div>
-              <p className="text-[11px] text-slate-400 font-sans max-w-xs leading-relaxed">
+              <p className="text-[11px] text-slate-600 font-sans max-w-xs leading-relaxed">
                 {selectedDemo === "bec"
                   ? "Executive impersonation with wire urgency tactics and unauthenticated direct IP mail sender."
                   : selectedDemo === "phish"
@@ -365,34 +361,34 @@ export default function LandingPage() {
             </div>
 
             {/* Right: Geolocation & IOC Summary */}
-            <div className="p-4 rounded-xl bg-[#0d131a] border border-[#243240] space-y-2.5 font-mono text-xs">
-              <div className="flex items-center gap-1.5 text-[#88BDF2]">
-                <Globe className="w-4 h-4" />
+            <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm space-y-2.5 font-mono text-xs">
+              <div className="flex items-center gap-1.5 text-[#1a2A2f]">
+                <Globe className="w-4 h-4 text-[#88BDF2]" />
                 <span className="font-bold">Origin Trace &amp; IOCs</span>
               </div>
 
               <div className="space-y-1.5 text-[11px]">
-                <div className="flex justify-between pb-1 border-b border-[#243240]">
-                  <span className="text-slate-400">Origin IP:</span>
-                  <span className="text-white font-bold">{selectedDemo === "safe" ? "140.82.112.4" : "185.220.101.5"}</span>
+                <div className="flex justify-between pb-1 border-b border-slate-100">
+                  <span className="text-slate-500">Origin IP:</span>
+                  <span className="text-[#1a2A2f] font-bold">{selectedDemo === "safe" ? "140.82.112.4" : "185.220.101.5"}</span>
                 </div>
-                <div className="flex justify-between pb-1 border-b border-[#243240]">
-                  <span className="text-slate-400">Location:</span>
-                  <span className="text-white">{selectedDemo === "safe" ? "San Francisco, US" : "Frankfurt, Germany"}</span>
+                <div className="flex justify-between pb-1 border-b border-slate-100">
+                  <span className="text-slate-500">Location:</span>
+                  <span className="text-[#1a2A2f]">{selectedDemo === "safe" ? "San Francisco, US" : "Frankfurt, Germany"}</span>
                 </div>
-                <div className="flex justify-between pb-1 border-b border-[#243240]">
-                  <span className="text-slate-400">ISP / Host:</span>
-                  <span className="text-[#BDDDFC]">{selectedDemo === "safe" ? "GitHub Inc (AS36459)" : "Hetzner VPS (AS24940)"}</span>
+                <div className="flex justify-between pb-1 border-b border-slate-100">
+                  <span className="text-slate-500">ISP / Host:</span>
+                  <span className="text-[#1a2A2f]">{selectedDemo === "safe" ? "GitHub Inc (AS36459)" : "Hetzner VPS (AS24940)"}</span>
                 </div>
-                <div className="flex justify-between pb-1 border-b border-[#243240]">
-                  <span className="text-slate-400">Flagged Links:</span>
-                  <span className={selectedDemo === "safe" ? "text-emerald-400" : "text-rose-400 font-bold"}>
+                <div className="flex justify-between pb-1 border-b border-slate-100">
+                  <span className="text-slate-500">Flagged Links:</span>
+                  <span className={selectedDemo === "safe" ? "text-emerald-600 font-bold" : "text-rose-600 font-bold"}>
                     {selectedDemo === "safe" ? "0 Flagged" : "1 Critical Malicious URL"}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-400">Custody Seal:</span>
-                  <span className="text-emerald-400 font-bold">SHA-256 Sealed</span>
+                  <span className="text-slate-500">Custody Seal:</span>
+                  <span className="text-emerald-600 font-bold">SHA-256 Sealed</span>
                 </div>
               </div>
             </div>
@@ -401,80 +397,80 @@ export default function LandingPage() {
       </section>
 
       {/* Core Capabilities Grid */}
-      <section id="features" className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-10">
+      <section id="features" className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-10 bg-white">
         <div className="text-center space-y-2 max-w-2xl mx-auto">
-          <div className="text-xs font-mono text-[#88BDF2] uppercase tracking-widest">Enterprise Architecture</div>
-          <h2 className="text-2xl sm:text-4xl font-black text-white">
+          <div className="text-xs font-mono text-[#384959] uppercase tracking-widest font-bold">Enterprise Architecture</div>
+          <h2 className="text-2xl sm:text-4xl font-black text-[#1a2A2f]">
             Six Pillars of Modern Email Defense
           </h2>
-          <p className="text-xs sm:text-sm text-slate-400 font-sans">
+          <p className="text-xs sm:text-sm text-slate-500 font-sans">
             Engineered to trace, analyze, and attribute advanced threats across all OSI email layers.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Card 1 */}
-          <div className="p-6 rounded-2xl bg-[#1a242f]/80 border border-[#243240] hover:border-[#88BDF2]/50 transition-all space-y-3 group">
-            <div className="w-10 h-10 rounded-xl bg-[#88BDF2]/10 border border-[#88BDF2]/30 flex items-center justify-center text-[#88BDF2] group-hover:scale-110 transition-transform">
+          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-[#88BDF2] transition-all space-y-3 shadow-sm group">
+            <div className="w-10 h-10 rounded-xl bg-[#88BDF2]/20 border border-[#88BDF2]/40 flex items-center justify-center text-[#1a2A2f] group-hover:scale-110 transition-transform">
               <Cpu className="w-5 h-5" />
             </div>
-            <h3 className="text-base font-bold text-white font-mono">Neural NLP Threat Scoring</h3>
-            <p className="text-xs text-slate-300 leading-relaxed font-sans">
+            <h3 className="text-base font-bold text-[#1a2A2f] font-mono">Neural NLP Threat Scoring</h3>
+            <p className="text-xs text-slate-600 leading-relaxed font-sans">
               Hugging Face transformer models (BART Large MNLI) evaluate semantic urgency, payment coercion, and executive pretexts in real time.
             </p>
           </div>
 
           {/* Card 2 */}
-          <div className="p-6 rounded-2xl bg-[#1a242f]/80 border border-[#243240] hover:border-[#88BDF2]/50 transition-all space-y-3 group">
-            <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform">
+          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-[#88BDF2] transition-all space-y-3 shadow-sm group">
+            <div className="w-10 h-10 rounded-xl bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-700 group-hover:scale-110 transition-transform">
               <FileCode2 className="w-5 h-5" />
             </div>
-            <h3 className="text-base font-bold text-white font-mono">Deep RFC-822 &amp; MSG Forensics</h3>
-            <p className="text-xs text-slate-300 leading-relaxed font-sans">
+            <h3 className="text-base font-bold text-[#1a2A2f] font-mono">Deep RFC-822 &amp; MSG Forensics</h3>
+            <p className="text-xs text-slate-600 leading-relaxed font-sans">
               Unpacks multi-hop Received lines, Message-ID formats, Return-Path discrepancies, and cryptographic SPF/DKIM/DMARC alignment.
             </p>
           </div>
 
           {/* Card 3 */}
-          <div className="p-6 rounded-2xl bg-[#1a242f]/80 border border-[#243240] hover:border-[#88BDF2]/50 transition-all space-y-3 group">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
+          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-[#88BDF2] transition-all space-y-3 shadow-sm group">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700 group-hover:scale-110 transition-transform">
               <Globe className="w-5 h-5" />
             </div>
-            <h3 className="text-base font-bold text-white font-mono">Origin Trace &amp; Geo-Mapping</h3>
-            <p className="text-xs text-slate-300 leading-relaxed font-sans">
+            <h3 className="text-base font-bold text-[#1a2A2f] font-mono">Origin Trace &amp; Geo-Mapping</h3>
+            <p className="text-xs text-slate-600 leading-relaxed font-sans">
               Identifies the earliest reliable sending node and plots relay server hops, ISP details, and ASN telemetry onto an interactive Leaflet map.
             </p>
           </div>
 
           {/* Card 4 */}
-          <div className="p-6 rounded-2xl bg-[#1a242f]/80 border border-[#243240] hover:border-[#88BDF2]/50 transition-all space-y-3 group">
-            <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform">
+          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-[#88BDF2] transition-all space-y-3 shadow-sm group">
+            <div className="w-10 h-10 rounded-xl bg-cyan-50 border border-cyan-200 flex items-center justify-center text-cyan-700 group-hover:scale-110 transition-transform">
               <Share2 className="w-5 h-5" />
             </div>
-            <h3 className="text-base font-bold text-white font-mono">React Flow Campaign Graphs</h3>
-            <p className="text-xs text-slate-300 leading-relaxed font-sans">
+            <h3 className="text-base font-bold text-[#1a2A2f] font-mono">React Flow Campaign Graphs</h3>
+            <p className="text-xs text-slate-600 leading-relaxed font-sans">
               Correlates isolated email threats into unified adversary infrastructure graphs, mapping linked domains, IPs, and victim targets.
             </p>
           </div>
 
           {/* Card 5 */}
-          <div className="p-6 rounded-2xl bg-[#1a242f]/80 border border-[#243240] hover:border-[#88BDF2]/50 transition-all space-y-3 group">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform">
+          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-[#88BDF2] transition-all space-y-3 shadow-sm group">
+            <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700 group-hover:scale-110 transition-transform">
               <Lock className="w-5 h-5" />
             </div>
-            <h3 className="text-base font-bold text-white font-mono">Cryptographic Evidence Vault</h3>
-            <p className="text-xs text-slate-300 leading-relaxed font-sans">
+            <h3 className="text-base font-bold text-[#1a2A2f] font-mono">Cryptographic Evidence Vault</h3>
+            <p className="text-xs text-slate-600 leading-relaxed font-sans">
               Calculates immutable SHA-256 checksums, establishes legal chain of custody, and generates structured forensic reports for judiciary review.
             </p>
           </div>
 
           {/* Card 6 */}
-          <div className="p-6 rounded-2xl bg-[#1a242f]/80 border border-[#243240] hover:border-[#88BDF2]/50 transition-all space-y-3 group">
-            <div className="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 group-hover:scale-110 transition-transform">
+          <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-[#88BDF2] transition-all space-y-3 shadow-sm group">
+            <div className="w-10 h-10 rounded-xl bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-700 group-hover:scale-110 transition-transform">
               <Eye className="w-5 h-5" />
             </div>
-            <h3 className="text-base font-bold text-white font-mono">Privacy &amp; PII Redaction</h3>
-            <p className="text-xs text-slate-300 leading-relaxed font-sans">
+            <h3 className="text-base font-bold text-[#1a2A2f] font-mono">Privacy &amp; PII Redaction</h3>
+            <p className="text-xs text-slate-600 leading-relaxed font-sans">
               Instant on-the-fly masking of sensitive recipient details, IP addresses, and employee identities conforming with GDPR policies.
             </p>
           </div>
@@ -483,13 +479,11 @@ export default function LandingPage() {
 
       {/* Firebase Cloud Sync & Google Auth Showcase */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-[#1a242f] via-[#243240] to-[#1a242f] border border-[#88BDF2]/40 shadow-2xl relative overflow-hidden">
-          <div className="absolute -right-10 -bottom-10 w-96 h-96 bg-[#88BDF2]/10 rounded-full blur-3xl pointer-events-none" />
-
+        <div className="p-8 sm:p-12 rounded-3xl bg-[#1a2A2f] text-white border border-[#384959] shadow-xl relative overflow-hidden">
           <div className="max-w-2xl space-y-6 relative z-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#88BDF2]/20 border border-[#88BDF2]/40 text-xs font-mono text-[#BDDDFC]">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#88BDF2]/20 border border-[#88BDF2]/40 text-xs font-mono text-[#88BDF2]">
               <Database className="w-3.5 h-3.5" />
-              <span>FIREBASE CLOUD INTEGRATION</span>
+              <span className="font-bold">FIREBASE CLOUD INTEGRATION</span>
             </div>
 
             <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
@@ -504,7 +498,7 @@ export default function LandingPage() {
               <button
                 onClick={handleGoogleLogin}
                 disabled={isSigningIn}
-                className="px-6 py-3 rounded-xl bg-white hover:bg-slate-100 text-[#0d131a] font-bold text-xs sm:text-sm font-mono shadow-xl transition-all flex items-center gap-2.5"
+                className="px-6 py-3 rounded-xl bg-white hover:bg-slate-100 text-[#1a2A2f] font-bold text-xs sm:text-sm font-mono shadow-md transition-all flex items-center gap-2.5"
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24">
                   <path
@@ -529,10 +523,10 @@ export default function LandingPage() {
 
               <Link
                 href="/analyze"
-                className="px-5 py-3 rounded-xl bg-[#0d131a] hover:bg-[#1a242f] text-slate-200 font-mono text-xs sm:text-sm font-bold border border-[#384959] transition-all flex items-center gap-2"
+                className="px-5 py-3 rounded-xl bg-[#243240] hover:bg-[#384959] text-white font-mono text-xs sm:text-sm font-bold border border-[#384959] transition-all flex items-center gap-2"
               >
                 <span>Analyze Sample (.eml)</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 text-white" />
               </Link>
             </div>
           </div>
@@ -540,24 +534,26 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-[#243240] py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto font-mono text-xs text-slate-400 space-y-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <ShieldAlert className="w-5 h-5 text-[#88BDF2]" />
-            <span className="font-bold text-white tracking-wider">MailGuard-AI</span>
-            <span className="text-slate-600">|</span>
-            <span>Email Threat Intelligence &amp; Forensic Investigation Platform</span>
+      <footer className="bg-[#1a2A2f] border-t border-[#243240] py-12 px-4 sm:px-6 lg:px-8 max-w-full font-mono text-xs text-slate-400 space-y-6">
+        <div className="max-w-7xl mx-auto space-y-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <ShieldAlert className="w-5 h-5 text-[#88BDF2]" />
+              <span className="font-bold text-white tracking-wider text-sm">EmailGuard-AI</span>
+              <span className="text-slate-600">|</span>
+              <span>Email Threat Intelligence &amp; Forensic Investigation Platform</span>
+            </div>
+
+            <div className="flex items-center gap-2 text-emerald-400">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>All Forensic Engines Operational</span>
+            </div>
           </div>
 
-          <div className="flex items-center gap-2 text-emerald-400">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>All Forensic Engines Operational</span>
+          <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-[#243240]/60 text-[11px] text-slate-500">
+            <div>Conforms with MITRE ATT&amp;CK Matrix (T1566 Phishing, T1598 Information Gathering)</div>
+            <div>&copy; 2026 EmailGuard AI. All rights reserved.</div>
           </div>
-        </div>
-
-        <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-[#243240]/60 text-[11px] text-slate-500">
-          <div>Conforms with MITRE ATT&amp;CK Matrix (T1566 Phishing, T1598 Information Gathering)</div>
-          <div>&copy; 2026 MailGuard AI. All rights reserved.</div>
         </div>
       </footer>
     </div>

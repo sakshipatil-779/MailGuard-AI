@@ -19,7 +19,7 @@ const STAGES = [
 export function AnalysisProgress({ onComplete }: AnalysisProgressProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [logMessages, setLogMessages] = useState<string[]>([
-    "[0.00s] Initializing MailGuard-AI Neural Threat Engine...",
+    "[0.00s] Initializing EmailGuard-AI Neural Threat Engine...",
     "[0.15s] Ingesting raw byte stream into memory sandbox..."
   ]);
 

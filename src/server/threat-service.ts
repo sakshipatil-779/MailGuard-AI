@@ -188,7 +188,7 @@ export async function scoreTextAndLinksWithHuggingFace(
       riskScore: riskLevel === "CRITICAL" ? 95 : (riskLevel === "HIGH" ? 80 : (riskLevel === "MEDIUM" ? 50 : 10)),
       malicious: flagged,
       firstSeen: new Date().toISOString().split("T")[0],
-      reputationSource: "MailGuard Threat Engine (HuggingFace + Heuristics)",
+      reputationSource: "EmailGuard Threat Engine (HuggingFace + Heuristics)",
       inEvidence: true,
     });
   });
