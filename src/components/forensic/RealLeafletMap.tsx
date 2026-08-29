@@ -25,11 +25,13 @@ import { maskIp } from "@/lib/utils";
 import { useSecurity } from "@/context/SecurityContext";
 import { toast } from "sonner";
 
+const CARTO_API_KEY = process.env.NEXT_PUBLIC_CARTO_API_KEY || "cb1_2jbr_1_671c43011522dcf553e27213";
+
 // Free tile layers configuration
 const TILE_LAYERS = {
   dark: {
     name: "Cyber Dark (CARTO)",
-    url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+    url: `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=${CARTO_API_KEY}`,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
     subdomains: "abcd",
     maxZoom: 19,
@@ -43,7 +45,7 @@ const TILE_LAYERS = {
   },
   voyager: {
     name: "Clean Light (Voyager)",
-    url: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+    url: `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${CARTO_API_KEY}`,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
     subdomains: "abcd",
     maxZoom: 19,
