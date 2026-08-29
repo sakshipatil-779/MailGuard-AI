@@ -95,3 +95,37 @@ body {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
   letter-spacing: -0.02em;
 }
+
+/* Leaflet Map Styles & Custom Controls */
+@import "leaflet/dist/leaflet.css";
+
+.leaflet-container {
+  font-family: inherit;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.leaflet-popup-content-wrapper {
+  background: #ffffff !important;
+  color: #1a2A2f !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid #e2e8f0 !important;
+  padding: 0 !important;
+}
+
+.leaflet-popup-content {
+  margin: 10px 14px !important;
+}
+
+.leaflet-popup-tip {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+.custom-origin-pin, .custom-hop-pin, .custom-search-pin {
+  background: transparent !important;
+  border: none !important;
+}
+
