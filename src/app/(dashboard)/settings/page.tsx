@@ -17,7 +17,9 @@ import {
   Terminal,
   Key,
   Trash2,
-  Sparkles
+  Sparkles,
+  LogOut,
+  UserCheck
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -27,6 +29,8 @@ export default function SettingsPage() {
     setUserRole,
     userName,
     userEmail,
+    firebaseUser,
+    logout,
     maskPii,
     setMaskPii,
     maskIps,
@@ -309,6 +313,51 @@ export default function SettingsPage() {
               No audit logs recorded yet. Ingest an email to generate the first immutable audit event.
             </div>
           )}
+        </div>
+      </div>
+
+      {/* Active Session & Access Clearance Card */}
+      <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div className="flex items-center gap-2">
+            <UserCheck className="w-4 h-4 text-[#88BDF2]" />
+            <h3 className="text-sm font-bold text-[#1a2A2f] font-mono">
+              Active SOC Session & Clearance Credentials
+            </h3>
+          </div>
+          <span className="text-[10px] font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-bold">
+            AUTHENTICATED
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 font-mono">
+            <div className="text-[10px] text-slate-500 uppercase font-bold">Logged In Analyst</div>
+            <div className="text-xs font-bold text-[#1a2A2f] mt-0.5 truncate">{userName || "Alex Mercer"}</div>
+          </div>
+
+          <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 font-mono">
+            <div className="text-[10px] text-slate-500 uppercase font-bold">Analyst Email</div>
+            <div className="text-xs font-bold text-[#1a2A2f] mt-0.5 truncate">{userEmail || "analyst@mailguard.soc"}</div>
+          </div>
+
+          <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 font-mono">
+            <div className="text-[10px] text-slate-500 uppercase font-bold">Access Role</div>
+            <div className="text-xs font-bold text-emerald-600 mt-0.5">{userRole}</div>
+          </div>
+        </div>
+
+        <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-slate-100">
+          <p className="text-xs text-slate-500 font-sans">
+            Signing out will invalidate your session key, clear local credentials, and redirect you to the main landing page.
+          </p>
+          <button
+            onClick={logout}
+            className="w-full sm:w-auto px-4 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-mono font-bold transition-all flex items-center justify-center gap-2 shrink-0"
+          >
+            <LogOut className="w-4 h-4 text-rose-600" />
+            <span>Sign Out & Return Home</span>
+          </button>
         </div>
       </div>
     </div>

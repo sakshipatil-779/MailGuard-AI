@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   ShieldAlert,
   Lock,
   Mail,
-  Fingerprint,
   ArrowRight,
+  ArrowLeft,
   ShieldCheck,
   Zap,
   UserCheck
@@ -18,10 +19,18 @@ import { toast } from "sonner";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { setUserRole, signInWithGoogle } = useSecurity();
+  const { isAuthenticated, authLoading, loginWithCredentials, loginWithRole, signInWithGoogle } = useSecurity();
   const [email, setEmail] = useState("alex.mercer@acmeworks.com");
   const [password, setPassword] = useState("••••••••••••");
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+
+  // If already authenticated, redirect to dashboard
+  useEffect(() => {
+    if (!authLoading && isAuthenticated) {
+      router.replace("/dashboard");
+    }
+  }, [isAuthenticated, authLoading, router]);
 
   const handleGoogleSignIn = async () => {
     setIsGoogleLoading(true);
@@ -32,22 +41,42 @@ export default function LoginPage() {
     }
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setUserRole("SECURITY_ANALYST");
-    toast.success("Authenticated as Security Analyst (Tier 2)");
-    router.push("/dashboard");
+    setIsLoggingIn(true);
+    const ok = await loginWithCredentials(email, "SECURITY_ANALYST");
+    setIsLoggingIn(false);
+    if (ok) {
+      router.push("/dashboard");
+    }
   };
 
-  const handleQuickRole = (role: UserRole, roleName: string) => {
-    setUserRole(role);
-    toast.success(`Authenticated with ${roleName} credentials`);
-    router.push("/dashboard");
+  const handleQuickRole = async (role: UserRole, roleName: string) => {
+    setIsLoggingIn(true);
+    const ok = await loginWithRole(role, roleName);
+    setIsLoggingIn(false);
+    if (ok) {
+      router.push("/dashboard");
+    }
   };
 
   return (
     <div className="min-h-screen bg-[#FFFFFF] flex items-center justify-center p-4 relative overflow-hidden font-sans">
       <div className="w-full max-w-md bg-white border border-slate-200 rounded-2xl shadow-xl p-6 sm:p-8 relative z-10 space-y-5 sm:space-y-6">
+        {/* Navigation back to Main Page */}
+        <div className="flex items-center justify-between">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-500 hover:text-[#1a2A2f] transition-colors"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Return to Home</span>
+          </Link>
+          <span className="text-[10px] font-mono text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-bold">
+            SOC PORTAL
+          </span>
+        </div>
+
         {/* Brand Header */}
         <div className="text-center space-y-2">
           <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#88BDF2] to-[#1a2A2f] flex items-center justify-center mx-auto shadow-md">
@@ -67,8 +96,8 @@ export default function LoginPage() {
         {/* Primary Google Login Button */}
         <button
           onClick={handleGoogleSignIn}
-          disabled={isGoogleLoading}
-          className="w-full py-3 rounded-xl bg-white hover:bg-slate-50 text-[#1a2A2f] font-bold text-xs font-mono shadow-sm transition-all flex items-center justify-center gap-2.5 border border-slate-300"
+          disabled={isGoogleLoading || isLoggingIn}
+          className="w-full py-3 rounded-xl bg-white hover:bg-slate-50 text-[#1a2A2f] font-bold text-xs font-mono shadow-sm transition-all flex items-center justify-center gap-2.5 border border-slate-300 disabled:opacity-50"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24">
             <path
@@ -134,9 +163,10 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="w-full py-2.5 rounded-xl bg-[#1a2A2f] hover:bg-[#1a2A2f]/90 text-white font-bold text-xs font-mono shadow-md transition-all flex items-center justify-center gap-2 border border-[#1a2A2f]"
+            disabled={isLoggingIn || isGoogleLoading}
+            className="w-full py-2.5 rounded-xl bg-[#1a2A2f] hover:bg-[#1a2A2f]/90 text-white font-bold text-xs font-mono shadow-md transition-all flex items-center justify-center gap-2 border border-[#1a2A2f] disabled:opacity-50"
           >
-            <span>Authenticate SOC Session</span>
+            <span>{isLoggingIn ? "Authenticating..." : "Authenticate SOC Session"}</span>
             <ArrowRight className="w-4 h-4 text-white" />
           </button>
         </form>
@@ -150,6 +180,7 @@ export default function LoginPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <button
               onClick={() => handleQuickRole("SECURITY_ANALYST", "Security Analyst")}
+              disabled={isLoggingIn}
               className="p-2 rounded-lg bg-slate-50 hover:bg-[#88BDF2]/20 border border-slate-200 hover:border-[#88BDF2] text-left text-[11px] font-mono text-[#1a2A2f] transition-colors"
             >
               <div className="font-bold">Security Analyst</div>
@@ -158,6 +189,7 @@ export default function LoginPage() {
 
             <button
               onClick={() => handleQuickRole("INVESTIGATOR", "Lead Investigator")}
+              disabled={isLoggingIn}
               className="p-2 rounded-lg bg-slate-50 hover:bg-[#88BDF2]/20 border border-slate-200 hover:border-[#88BDF2] text-left text-[11px] font-mono text-[#1a2A2f] transition-colors"
             >
               <div className="font-bold">Lead Investigator</div>
@@ -166,6 +198,7 @@ export default function LoginPage() {
 
             <button
               onClick={() => handleQuickRole("ADMIN", "SOC Admin / CISO")}
+              disabled={isLoggingIn}
               className="p-2 rounded-lg bg-slate-50 hover:bg-[#88BDF2]/20 border border-slate-200 hover:border-[#88BDF2] text-left text-[11px] font-mono text-[#1a2A2f] transition-colors"
             >
               <div className="font-bold">SOC Admin / CISO</div>
@@ -174,6 +207,7 @@ export default function LoginPage() {
 
             <button
               onClick={() => handleQuickRole("AUDITOR", "Compliance Auditor")}
+              disabled={isLoggingIn}
               className="p-2 rounded-lg bg-slate-50 hover:bg-[#88BDF2]/20 border border-slate-200 hover:border-[#88BDF2] text-left text-[11px] font-mono text-[#1a2A2f] transition-colors"
             >
               <div className="font-bold">Compliance Auditor</div>
@@ -185,3 +219,4 @@ export default function LoginPage() {
     </div>
   );
 }
+

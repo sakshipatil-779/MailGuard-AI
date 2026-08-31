@@ -16,13 +16,14 @@ import {
   Zap,
   ChevronRight,
   Fingerprint,
-  X
+  X,
+  LogOut
 } from "lucide-react";
 import { useSecurity } from "@/context/SecurityContext";
 
 export function Sidebar() {
   const pathname = usePathname();
-  const { userRole, userName, unreadAlertsCount, isMobileSidebarOpen, setIsMobileSidebarOpen } = useSecurity();
+  const { userRole, userName, userAvatar, unreadAlertsCount, isMobileSidebarOpen, setIsMobileSidebarOpen, logout } = useSecurity();
 
   const navItems = [
     {
@@ -176,30 +177,52 @@ export function Sidebar() {
         </nav>
 
         {/* User / Role Footer (#1a2A2f) */}
-        <div className="p-3 border-t border-[#131d22] bg-[#1a2A2f]">
+        <div className="p-3 border-t border-[#131d22] bg-[#1a2A2f] space-y-2">
           <div className="flex items-center gap-2.5 p-2 rounded-lg bg-[#131d22] text-white border border-[#88BDF2]/20 shadow-md">
-            <div className="w-8 h-8 rounded bg-[#88BDF2] text-[#1a2A2f] flex items-center justify-center font-bold text-xs shrink-0">
-              {userName.substring(0, 2).toUpperCase()}
-            </div>
+            {userAvatar ? (
+              <img
+                src={userAvatar}
+                alt={userName || "Analyst"}
+                className="w-8 h-8 rounded-full border border-[#88BDF2] shrink-0"
+              />
+            ) : (
+              <div className="w-8 h-8 rounded bg-[#88BDF2] text-[#1a2A2f] flex items-center justify-center font-bold text-xs shrink-0">
+                {userName ? userName.substring(0, 2).toUpperCase() : "SO"}
+              </div>
+            )}
             <div className="flex-1 min-w-0">
-              <div className="text-xs font-semibold text-white truncate">{userName}</div>
+              <div className="text-xs font-semibold text-white truncate">{userName || "SOC Analyst"}</div>
               <div className="flex items-center gap-1 text-[10px] text-[#88BDF2] font-mono">
                 <Fingerprint className="w-3 h-3 text-[#88BDF2] shrink-0" />
                 <span className="truncate">{userRole}</span>
               </div>
             </div>
-            {/* Button on footer (#88BDF2) */}
+            {/* Settings link */}
             <Link
               href="/settings"
               onClick={() => setIsMobileSidebarOpen(false)}
-              title="Switch Role & Settings"
+              title="Settings & Role Permissions"
               className="p-1.5 bg-[#88BDF2] hover:bg-[#88BDF2]/90 rounded-md text-[#1a2A2f] transition-colors flex items-center justify-center shrink-0"
             >
-              <ChevronRight className="w-3.5 h-3.5" />
+              <Settings className="w-3.5 h-3.5" />
             </Link>
           </div>
+
+          {/* Quick Sign Out Action in Sidebar */}
+          <button
+            onClick={() => {
+              setIsMobileSidebarOpen(false);
+              logout();
+            }}
+            title="Sign Out from SOC and Return to Main Page"
+            className="w-full py-2 px-3 rounded-lg bg-[#131d22] hover:bg-rose-500/20 text-slate-300 hover:text-rose-300 border border-slate-700/60 hover:border-rose-500/40 text-xs font-mono font-medium transition-all flex items-center justify-center gap-2"
+          >
+            <LogOut className="w-3.5 h-3.5 text-rose-400" />
+            <span>Sign Out & Return Home</span>
+          </button>
         </div>
       </aside>
     </>
   );
 }
+

@@ -24,23 +24,36 @@ import {
   Radio,
   Cpu,
   Mail,
-  ExternalLink
+  ExternalLink,
+  LogOut,
+  LogIn
 } from "lucide-react";
 import { useSecurity } from "@/context/SecurityContext";
+import { toast } from "sonner";
 
 export default function LandingPage() {
   const router = useRouter();
-  const { firebaseUser, signInWithGoogle, logout } = useSecurity();
+  const { isAuthenticated, userName, userEmail, userAvatar, firebaseUser, signInWithGoogle, logout } = useSecurity();
   const [selectedDemo, setSelectedDemo] = useState<"bec" | "phish" | "safe">("bec");
   const [isSigningIn, setIsSigningIn] = useState(false);
 
   const handleGoogleLogin = async () => {
-    setIsSigningIn(false);
     setIsSigningIn(true);
     const success = await signInWithGoogle();
     setIsSigningIn(false);
     if (success) {
       router.push("/dashboard");
+    }
+  };
+
+  const handleProtectedAction = (targetPath: string = "/dashboard") => {
+    if (isAuthenticated) {
+      router.push(targetPath);
+    } else {
+      toast.info("Please sign in or choose a role to access SOC operations.", {
+        id: "login-prompt-toast"
+      });
+      router.push("/login");
     }
   };
 
@@ -71,23 +84,23 @@ export default function LandingPage() {
           </nav>
 
           {/* Action CTAs */}
-          <div className="flex items-center gap-3">
-            {firebaseUser ? (
-              <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            {isAuthenticated ? (
+              <div className="flex items-center gap-2 sm:gap-3">
                 <div className="hidden sm:flex items-center gap-2 pr-2 border-r border-[#384959]">
-                  {firebaseUser.photoURL ? (
+                  {userAvatar ? (
                     <img
-                      src={firebaseUser.photoURL}
-                      alt={firebaseUser.displayName || "User"}
+                      src={userAvatar}
+                      alt={userName || "User"}
                       className="w-7 h-7 rounded-full border border-[#88BDF2]"
                     />
                   ) : (
                     <div className="w-7 h-7 rounded-full bg-[#88BDF2] text-[#1a2A2f] font-bold text-xs flex items-center justify-center">
-                      {firebaseUser.displayName?.charAt(0) || "U"}
+                      {userName ? userName.charAt(0).toUpperCase() : "A"}
                     </div>
                   )}
                   <span className="text-xs font-mono font-bold text-white truncate max-w-[120px]">
-                    {firebaseUser.displayName?.split(" ")[0]}
+                    {userName || "Analyst"}
                   </span>
                 </div>
 
@@ -98,15 +111,24 @@ export default function LandingPage() {
                   <span>Open Console</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
+
+                <button
+                  onClick={logout}
+                  title="Sign Out"
+                  className="p-1.5 sm:px-2.5 sm:py-1.5 rounded-lg bg-[#243240] hover:bg-rose-500/20 text-slate-300 hover:text-rose-300 border border-[#384959] hover:border-rose-500/40 text-xs font-mono font-bold transition-all flex items-center gap-1.5"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Sign Out</span>
+                </button>
               </div>
             ) : (
-              <>
+              <div className="flex items-center gap-2 sm:gap-3">
                 <button
                   onClick={handleGoogleLogin}
                   disabled={isSigningIn}
-                  className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-white hover:bg-slate-100 border border-slate-300 text-xs font-mono text-[#1a2A2f] font-bold transition-all shadow-sm"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white hover:bg-slate-100 border border-slate-300 text-xs font-mono text-[#1a2A2f] font-bold transition-all shadow-sm"
                 >
-                  <svg className="w-4 h-4" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                     <path
                       fill="#4285F4"
                       d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -124,21 +146,23 @@ export default function LandingPage() {
                       d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
                     />
                   </svg>
-                  <span>{isSigningIn ? "Connecting..." : "Sign in with Google"}</span>
+                  <span className="hidden sm:inline">{isSigningIn ? "Connecting..." : "Google Login"}</span>
+                  <span className="sm:hidden">Login</span>
                 </button>
 
                 <Link
-                  href="/dashboard"
-                  className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#88BDF2] hover:bg-[#88BDF2]/90 text-[#1a2A2f] font-bold text-xs font-mono shadow-sm transition-all"
+                  href="/login"
+                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#88BDF2] hover:bg-[#88BDF2]/90 text-[#1a2A2f] font-bold text-xs font-mono shadow-sm transition-all"
                 >
-                  <span>Launch Platform</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <LogIn className="w-3.5 h-3.5" />
+                  <span>Sign In</span>
                 </Link>
-              </>
+              </div>
             )}
           </div>
         </div>
       </header>
+
 
       {/* Hero Section */}
       <section className="relative pt-12 sm:pt-20 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center space-y-8 bg-white">
@@ -188,13 +212,13 @@ export default function LandingPage() {
             <span>{isSigningIn ? "Authenticating..." : "Sign in with Google"}</span>
           </button>
 
-          <Link
-            href="/dashboard"
+          <button
+            onClick={() => handleProtectedAction("/dashboard")}
             className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-[#1a2A2f] hover:bg-[#1a2A2f]/90 text-white font-bold text-xs sm:text-sm font-mono shadow-md transition-all flex items-center justify-center gap-2 hover:scale-[1.02] border border-[#1a2A2f]"
           >
             <span>Open SOC Dashboard</span>
             <ArrowRight className="w-4 h-4 text-white" />
-          </Link>
+          </button>
         </div>
 
         {/* Live Metrics Row (Dark Box Theme) */}
@@ -310,12 +334,12 @@ export default function LandingPage() {
               )}
 
               <div className="pt-2">
-                <Link
-                  href="/analyze"
+                <button
+                  onClick={() => handleProtectedAction("/analyze")}
                   className="w-full py-2.5 rounded-lg bg-[#243240] hover:bg-[#88BDF2] hover:text-[#1a2A2f] text-white font-bold text-xs text-center block transition-all border border-[#384959]"
                 >
                   Upload Your Own .eml File →
-                </Link>
+                </button>
               </div>
             </div>
 
@@ -518,13 +542,13 @@ export default function LandingPage() {
                 <span>{isSigningIn ? "Connecting..." : "Sign in with Google"}</span>
               </button>
 
-              <Link
-                href="/analyze"
+              <button
+                onClick={() => handleProtectedAction("/analyze")}
                 className="px-5 py-3 rounded-xl bg-[#243240] hover:bg-[#384959] text-white font-mono text-xs sm:text-sm font-bold border border-[#384959] transition-all flex items-center gap-2"
               >
                 <span>Analyze Sample (.eml)</span>
                 <ArrowRight className="w-4 h-4 text-white" />
-              </Link>
+              </button>
             </div>
           </div>
         </div>

@@ -235,25 +235,25 @@ export function Topbar() {
           <span className="hidden sm:inline">New Analysis</span>
         </Link>
 
-        {/* Firebase Google Auth User Profile / Sign Out */}
-        {firebaseUser ? (
+        {/* Authenticated User Profile / Sign Out */}
+        {isAuthenticated ? (
           <div className="flex items-center gap-2 pl-1 sm:pl-2 border-l border-slate-700">
-            {firebaseUser.photoURL ? (
+            {userAvatar ? (
               <img
-                src={firebaseUser.photoURL}
-                alt={firebaseUser.displayName || "User"}
+                src={userAvatar}
+                alt={userName || "User"}
                 className="w-7 h-7 rounded-full border border-[#88BDF2] shrink-0"
-                title={firebaseUser.email || "Google Account"}
+                title={userEmail || "SOC Account"}
               />
             ) : (
               <div className="w-7 h-7 rounded-full bg-[#88BDF2] text-[#1a2A2f] font-bold text-xs flex items-center justify-center shrink-0">
-                {firebaseUser.displayName?.charAt(0) || "U"}
+                {userName ? userName.charAt(0).toUpperCase() : "A"}
               </div>
             )}
             <button
               onClick={logout}
-              title="Sign Out of Google Session"
-              className="text-[10px] font-mono px-2 py-1 rounded bg-[#243240] hover:bg-rose-500/20 text-slate-300 hover:text-rose-300 border border-slate-600 transition-colors hidden md:block"
+              title="Sign Out of SOC Session and Return to Home"
+              className="text-[10px] font-mono px-2 py-1 rounded bg-[#243240] hover:bg-rose-500/20 text-slate-300 hover:text-rose-300 border border-slate-600 hover:border-rose-500/40 transition-colors hidden sm:block"
             >
               Sign Out
             </button>
