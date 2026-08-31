@@ -25,6 +25,10 @@ export function Topbar() {
   const {
     userRole,
     setUserRole,
+    userName,
+    userEmail,
+    userAvatar,
+    isAuthenticated,
     maskPii,
     setMaskPii,
     maskIps,
